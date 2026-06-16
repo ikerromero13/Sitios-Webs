@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - claude/adrian-saenz-hostinger-premium-f9XVT
+      - claude/jolly-clarke-t4hgfy
   workflow_dispatch:
 
 permissions:
