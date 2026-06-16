@@ -75,6 +75,7 @@
   overflow: hidden;
   animation: cc-pop .18s ease;
 }
+.coelbo-chat .cc-panel[hidden] { display: none; }
 @keyframes cc-pop {
   from { opacity: 0; transform: translateY(10px) scale(.98); }
   to   { opacity: 1; transform: none; }

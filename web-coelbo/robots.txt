@@ -1,0 +1,3 @@
+# Web interna / privada de COELBO — no indexar
+User-agent: *
+Disallow: /
