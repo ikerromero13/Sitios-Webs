@@ -28,9 +28,11 @@ python3 -m http.server 8080
 # obriu http://localhost:8080/chatbot/demo.html
 ```
 
-## Com adjuntar-lo a una web
+## Com adjuntar-lo al web de COELBO
 
-Afegiu aquestes dues línies a la pàgina (CSS al `<head>`, JS abans de `</body>`):
+Copieu la carpeta `chatbot/` al web de COELBO i afegiu aquestes dues línies a
+les pàgines on vulgueu l'assistent (CSS al `<head>`, JS abans de `</body>`),
+ajustant la ruta a l'estructura del web:
 
 ```html
 <link rel="stylesheet" href="chatbot/chatbot.css">
@@ -39,7 +41,8 @@ Afegiu aquestes dues línies a la pàgina (CSS al `<head>`, JS abans de `</body>
 
 El widget s'auto-inicialitza, crea el botó flotant i pren l'idioma de
 l'atribut `lang` de la pàgina com a idioma inicial (amb selector manual
-CA/ES/EN/FR/IT a la capçalera).
+CA/ES/EN/FR/IT a la capçalera). Funciona sobre qualsevol web de COELBO
+(estàtic o amb CMS) perquè és HTML/CSS/JS pur, sense dependències.
 
 ## Abast funcional (Fase 1)
 
@@ -70,7 +73,8 @@ clau) i `I18N` (textos) de `chatbot.js`.
 ## Nota sobre la Fase 2
 
 La configuració i els paràmetres dels aparells estan previstos per a una
-Fase 2; de moment l'assistent els deriva. El motor és ampliable: es poden
-afegir noves intencions i respostes, o connectar-lo a un backend amb un model
-de llenguatge si en el futur es vol comprensió de llenguatge natural més
-oberta (caldria un servidor intermedi per no exposar credencials al client).
+Fase 2; de moment l'assistent els deriva. El motor és ampliable: COELBO pot
+afegir noves intencions i respostes editant `KW` i `I18N`, ampliar la base de
+coneixement amb el contingut dels catàlegs, o connectar-lo a un servei amb un
+model de llenguatge si més endavant es vol comprensió de llenguatge natural
+més oberta.
