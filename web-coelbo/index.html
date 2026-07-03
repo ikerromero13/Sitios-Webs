@@ -1,193 +1,766 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es_ES" xml:lang="es_ES">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
+<script type="text/javascript" src="https://www.coelbo.es/js/cookie-consent.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8">
+    document.addEventListener('DOMContentLoaded', function () {
+        cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","language":"es","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"www.coelbo.es","open_preferences_center_selector":"#cookie_settings","website_privacy_policy_url":"http://www.coelbo.es/es/index.php?cont=politica_cookies#t"});
+    });
+</script>
+<!-- End Cookie Consent -->
 
-  <!-- Web privada / interna: NO indexable -->
-  <meta name="robots" content="noindex, nofollow, noarchive">
-  <meta name="googlebot" content="noindex, nofollow">
+    <!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="text/plain" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-27012259-1"></script>
+<script type="text/plain" cookie-consent="tracking">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  <title>COELBO Control System · Control y protección de electrobombas</title>
-  <meta name="description" content="COELBO Control System (Terrassa, 1988): diseño y fabricación de dispositivos electrónicos para el control, la automatización y la protección de electrobombas. Familias PressflowTech, HiTech y SmartTech.">
-  <meta name="theme-color" content="#0a4d8c">
+    gtag('config', 'UA-27012259-1');
+</script>
+<!-- end of google analytics-->    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title> COELBO | Pump Drivers</title>
+    <meta name="title" content=" COELBO | Pump Drivers">
+    <meta name="description" content="COELBO produce una completa gama de aparatos electrónicos universales - drivers - para el control de electrobombas">
+    <meta name="keywords" content="coelbo, electrobombas, aparatos electrónicos, drivers, pump, speedmatic, multimatic, onematic, controlpump, controlmatic, compact, optimatic"/>
+    <meta name="lang" content="es"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <script type="text/javascript" src="https://www.coelbo.es/css/iepngfix_tilebg.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/vendor/foundation.min.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/vendor/what-input.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/modernizr-custom.js?"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/jquery.nice-select.min.js?"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/funcions.js?RL13"></script>
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://www.coelbo.es/css/all.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/foundation.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/estilo.css?RL13" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/normalize.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/nice-select.css" rel="stylesheet" type="text/css" media="all"/>
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="styles.css">
 
-  <!-- Asistente virtual COELBO (chatbot) -->
-  <link rel="stylesheet" href="../chatbot/chatbot.css">
+            <link rel="stylesheet" href="https://www.coelbo.es/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="https://www.coelbo.es/css/owl.theme.default.min.css">
+
+    <!-- Asistente virtual COELBO (chatbot) -->
+    <link rel="stylesheet" href="../chatbot/chatbot.css">
 </head>
-<body>
-  <a class="skip-link" href="#main">Saltar al contenido</a>
-
-  <header class="site-header">
-    <div class="container header-inner">
-      <a class="brand" href="#inicio" aria-label="COELBO Control System — inicio">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="26" height="26"><path fill="currentColor" d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4zm0 5a3 3 0 0 1 3 3c0 1.3-.8 2.4-2 2.8V17h-2v-4.2A3 3 0 0 1 12 7z"/></svg>
-        </span>
-        <span class="brand-text"><strong>COELBO</strong><small>Control System</small></span>
-      </a>
-
-      <button class="nav-toggle" id="navToggle" type="button" aria-controls="primaryNav" aria-expanded="false" aria-label="Abrir menú de navegación">
-        <span></span><span></span><span></span>
-      </button>
-
-      <nav class="primary-nav" id="primaryNav" aria-label="Principal">
-        <a href="#productos">Productos</a>
-        <a href="#tecnica">Información técnica</a>
-        <a href="#empresa">Empresa</a>
-        <a href="#contacto" class="nav-cta">Contacto</a>
-      </nav>
+<body leftmargin="0" marginheight="0" marginwidth="0" topmargin="0" id="inicio">
+<div class="background-menu-top">
+    <div class="off-canvas-wrapper-inner wrapper-layout" data-off-canvas-wrapper>
+        <!-- off-canvas title bar for 'small' screen -->
+<div class="title-bar bg-top-menu show-for-small-only" data-responsive-toggle="widemenu" data-hide-for="medium">
+    <div class="title-bar-left">
+        <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
     </div>
-  </header>
+</div>
 
-  <main id="main">
-    <!-- HERO -->
-    <section class="hero" id="inicio">
-      <div class="container hero-inner">
-        <p class="eyebrow">Desde 1988 · Terrassa (Barcelona)</p>
-        <h1>Control, automatización y protección de electrobombas</h1>
-        <p class="lead">
-          COELBO Control System diseña y fabrica <strong>dispositivos electrónicos</strong>
-          para gestionar y proteger electrobombas. No fabricamos bombas:
-          fabricamos la electrónica que las controla.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="#productos">Ver familias de producto</a>
-          <a class="btn btn-ghost" href="#tecnica">Información técnica</a>
-        </div>
-      </div>
-    </section>
+<!-- off-canvas left menu -->
+<div class="off-canvas position-left show-for-small-only background" id="offCanvasLeft" data-off-canvas>
+    <ul class="vertical menu" data-accordion-menu>
+        <li><a id="m0" href="https://www.coelbo.es/es/index.php?cont=inicio">Inicio</a></li>
+        <li><a id="m1" href="https://www.coelbo.es/es/index.php?cont=empresa">Empresa</a></li>
+        <li><a id="m2" href="javascript:;">Productos</a>
+            <ul class="menu vertical nested" data-submenu>
+                                        <li>
+                            <a id="sub21" href="https://www.coelbo.es/es/index.php?cont=pressflowtech">PressflowTech</a>
+                        </li>
+                                                <li>
+                            <a id="sub22" href="https://www.coelbo.es/es/index.php?cont=hitech">HiTech</a>
+                        </li>
+                                                <li>
+                            <a id="sub23" href="https://www.coelbo.es/es/index.php?cont=smarttech">SmartTech</a>
+                        </li>
+                                                <li>
+                            <a id="sub24" href="https://www.coelbo.es/es/index.php?cont=accesorios">Accesorios y Recambios</a>
+                        </li>
 
-    <!-- PRODUCTOS -->
-    <section class="section" id="productos">
-      <div class="container">
-        <h2 class="section-title">Tres familias de producto</h2>
-        <p class="section-sub">
-          Elija según su instalación. ¿Tiene dudas? El asistente virtual (abajo a la
-          derecha) le orienta hacia la familia más adecuada.
-        </p>
-
-        <div class="cards">
-          <article class="card">
-            <span class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M4 13h6l-1 8 11-13h-6l1-8z"/></svg>
-            </span>
-            <h3>PressflowTech</h3>
-            <p class="card-tag">Controladores tradicionales</p>
-            <p>
-              Sustituyen al presóstato mecánico: arrancan la bomba cuando baja la presión
-              y la paran al cerrar los grifos, sin depósito hidroneumático. Solución
-              sencilla y robusta para viviendas unifamiliares y pequeñas comunidades.
-            </p>
-          </article>
-
-          <article class="card card-featured">
-            <span class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 4a6 6 0 0 1 6 6h-2a4 4 0 0 0-4-4zm0 12a6 6 0 0 1-6-6h2a4 4 0 0 0 4 4z"/></svg>
-            </span>
-            <h3>HiTech</h3>
-            <p class="card-tag">Variadores de velocidad (inverter)</p>
-            <p>
-              Hacen girar la bomba a la frecuencia justa para mantener una
-              <strong>presión constante</strong>, con ahorro energético y mayor vida útil.
-              Montaje en línea, en pared o a bordo del motor. Ideales para edificios,
-              hoteles, residencias y grupos de presión.
-            </p>
-          </article>
-
-          <article class="card">
-            <span class="card-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M3 5h18v4H3zm0 6h18v4H3zm0 6h12v2H3z"/></svg>
-            </span>
-            <h3>SmartTech</h3>
-            <p class="card-tag">Presóstatos electrónicos y control/protección</p>
-            <p>
-              Electrónica avanzada sin inverter: el <strong>Switchmatic</strong>
-              (presóstato electrónico que controla y protege la bomba) y el
-              <strong>Panelmatic</strong> (cuadro multifunción para drenaje, llenado de
-              depósitos y funcionamiento presostático).
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- INFORMACIÓN TÉCNICA -->
-    <section class="section section-alt" id="tecnica">
-      <div class="container">
-        <h2 class="section-title">Información técnica</h2>
-        <p class="section-sub">
-          Catálogos, manuales de instrucciones y fichas técnicas de cada familia.
-        </p>
-        <div class="tech-grid">
-          <div class="tech-item">
-            <h3>Catálogos</h3>
-            <p>Gama completa de PressflowTech, HiTech y SmartTech con sus características.</p>
-          </div>
-          <div class="tech-item">
-            <h3>Manuales</h3>
-            <p>Instrucciones de instalación, configuración y parámetros de cada dispositivo.</p>
-          </div>
-          <div class="tech-item">
-            <h3>Soporte técnico</h3>
-            <p>¿Configuración, compatibilidad o diagnóstico? Nuestro equipo le atiende.</p>
-          </div>
-        </div>
-        <p class="note">
-          <em>Sección de demostración interna.</em> Los enlaces a documentos se conectarán
-          a los catálogos y manuales reales de COELBO.
-        </p>
-      </div>
-    </section>
-
-    <!-- EMPRESA -->
-    <section class="section" id="empresa">
-      <div class="container empresa-inner">
-        <div>
-          <h2 class="section-title">Sobre COELBO</h2>
-          <p>
-            Fundada en <strong>1988</strong> en <strong>Terrassa (Barcelona)</strong>,
-            COELBO Control System, S.L. está especializada en el diseño y la fabricación
-            de dispositivos electrónicos —"drivers"— para el control, la automatización
-            y la protección de electrobombas.
-          </p>
-          <p>
-            Una gama pensada para distribuidores, instaladores, clientes industriales y
-            usuarios finales, con tecnología propia y fabricación en España.
-          </p>
-        </div>
-        <ul class="facts">
-          <li><span>1988</span> Año de fundación</li>
-          <li><span>3</span> Familias de producto</li>
-          <li><span>15 kW</span> Potencia máx. (gama HiTech)</li>
-          <li><span>ES</span> Diseño y fabricación propios</li>
-        </ul>
-      </div>
-    </section>
-  </main>
-
-  <!-- CONTACTO / FOOTER -->
-  <footer class="site-footer" id="contacto">
-    <div class="container footer-inner">
-      <div>
-        <p class="footer-brand"><strong>COELBO</strong> Control System, S.L.</p>
-        <p>Terrassa (Barcelona) · España</p>
-      </div>
-      <div class="footer-contact">
-        <p><a href="mailto:coelbo@coelbo.es">coelbo@coelbo.es</a></p>
-        <p><a href="tel:+34937362950">(+34) 93 736 29 50</a></p>
-      </div>
+            </ul>
+        </li>
+        <li><a id="m3" href="javascript:;">Información técnica</a>
+            <ul class="menu vertical nested" data-submenu>
+               <li><a id="sub37" href="https://www.coelbo.es/es/index.php?cont=manuales_de_instrucciones">Manuales de instrucciones</a></li>
+               <li><a id="sub32" href="https://www.coelbo.es/es/index.php?cont=sistemas_de_funcionamiento">Sistemas de funcionamiento</a></li>
+               <li><a id="sub33" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_pressflowtech">Cuadro aparatos PressflowTech</a></a></li>
+               <li><a id="sub34" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_hitech">Cuadro aparatos HiTech</a></li>
+               <li><a id="sub35" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_smarttech">Cuadro aparatos SmartTech</a></li>
+            </ul>
+        </li>
+        <li><a id="m4" href="https://www.coelbo.es/es/index.php?cont=contacto">Contacto</a></li>
+    </ul>
+</div>
+        <!-- original content goes in this container -->
+        <div class="off-canvas-content layout" data-off-canvas-content>
+            <div id="head" class="padtop15">
+                <div class="row">
+    <div class="small-8 medium-4 large-3 columns">
+            <a title="COELBO, ir al inicio..." href="https://www.coelbo.es/es/index.php?cont=inicio">
+            <img src="https://www.coelbo.es/img/coelbo_logo.png" alt="" height="100%" width="223" border="0"></a>
     </div>
-    <div class="container footer-bottom">
-      <p>© <span id="year"></span> COELBO Control System, S.L. · Web interna de demostración (no indexable).</p>
-    </div>
-  </footer>
+    <div class="small-4 small-push-0 medium-3 medium-push-5 large-2 large-push-7 columns">
+        <select id="lang_selector" name="lang_selector" size="1" class="select_lang es wide" onchange="switch_lang(this.value, 'es', 'cont=inicio')">
 
-  <script src="main.js" defer></script>
-  <!-- Asistente virtual COELBO (chatbot) -->
-  <script src="../chatbot/chatbot.js" defer></script>
+        <option class="es" selected = "selected" value="es">Español</option>
+
+        <option class="en"  value="en">English</option>
+
+        <option class="fr"  value="fr">Français</option>
+
+        <option class="it"  value="it">Italiano</option>
+</select>
+
+<script>
+var real_value = "es";
+var selected_value = $("#lang_selector").val();
+
+if (selected_value != real_value) {
+    $("#lang_selector").val(real_value);
+}
+
+$(document).ready(function() {
+    $('#lang_selector').niceSelect();
+    $('.nice-select li').each(function(index, el){
+        var $el = $(el);
+        $el.addClass($el.data('value'));
+    });
+});
+</script>
+    </div>
+    <div class="small-12 small-pull-0 medium-5 medium-pull-3 large-7 large-pull-2 columns">
+        <form id="search_form" action="javascript: buscar();" method="get" name="search_form">
+    <div class="row collapse">
+        <div class="small-10 medium-8 large-10 column">
+            <input class="search_box" type="text" name="q" size="24" placeholder="Búsqueda de productos" value="">
+        </div>
+        <div class="small-2 medium-2 medium-pull-2 large-2 column">
+            <button class="expanded button secondary button-search" name="search" id="search" type="submit">
+                <div class="text-button-search hide-for-small-only">Buscar</div>
+                <div class="show-for-small-only"><i class="fa fa-search" aria-hidden="true"></i></div>
+            </button>
+        </div>
+    </div>
+</form>    </div>
+</div>
+<div class="row linia-container show-for-small-only"><img src="https://www.coelbo.es/img/linia.png" class="linia" border="0"/></div>                <div class="hide-for-small-only menu button-group expanded row">
+    <a id="m0" href="https://www.coelbo.es/es/index.php?cont=inicio" class="button">Inicio</a>
+    <a id="m1" href="https://www.coelbo.es/es/index.php?cont=empresa" class="button">Empresa</a>
+    <a id="m2" class="button" data-toggle="dropdown-productos">Productos</a>
+    <a id="m3" class="button" data-toggle="dropdown-info-tecnica">Información técnica</a>
+    <a id="m4" href="https://www.coelbo.es/es/index.php?cont=contacto" class="button">Contacto</a>
+</div>
+
+<div class="dropdown-pane pad0 row collapse" id="dropdown-productos" data-dropdown data-hover="true" data-hover-pane="true">
+    <div class="hide-for-small-only button-group drop margin0">
+                    <a id="sub21" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=pressflowtech">PressflowTech</a>
+                            <a id="sub22" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=hitech">HiTech</a>
+                            <a id="sub23" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=smarttech">SmartTech</a>
+                            <a id="sub24" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=accesorios">Accesorios y Recambios</a>
+                </div>
+</div>
+
+<div class="dropdown-pane pad0 row collapse" id="dropdown-info-tecnica" data-dropdown data-hover="true" data-hover-pane="true">
+    <div class="hide-for-small-only button-group drop margin0">
+        <a id="sub37" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=manuales_de_instrucciones">Manuales de instrucciones</a>
+        <a id="sub32" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=sistemas_de_funcionamiento">Sistemas de funcionamiento</a>
+        <a id="sub33" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_pressflowtech">Cuadro aparatos PressflowTech</a>
+        <a id="sub34" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_hitech">Cuadro aparatos HiTech</a>
+        <a id="sub35" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_smarttech">Cuadro aparatos SmartTech</a>
+    </div>
+</div>            </div>
+            <div id="content">
+                <script>
+    $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+            loop: true,
+            margin: 5,
+            lazyLoad: true,
+            lazyLoadEager: 2,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            smartSpeed: 1000,
+            fluidSpeed: 1000,
+            autoplaySpeed: 1000,
+            responsiveRefreshRate: 5,
+            slideTransition: 'ease',
+            responsive:{
+                0:{
+                    items:1
+                }
+            }
+        });
+
+        $(window).scroll(function(){
+            var parallaxFactor = 0.2;
+            var scrollPos = $(window).scrollTop();
+
+            var $pb = $('.parallax.pa-b');
+            $pb.css({
+                'background-position': '0 ' + ((scrollPos - $pb.offset().top) * parallaxFactor) + 'px'
+            });
+
+            var $pbb = $('.parallax.pa-bb');
+            $pbb.css({
+                'background-position': '0 ' + ((scrollPos - $pbb.offset().top) * parallaxFactor) + 'px'
+            });
+
+            var $pc = $('.parallax.pa-c');
+            $pc.css({
+                 'background-position': '0 ' + ((scrollPos - $pc.offset().top) * parallaxFactor) + 'px'
+            });
+
+            var $pd = $('.parallax.pa-d');
+            $pd.css({
+                'background-position': '0 ' + ((scrollPos - $pd.offset().top) * parallaxFactor) + 'px'
+            });
+        });
+        $(window).trigger('scroll');
+    });
+</script>
+
+<div class="row">
+    <div class="columns small-12 pad0 carousel-wrapper">
+        <div class="owl-carousel owl-theme">
+            <div class="carousel c-a">
+                <div class="carousel-title">
+                    <span>Proudly made in Barcelona</span>
+                </div>
+            </div>
+
+            <div class="carousel c-b">
+                <div class="carousel-title">
+                    <span>A complete range of Pump Drivers</span>
+                </div>
+            </div>
+
+            <div class="carousel c-c">
+                <div class="carousel-title">
+                    <span>Internally conceived, designed and approved</span>
+                </div>
+            </div>
+
+            <div class="carousel c-d">
+                <div class="carousel-title">
+                    <span>So you enjoy the pressure!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+        <div class="large-12 columns text padbot40 padtop10">La constante evoluci&oacute;n de la era industrial en este &uacute;ltimo siglo, ha inducido un proceso de progresiva especializaci&oacute;n en todos los sectores. En los &uacute;ltimos a&ntilde;os, merced a la irrupci&oacute;n industrial de la electr&oacute;nica y la inform&aacute;tica, este proceso se ha acelerado exponencialmente.<br>
+<br>
+<b>COELBO</b> nace en este periodo (1988), con el objetivo empresarial de la aplicaci&oacute;n de estas nuevas tecnolog&iacute;as en el sector de electrobombas. Desde el inicio y con una evoluci&oacute;n tecnol&oacute;gica constante ha creado aparatos para su funcionamiento autom&aacute;tico, su control y su protecci&oacute;n, iniciando as&iacute; una especialidad industrial, pionera en el &aacute;mbito mundial, en el que es uno de los l&iacute;deres mas significados.<br>
+</div>
+
+    </div>
+
+<div class="row">
+    <div class="small-12 columns pad0 parallax pa-bb">
+        <div class="gama-productos-title">
+            <span>Gama de productos<br/></span>
+        </div>
+
+
+        <div class="gama-productos-contener">
+            <div class="gama-productos-card" onclick="gotourl('https://www.coelbo.es/es/index.php?cont=pressflowtech');">
+                <div class="gama-productos-card-img press"></div>
+                <div class="gama-productos-card-text">
+                    PressflowTech                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <span>Dispositivos electr&oacute;nicos que substituyen a los tradicionales presostatos mec&aacute;nicos para el control del arranque y puesta en marcha de electrobombas.<br /></span>
+                </div>
+                <div class="gama-productos-card-link">
+                    <a title="PressflowTech" href="https://www.coelbo.es/es/index.php?cont=pressflowtech">Ver más <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="gama-productos-card" onclick="gotourl('https://www.coelbo.es/es/index.php?cont=hitech');">
+                <div class="gama-productos-card-img hi"></div>
+                <div class="gama-productos-card-text">
+                    HiTech                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <span>Gama de controladores a velocidad variable (VSD: variable speed drives), para bomba individual o grupos de bombas, de montaje en línea, mural o a bordo.<br /></span>
+                </div>
+                <div class="gama-productos-card-link">
+                    <a title="HiTech" href="https://www.coelbo.es/es/index.php?cont=hitech">Ver más <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="gama-productos-card" onclick="gotourl('https://www.coelbo.es/es/index.php?cont=smarttech');">
+                <div class="gama-productos-card-img smart"></div>
+                <div class="gama-productos-card-text">
+                    SmartTech                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <span>Amplia gama de dispositivos para el control y/o la protección de electrobombas cuyo denominador común es la aplicación de las nuevas tecnologías a los sistemas tradicionales.<br /></span>
+                </div>
+                <div class="gama-productos-card-link">
+                    <a title="SmartTech" href="https://www.coelbo.es/es/index.php?cont=smarttech">Ver más <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+
+            <div class="gama-productos-card" onclick="gotourl('https://www.coelbo.es/es/index.php?cont=accesorios');">
+                <div class="gama-productos-card-img acc"></div>
+                <div class="gama-productos-card-text">
+                    Accesorios                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    <span>Accesorios opcionales que complementan nuestros aparatos.<br /></span>
+                </div>
+                <div class="gama-productos-card-link">
+                    <a title="Accesorios" href="https://www.coelbo.es/es/index.php?cont=accesorios">Ver más <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="padtop40 padbot40 bgwhite text">
+    COELBO produce desde hace m&aacute;s de 25 a&ntilde;os una completa gama de aparatos electr&oacute;nicos universales &#150; drivers &#150; para el control de electrobombas.
+<br><br>Desde modelos elementales basados en <b>pres-control</b>, <b>flow-control</b> y <b>presost&aacute;ticos </b>con una sola electrobomba para viviendas unifamiliares, peque&ntilde;as comunidades u otros usos espec&iacute;ficos, hasta los m&aacute;s sofisticados <b><i>INVERTER</i>S</b> multibomba para la presurizaci&oacute;n de instalaciones en edificios multiapartamentos, hoteles, residencias, centros deportivos etc.
+<br><br>Los modelos mas sofisticados integran un software inteligente que permite una programaci&oacute;n f&aacute;cil e intuitiva a trav&eacute;s de una pantalla LCD multifunci&oacute;n y que una vez activado gestiona y protege el grupo, analizando constantemente las condiciones de trabajo para intervenir, de forma conveniente, si detectan cualquier anomal&iacute;a funcional que pudiera da&ntilde;ar alguna de las electrobombas.
+<br><br>Para realizar con precisi&oacute;n y eficacia estas&nbsp; funciones, integran todos los elementos hidr&aacute;ulicos, el&eacute;ctricos y electr&oacute;nicos precisos tales como, sensores de caudal, pres&oacute;statos, transductores, indicadores de presi&oacute;n, de frecuencia, de intensidad, leds de indicaci&oacute;n, pulsadores start-stop, etc.
+<br>
+</div>
+
+<div class="row">
+    <div class="small-12 columns pad0 parallax pa-b">
+        <div class="home-title-separator single">
+            <span id="catalogo">Últimos catálogos<br/></span>
+        </div>
+    </div>
+    <div class="large-12 columns bgwhite pad0">
+        <div class="row block-catalog bggrey">
+            <div class="small-2 medium-3 columns catalog-icon a"></div>
+            <div class="small-10 medium-4 columns catalog-link">
+                <h5><b>Catálogos generales</b></h5>
+                <div class="padbot15"><a href="https://www.coelbo.es/pdf/coelbo_g_pressflowtech_es.pdf" target="_blank"><i class="far fa-file-pdf pdf-icon" aria-hidden="true"></i>Catálogo general PressflowTech</a></div>
+                <div class="padbot15"><a href="https://www.coelbo.es/pdf/coelbo_g_hitech_es.pdf" target="_blank"><i class="far fa-file-pdf pdf-icon" aria-hidden="true"></i>Catálogo general HiTech</a></div>
+                <div><a href="https://www.coelbo.es/pdf/coelbo_g_smarttech_es.pdf" target="_blank"><i class="far fa-file-pdf pdf-icon" aria-hidden="true"></i>Catálogo general SmartTech</a></div>
+            </div>
+            <div class="small-12 medium-5 columns text">
+                Toda nuestra gama de controladores electrónicos para electrobombas que hemos distribuido en las familias: PressflowTech (controladores tradicionales), HiTech (variadores de velocidad) y SmartTech (presostatos electrónicos y otros dispositivos electrónicos). Es fruto de más de 35 años de desarrollo de este tipo de dispositivos, desde la invención y patente, en 1988, del primer Controlpump.            </div>
+        </div>
+
+        <div class="row block-catalog bggrey">
+            <div class="small-2 medium-3 columns catalog-icon b"></div>
+            <div class="small-10 medium-4 columns catalog-link">
+                <h5><b>Catálogo SWITCHMATIC</b></h5>
+                <a href="https://www.coelbo.es/pdf/switchmatic_es.pdf" target="_blank"><i class="far fa-file-pdf pdf-icon" aria-hidden="true"></i>Descargar folleto</a>
+            </div>
+            <div class="small-12 medium-5 columns text">
+                Tal como dice en su eslogan, el Switchmatic es mucho más que un presostato electrónico. Dispone, entre otras características, de múltiples funciones de ajuste, sistemas para la protección total de la electrobomba y la capacidad de ser sincronizado a otro dispositivo idéntico para controlar grupos de presurización dobles. En este catálogo presentamos toda la familia de este dispositivo patentado internacionalmente.            </div>
+        </div>
+
+        <div class="row block-catalog bggrey">
+            <div class="small-2 medium-3 columns catalog-icon c"></div>
+            <div class="small-10 medium-4 columns catalog-link">
+                <h5><b>Catálogo DPR/EPR</b></h5>
+                <a href="https://www.coelbo.es/pdf/dpr_epr_es.pdf" target="_blank"><i class="far fa-file-pdf pdf-icon" aria-hidden="true"></i>Descargar folleto</a>
+            </div>
+            <div class="small-12 medium-5 columns text">
+                Los dispositivos DPR (Regulador de Presión Digital) y EPR (egulador de Presión Electrónico) son una innovativa solución electrónico-mecánica que permite suministrar a la red una presión preestablecida que permanece constante y estable, independientemente del caudal y de la electrobomba, siempre que se trabaje dentro de su curva caudal/presión. Esta tecnología patentada permite unos costes notablemente inferiores a los de un variador de velocidad y una superior fiabilidad/durabilidad por la inferior incidencia de la electronica. En este catálogo presentamos las distintas versiones.            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns pad0 parallax pa-c">
+        <div class="home-title-separator">
+            <span id="videos">En la red<br/></span>
+            <span class="home-subtitle-separator">videos técnicos y coporativos</span>
+        </div>
+    </div>
+    <div class="small-12 columns pad0 margintop15">
+        <script>
+    var idioma = 'es';
+    var prev = 'Anteriores';
+    var next = 'Siguientes';
+    var prev_videos = 'Vídeos anteriores';
+    var next_videos = 'Vídeos siguientes';
+    var de = 'de';
+    var visualizaciones = 'visualizaciones';
+    var hace = 'hace';
+    var anos = 'años';
+    var meses = 'meses';
+    var dias = 'días';
+    var horas = 'horas';
+    var minutos = 'minutos';
+    var segundos = 'segundos';
+    var ano = 'año';
+    var mes = 'mes';
+    var dia = 'día';
+    var hora = 'hora';
+    var minuto = 'minuto';
+    var segundo = 'segundo';
+</script>
+<script src="https://www.coelbo.es/js/ycp.js"></script>
+<link type="text/css" rel="stylesheet" href="https://www.coelbo.es/css/ycp.css" />
+<div id="widget-yt" data-ycp_title="Coelbo YouTube" data-ycp_channel="PLZLrgOiP56rN_DfRhbJSshfBG40VXO4pQ"></div>
+<script>
+    $(function() {
+        $("#widget-yt").ycp({
+            apikey : 'AIzaSyCLo04wEr5YOQyHVYmlPEbAkxI9dpVSul8',
+            playlist : 4,
+            autoplay : true,
+            related : false
+        });
+    });
+</script>    </div>
+    <div class="small-12 columns pad0 margintop15">
+        <a href="https://www.youtube.com/channel/UCS8zjyfAHN6Kx9xFN-4oBsg" target="_blank">
+            <div class="youtube">
+                <img src="https://www.coelbo.es/img/youtube-logo.svg" border="0"/>
+                <span>Acceda a todos nuestros videos técnicos y coporativos</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns pad0 parallax pa-d">
+        <div class="home-title-separator">
+            <span id="news">Notícias<br/></span>
+            <span class="home-subtitle-separator">manténte al día</span>
+        </div>
+    </div>
+    <div id="news-widget">
+
+<div class="medium-5 columns padtop25 padbot15 text">
+            <div id="main-new">
+            <div class="news-date main">26/02/2026</div>
+            <h5 class="main padbot25"><b>PLACAS SOLARS _ PLACAS SOLARES</b></h5>
+            <div class="row news-block marginleft0 main">
+                <div class="small-12 medium-12 large-12 columns padbot25 padleft0">
+                    L’empresa COELBO CONTROL SYSTEM SL ha realitzat una instal·lació fotovoltaica de 64,16 kWp acollint-se al programa d’incentius lligats a l’autoconsum i l’emmagatzematge, amb fonts d’energia renovable, en el marc del Pla de Recuperació, Transformació i Resiliència, finançat per la Unió Europea – NextGenerationEU.
+                </div>
+                                    <div class="small-12 medium-12 large-12 columns padbot15 padleft0">
+                        <a href="https://www.coelbo.es/noticias/n_b6d767d2f8ed5d21a44b0e5886680cb9_es.pdf" target="_blank">
+                            <i class="far fa-file-pdf pdf-icon" aria-hidden="true"></i>
+                            Descargar PDF adjunto                        </a>
+                    </div>
+                                </div>
+        </div>
+</div>
+<div class="medium-7 columns padtop25 padbot15 text">
+    <div>
+        <div class="row padbot15 marginleft0">
+            <div class="small-6 columns pad0">
+                            </div>
+            <div class="small-6 columns alignr pad0">
+                                    <a onclick="refreshNews('2', null, 'left')" href="javascript:;" >Más antiguas <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                            </div>
+        </div>
+    </div>
+    <div class="row marginleft0">
+                        <div id="prev-new-0" class="selected bgdark text marginbot25 op50" onclick="refreshNews('1', '22', 'center')">
+                    <div class="content-new">
+                        <div class="news-date">26/02/2026</div>
+                        <h6><b>PLACAS SOLARS _ PLACAS SOLARES</b></h6>
+                        <div class="row news-block marginleft0">
+                            <div class="small-12 medium-12 large-12 columns padbot10 padleft0 elli">
+                                L’empresa COELBO CONTROL SYSTEM SL ha realitzat una instal·lació fotovoltaica de 64,16 kWp acollint-se al programa d’incentius lligats a l’autoconsum i l’emmagatzematge, amb fonts d’energia renovable, en el marc del Pla de Recuperació, Transformació i Resiliència, finançat per la Unió Europea – NextGenerationEU.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                <div id="prev-new-1" class=" bgdark text marginbot25 op50" onclick="refreshNews('1', '21', 'center')">
+                    <div class="content-new">
+                        <div class="news-date">03/04/2024</div>
+                        <h6><b>Otro año más!</b></h6>
+                        <div class="row news-block marginleft0">
+                            <div class="small-12 medium-12 large-12 columns padbot10 padleft0 elli">
+                                Estamos muy felices de poder volver a exponer en la Feria Milano Mostra Convegno Expocomfort. Muchas gracias a todos.                            </div>
+                        </div>
+                    </div>
+                </div>
+                                <div id="prev-new-2" class=" bgdark text marginbot25 op50" onclick="refreshNews('1', '20', 'center')">
+                    <div class="content-new">
+                        <div class="news-date">12/09/2023</div>
+                        <h6><b>Una manera de hacer Europa</b></h6>
+                        <div class="row news-block marginleft0">
+                            <div class="small-12 medium-12 large-12 columns padbot10 padleft0 elli">
+                                COELBO CONTROL SYSTEM S.L. ha sido beneficiaria del Fondo Europeo de Desarrollo Regional cuyo objetivo es mejorar la competitividad de las Pymes y gracias al cual ha puesto en marcha un Plan de Marketing Digital Internacional con el objetivo de mejorar su posicionamiento online en mercados exteriores durante el año 2023. Para ello ha contado con el apoyo del Programa XPANDE DIGITAL de la Cámara de Comercio de Terrassa.                             </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+    <div>
+        <div class="row padbot40 marginleft0">
+            <div class="small-6 columns pad0">
+                            </div>
+            <div class="small-6 columns alignr pad0">
+                                    <a onclick="refreshNews('2', null, 'left')" href="javascript:;" >Más antiguas <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                            </div>
+        </div>
+    </div>
+</div>
+    </div>
+</div>
+
+<script src="https://www.coelbo.es/js/owl.carousel.min.js"></script>
+            </div>
+            <div id="prefoot">
+                <div class="prefoot">
+    <div class="row">
+        <div class="small-6 large-3 left-text-for-large columns pad0">
+            <img class="nextgen funded" src="https://www.coelbo.es/img/funded-europe.svg" alt=""/>
+        </div>
+        <div class="small-6 large-2 right-text-for-large columns pad0 autoc-s">
+            <img class="nextgen autoconsumo" src="https://www.coelbo.es/img/autoconsumo.png" alt=""/>
+        </div>
+        <div class="small-8 large-4 center-text-for-large columns pad0">
+            <div class="row">
+                <div class="small-6 large-6 center-text-for-large columns pad0">
+                    <img class="nextgen ministerio" src="https://www.coelbo.es/img/ministerio.svg" alt=""/>
+                </div>
+                <div class="small-6 large-6 center-text-for-large columns pad0">
+                    <img class="nextgen idae" src="https://www.coelbo.es/img/idae.svg" alt=""/>
+                </div>
+            </div>
+        </div>
+        <div class="small-4 large-3 right-text-for-large columns pad0">
+            <img class="nextgen planr" src="https://www.coelbo.es/img/plan-r.svg" alt=""/>
+        </div>
+        <div class="small-12 large-2 columns right-text-for-large pad0 autoc-l">
+            <img class="nextgen autoconsumo" src="https://www.coelbo.es/img/autoconsumo.png" alt=""/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-6 large-3 large-push-6 columns pad0">
+            <img class="nextgen next-gen-cat" src="https://www.coelbo.es/img/next-generation-catalunya.svg" alt=""/>
+        </div>
+        <div class="small-6 large-3 columns pad0">
+            <img class="nextgen gencat" src="https://www.coelbo.es/img/gencat-energia.svg" alt=""/>
+        </div>
+    </div>
+</div>
+            </div>
+            <div id="foot">
+                <div class="row foot">
+    <div class="small-8 columns">
+        <div class="row">
+            <div class="small-12 columns padbot40">
+                <a class="legal" href="https://www.coelbo.es/es/index.php?cont=aviso_legal">Aviso legal</a><br/>
+                <a class="legal" href="https://www.coelbo.es/es/index.php?cont=politica_de_privacidad">Política de privacidad</a><br/>
+                <a class="legal" href="https://www.coelbo.es/es/index.php?cont=politica_cookies">Política de cookies</a><br/>
+                <a class="legal" target="_blank" href="https://www.coelbo.es/es/warranty_policy.pdf">Política de garantía</a><br/>
+                <a class="legal" target="_blank" href="https://www.coelbo.es/es/politica_de_calidad.pdf">Política de calidad</a><br/>
+                <a class="legal" target="_blank" href="https://www.coelbo.es/es/RMA_Form.xlsx">Formulario RMA</a><br/>
+            </div>
+
+            <div class="small-12 columns address-block">
+                COELBO&nbsp;CONTROL&nbsp;SYSTEM,&nbsp;S.L.<br/>
+                Ctra.&nbsp;de&nbsp;Rubí,&nbsp;288&nbsp;(Pol.&nbsp;Ind.&nbsp;Can&nbsp;Guitard)
+                08228&nbsp;Terrassa&nbsp;(SPAIN)<br/>
+                Tel.&nbsp;(34)&nbsp;93&nbsp;736&nbsp;29&nbsp;50&nbsp;-&nbsp;Fax&nbsp;(34)&nbsp;93&nbsp;736&nbsp;29&nbsp;51
+            </div>
+        </div>
+    </div>
+
+    <div class="small-4 columns">
+        <div class="logos">
+            <img src="https://www.coelbo.es/img/iso9001.svg" border="0"/>
+        </div>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+        <!-- close wrapper, no more content after this -->
+    </div>
+    <script type="text/javascript" src="https://www.coelbo.es/js/app.js"></script>
+</div>
+<!-- Asistente virtual COELBO (chatbot) -->
+<script src="../chatbot/chatbot.js" defer></script>
 </body>
+<div id="floating-cookie-policy">
+    <div class="close-button"><a href="javascript: hideFloatingCookiePolicy();">x</a></div>
+    <div class="large-12 columns text">
+
+<h4>Política de cookies y almacenamiento local</h4>
+<p>Este sitio web utiliza cookies y tecnologías similares para proporcionar el servicio, así como permitirnos mejorarlo, a través de la obtención de estadísticas sobre su uso, y otras finalidades.</p>
+<p>Navegar por esta web implica necesariamente la utilización de cookies y tecnologías similares siempre y cuando sea necesario para su funcionamiento. Asimismo, para ciertas finalidades, las cookies y el almacenamiento local estarán sujetas a su previo consentimiento. Puede aceptar o rechazar las cookies mediante el sistema de configuración establecido y también es posible configurar el navegador para impedir su uso.</p>
+<p>Esta política forma parte de nuestra política de privacidad e incluye lo siguiente:</p>
+<p>
+¿Qué son las cookies?<br/>
+¿Para qué se usan las cookies?<br/>
+¿Qué entendemos por tecnologías similares a las cookies?<br/>
+¿Qué son las cookies de terceros? ¿Quiénes son los destinatarios de la información?<br/>
+¿Qué funciones y características de terceros utilizamos en nuestro sitio web?<br/>
+¿Durante cuánto tiempo se mantienen activas las cookies o tecnologías similares?<br/>
+¿Cómo impedir el uso de cookies y cómo borrarlas?<br/>
+Información detallada sobre las cookies utilizadas por este sitio web<br/>
+</p>
+<h4>¿Qué son las cookies?</h4>
+<p>Las "cookies" son pequeños ficheros temporales que se crean  en el dispositivo del usuario (ordenador, teléfono, tableta, etc.) cuando visita una web, y que permiten a la misma almacenar o recuperar información cuando navega, por ejemplo, para guardar sus preferencias de uso o para reconocerlo en posteriores visitas, así como obtener información sobre sus hábitos de navegación.</p>
+<p>Cuando una web crea una cookie en el dispositivo del usuario, se almacena la dirección/dominio de la web que ha creado la cookie, la duración de la cookie que puede ir de escasos minutos a varios años, así como el contenido de la cookie. El usuario puede deshabilitar las cookies en todo momento mediante el sistema de configuración de este sitio web, así como configurar su programa de navegación para impedir (bloquear) el uso de cookies por parte de determinadas webs, así como borrar las cookies almacenadas previamente.</p>
+<h4>¿Para qué se usan las cookies?</h4>
+<p><b>Cookies técnicas esenciales:</b> Se utilizan para gestionar el flujo de navegación dentro de la web o para mantener al usuario conectado a la misma. Al deshabilitarlas, es posible que algún apartado de la web no funcione correctamente.</p>
+<p><b>Cookies de personalización:</b> Necesarias para recordar determinadas preferencias del usuario.</p>
+<p><b>Cookies analíticas:</b> Nos ayudan a nosotros y a terceros a recopilar información de la procedencia de los usuarios y su navegación dentro de la web, a efectos de realizar un análisis estadístico para poder mejorar la estructura y los contenidos.</p>
+<p><b>Cookies publicitarias:</b> Utilizadas para gestionar los anuncios que aparecen en la web, decidir el contenido o la frecuencia de los anuncios.</p>
+<p><b>Cookies publicitarias comportamentales:</b> Ayudan a recopilar los hábitos de navegación del usuario para crear un perfil de sus intereses y para mostrarle anuncios adaptados a los mismos.</p>
+<p><b>Cookies para compartición social:</b> Son necesarias para identificar al usuario en sus redes sociales y así permitirle compartir contenidos.</p>
+<h4>¿Qué entendemos por tecnologías similares a las cookies?</h4>
+<p>Se entiende por tecnologías similares cualquier tipo de mecanismo de almacenamiento y recuperación de datos que se utilice en el dispositivo del usuario para obtener información. Las más habituales incluyen:</p>
+<p><b>El almacenamiento local del navegador:</b> Algunas webs utilizan almacenamientos locales llamados "sessionStorage" y "localStorage", así como la base de datos indexada del navegador, para guardar información.</p>
+<p><b>El almacenamiento local de los complementos del navegador</b> como por ejemplo el almacenamiento local de Flash ("Flash Local Shared Objects") o el almacenamiento local de Silverlight ("Isolated Objects").</p>
+<p><b>El "web beacon"</b> es una técnica de rastreo que consiste en insertar en una página web (o en un correo electrónico) una imagen alojada en un servidor de Internet de forma que, cuando el navegador o programa de correo se conecta a dicho servidor para descargar y visualizar la imagen, la conexión queda registrada. Ello permite conocer que el usuario ha visualizado la página web o el correo. A veces esta imagen es muy pequeña o transparente de forma que el usuario no se percata de su existencia.</p>
+<p><b>Las técnicas de "fingerprinting"</b> que combinan información obtenida del navegador o del equipo de navegación para distinguir a un usuario en sus sucesivas visitas distintos sitios web.</p>
+<h4>¿Qué son las cookies de terceros? ¿Quiénes son los destinatarios de la información?</h4>
+<p>Las cookies de esta web se pueden clasificar, en función de quién las crea, en dos categorías:</p>
+<p><b>Cookies propias:</b> se crean y manejan desde nuestros sitios y dominios web, siendo la información obtenida gestionada directa o indirectamente por nosotros para nuestras propias finalidades.</p>
+<p><b>Cookies de terceros:</b> son las cookies que se crean y se manejan desde otros sitios web que, aunque no están completamente bajo nuestro control, proporcionan funciones y características que hemos decidir incluir en nuestra web, como, por ejemplo: mapas interactivos, vídeos y elementos multimedia, botones para compartir en redes sociales, anuncios, etc. Estas cookies están bajo el control del tercero que proporciona la función correspondiente.</p>
+<p>La gran mayoría de las funciones de terceros implican el acceso o recopilación de información (y el uso de cookies) por parte del tercero que proporciona la función, en base a sus propios criterios y finalidades, incluyendo la recopilación sobre los hábitos de navegación para mostrarle publicidad personalizada. En el siguiente apartado se indican las funciones y características de terceros utilizadas en esta página web.</p>
+<h4>¿Qué funciones y características de terceros utilizamos en nuestro sitio web?</h4>
+<p>A continuación, se proporciona una tabla resumen de las funciones y características proveídos por terceros en nuestra página web que implican la utilización de cookies.</p>
+<div class="overflow-x-table">
+    <table border="1" style="font-size:12px;">
+        <tr>
+            <th>Función o característica</th>
+            <th>Tercero proveedor de la función o característica</th>
+            <th>Implica la transferencia internacional de datos</th>
+            <th>Política de privacidad y garantías del tercero proveedor</th>
+        </tr>
+        <tr>
+            <td>Google Analytics</td>
+            <td>Google, Inc</td>
+            <td>Sí</td>
+            <td><a target="_blank" href="https://policies.google.com/technologies/cookies?hl=es_ES">Leer</a></td>
+        </tr>
+        <tr>
+            <td>Google Maps, Youtube</td>
+            <td>Google, Inc</td>
+            <td>Sí</td>
+            <td><a target="_blank" href="http://www.google.com/intl/es_es/policies/privacy/">Leer</a></td>
+        </tr>
+    </table>
+</div>
+<h4>¿Durante cuánto tiempo se mantienen activas las cookies o tecnologías similares?</h4>
+<p>En función de su permanencia o tiempo de actividad, podemos diferenciar entre:</p>
+<p><b>Cookies temporales de sesión:</b> permanecen almacenadas en el equipo de navegación hasta que el usuario abandona la página web; el navegador las borra al terminar la sesión de navegación.</p>
+<p><b>Cookies persistentes:</b> permanecen en el equipo de navegación y la web las lee cada vez que el usuario realiza una nueva visita. Estas cookies se borran automáticamente pasado cierto plazo de tiempo, que puede ser corto o muy largo.</p>
+<p>En esta política se incluye información sobre la duración de las cookies; para más información, consulte nuestra política de privacidad, así como la información proporcionada en las políticas de privacidad de los terceros proveedores de funciones web.</p>
+<h4>¿Cómo impedir el uso de cookies y cómo borrarlas?</h4>
+<p>Puede configurar sus preferencias en cualquier momento mediante el sistema de configuración de cookies integrado en este sitio web, podrá activar / desactivar el uso de cookies según sus finalidades.</p>
+<p>Puede acceder al sistema de configuración mediante el enlace al pie de la página de inicio <a href="javascript:;" id="cookie_settings">pulsando aquí</a></p>
+<p>La mayoría de navegadores permiten desactivar globalmente las cookies. Muchos navegadores también permiten borrar las cookies asociadas a webs/dominios concretos. Para ello el usuario debe consultar la ayuda de su navegador. A continuación, se incluyen enlaces a las páginas de ayuda de los navegadores más habituales para conocer la configuración de cookies en cada uno:</p>
+<p>
+<strong>Chrome:</strong> <a target="_blank" href="https://support.google.com/chrome/answer/95647?hl=es">https://support.google.com/chrome/answer/95647?hl=es</a></br>
+<strong>Explorer:</strong> <a target="_blank" href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d">https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d</a></br>
+<strong>Microsoft Edge:</strong> <a target="_blank" href="https://privacy.microsoft.com/es-ES/windows-10-microsoft-edge-and-privacy">https://privacy.microsoft.com/es-ES/windows-10-microsoft-edge-and-privacy</a></br>
+<strong>Firefox:</strong> <a target="_blank" href="https://support.mozilla.org/es/kb/impedir-que-los-sitios-web-guarden-sus-preferencia">https://support.mozilla.org/es/kb/impedir-que-los-sitios-web-guarden-sus-preferencia</a></br>
+<strong>Safari:</strong> <a target="_blank" href="https://support.apple.com/kb/PH17191?viewlocale=es_ES&amp;locale=es_ES">https://support.apple.com/kb/PH17191?viewlocale=es_ES&amp;locale=es_ES</a></br>
+<strong>Safari iOS:</strong> <a target="_blank" href="https://support.apple.com/es-es/HT201265">https://support.apple.com/es-es/HT201265</a></br>
+<strong>Opera:</strong> <a target="_blank" href="https://help.opera.com/en/latest/web-preferences/#cookies">https://help.opera.com/en/latest/web-preferences/#cookies</a>
+</p>
+<p>Para borrar los datos guardados en el almacenamiento local del navegador, el usuario puede borrar el historial de navegación.</p>
+<p>Para otros navegadores, así como para cualquier aclaración o pregunta sobre las cookies de esta web, puede contactarnos por correo electrónico, escribiendo a coelbo@coelbo.es</p>
+<p>Aviso importante: en caso de bloquear las cookies es posible que determinados servicios o funcionalidades de la web no funcionen correctamente.</p>
+<h4>Información detallada sobre las cookies utilizadas por este sitio web</h4>
+<p><strong>Información sobre las cookies propias</strong></p>
+<div class="overflow-x-table">
+    <table border="1" style="font-size:12px;">
+        <tr>
+            <th width="20%">Función o característica</th>
+            <th width="20%">Cookies y tecnología empleada</th>
+            <th width="10%">Dominio web</th>
+            <th width="30%">Duración de la información almacenada</th>
+            <th width="20%">Tipos de finalidad</th>
+        </tr>
+        <tr>
+            <td>Cookies necesarias para para recordar determinadas preferencias del usuario</td>
+            <td>Cookies temporales (cookie_consent_level, cookie_consent_user_accepted, cookie_consent_user_consent_token, PHPSESSID)</td>
+            <td>coelbo.es</td>
+            <td>Meses</td>
+            <td>Cookies técnicas esenciales. Cookies de personalización</td>
+        </tr>
+    </table>
+</div>
+<br/>
+<p><strong>Información sobre las cookies de terceros</strong></p>
+<div class="overflow-x-table">
+    <table border="1" style="font-size:12px;">
+        <tr>
+            <th width="20%">Función o característica</th>
+            <th width="20%">Cookies y tecnología empleada</th>
+            <th width="10%">Dominio web</th>
+            <th width="30%">Duración de la información almacenada</th>
+            <th width="20%">Tipos de finalidad</th>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_ga_0JG2YGZH2N</td>
+            <td>coelbo.es</td>
+            <td>Años</td>
+            <td>Estadística</td>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_gat_gtag_UA_27012259_1</td>
+            <td>coelbo.es</td>
+            <td>Minutos</td>
+            <td>Necesaria</td>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_gid</td>
+            <td>coelbo.es</td>
+            <td>1 día</td>
+            <td>Estadística</td>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_ga</td>
+            <td>coelbo.es</td>
+            <td>1 año</td>
+            <td>Estadística</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>CONSENT</td>
+            <td>youtube.com</td>
+            <td>Años</td>
+            <td>Necesaria</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>PREF</td>
+            <td>youtube.com</td>
+            <td>8 meses</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>VISITOR_INFO1_LIVE</td>
+            <td>youtube.com</td>
+            <td>6 meses</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>YSC</td>
+            <td>youtube.com</td>
+            <td>Sesión</td>
+            <td>Marketing</td>
+        </tr>
+    </table>
+</div>
+<br/>
+<br/>
+<p><strong>NOTA:</strong> la información ofrecida es en fecha fecha 01-03-2024 y le informamos que con el paso del tiempo puede no resultar exhaustiva, a pesar de que periódicamente la presente política de cookies es revisada.</p>
+<br/>
+<br/>
+        <div class="center-text">
+            <input class="close-cookie-input" type="button" onclick="hideFloatingCookiePolicy();" value="Cerrar">
+        </div>
+    </div>
+</div>
 </html>
