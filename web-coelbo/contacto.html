@@ -1,0 +1,591 @@
+<!doctype html>
+<!--
+  =========================================================
+  COELBO — Formulario de contacto (demo TDR)
+  Vía de escalado del chatbot: cuando el asistente no puede
+  resolver una consulta, deriva al usuario a este formulario.
+
+  Archivo HTML único y autónomo: HTML + CSS + JS en línea.
+  - Multilingüe (CA / ES / EN / FR / IT) con objeto de traducciones.
+  - Validación en JavaScript (email válido, campos obligatorios).
+  - Diseño coherente con el chatbot (azul corporativo #0a4d8c).
+  - Responsive y con accesibilidad básica.
+  - Al enviar: mensaje de confirmación SIMULADO (demo).
+  Comentarios en español para poder explicarlo en el TDR.
+  =========================================================
+-->
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>COELBO — Contacto</title>
+
+  <!-- Asistente virtual COELBO (chatbot): también disponible en esta página -->
+  <link rel="stylesheet" href="../chatbot/chatbot.css">
+
+  <style>
+    /* ---------- Paleta (misma que el chatbot y la web) ---------- */
+    :root {
+      --brand: #0a4d8c;        /* azul corporativo */
+      --brand-dark: #073a6b;
+      --accent: #1b9cd8;
+      --ink: #1d2733;
+      --muted: #5b6b7b;
+      --bg: #ffffff;
+      --surface: #f4f7fb;
+      --border: #d9e2ec;
+      --error: #c0392b;        /* rojo para errores (contraste AA sobre blanco) */
+      --ok: #1e8b54;
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--surface);
+      line-height: 1.55;
+    }
+
+    /* ---------- Enlace "saltar al contenido" (accesibilidad) ---------- */
+    .skip-link {
+      position: absolute; left: -999px; top: 0;
+      background: var(--brand); color: #fff; padding: 10px 14px; z-index: 100;
+    }
+    .skip-link:focus { left: 8px; top: 8px; }
+
+    /* ---------- Cabecera ---------- */
+    .cf-header {
+      background: linear-gradient(135deg, var(--brand), var(--accent));
+      color: #fff;
+      padding: 22px 16px;
+    }
+    .cf-header-inner {
+      max-width: 680px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    }
+    .cf-brand { font-weight: 700; font-size: 1.15rem; letter-spacing: .5px; }
+    .cf-brand small { display: block; font-weight: 400; font-size: .72rem; opacity: .9; letter-spacing: 1px; text-transform: uppercase; }
+
+    /* Selector de idioma */
+    .cf-lang label { font-size: .72rem; display: block; opacity: .9; margin-bottom: 2px; }
+    .cf-lang select {
+      background: rgba(255,255,255,.16);
+      color: #fff; border: 1px solid rgba(255,255,255,.4);
+      border-radius: 8px; padding: 5px 8px; font-size: .85rem; cursor: pointer;
+    }
+    .cf-lang select option { color: var(--ink); }
+
+    /* ---------- Contenedor / tarjeta del formulario ---------- */
+    main { max-width: 680px; margin: 0 auto; padding: 24px 16px 96px; }
+
+    .cf-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 32px rgba(7, 36, 64, .10);
+      padding: 26px 24px;
+    }
+
+    .cf-title { color: var(--brand-dark); margin: 0 0 6px; font-size: 1.4rem; }
+    .cf-intro { color: var(--muted); margin: 0 0 20px; font-size: .95rem; }
+    .cf-required-note { color: var(--muted); font-size: .82rem; margin: 0 0 18px; }
+
+    /* ---------- Campos ---------- */
+    .cf-field { margin-bottom: 16px; }
+    .cf-row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .cf-row .cf-field { flex: 1 1 240px; }
+
+    .cf-field label {
+      display: block; font-weight: 600; font-size: .9rem; margin-bottom: 6px; color: var(--ink);
+    }
+    .cf-req { color: var(--error); }         /* asterisco de obligatorio */
+
+    .cf-field input,
+    .cf-field select,
+    .cf-field textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 11px 12px;
+      font-size: .95rem;
+      font-family: inherit;
+      color: var(--ink);
+      background: #fff;
+    }
+    .cf-field textarea { min-height: 130px; resize: vertical; }
+
+    /* Foco visible (accesibilidad / navegación por teclado) */
+    .cf-field input:focus,
+    .cf-field select:focus,
+    .cf-field textarea:focus {
+      outline: 2px solid var(--accent);
+      outline-offset: 0;
+      border-color: var(--accent);
+    }
+
+    /* Estado de error */
+    .cf-field.has-error input,
+    .cf-field.has-error select,
+    .cf-field.has-error textarea {
+      border-color: var(--error);
+    }
+    .cf-error {
+      display: none;               /* oculto hasta que hay error */
+      color: var(--error);
+      font-size: .82rem;
+      margin-top: 5px;
+    }
+    .cf-field.has-error .cf-error { display: block; }
+
+    /* ---------- Botón enviar ---------- */
+    .cf-submit {
+      background: var(--brand); color: #fff;
+      border: 0; border-radius: 10px;
+      padding: 13px 26px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; width: 100%;
+      transition: background .15s ease;
+    }
+    .cf-submit:hover { background: var(--brand-dark); }
+    .cf-submit:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+    /* ---------- Mensaje de confirmación (demo) ---------- */
+    .cf-success { display: none; text-align: center; padding: 20px 8px; }
+    .cf-success.show { display: block; }
+    .cf-success .cf-check {
+      width: 62px; height: 62px; border-radius: 50%;
+      background: var(--ok); color: #fff;
+      display: grid; place-items: center; margin: 0 auto 14px;
+      font-size: 2rem;
+    }
+    .cf-success h2 { color: var(--brand-dark); margin: 0 0 8px; }
+    .cf-success p { color: var(--muted); margin: 0 auto 18px; max-width: 460px; }
+    .cf-again {
+      background: transparent; color: var(--brand);
+      border: 1.5px solid var(--brand);
+      border-radius: 10px; padding: 10px 20px; font-size: .95rem; font-weight: 600; cursor: pointer;
+    }
+    .cf-again:hover { background: var(--brand); color: #fff; }
+
+    /* ---------- Enlace volver ---------- */
+    .cf-back { display: inline-block; margin-top: 18px; color: var(--brand); text-decoration: none; font-size: .9rem; }
+    .cf-back:hover { text-decoration: underline; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 520px) {
+      .cf-row { flex-direction: column; gap: 0; }
+      .cf-card { padding: 20px 16px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cf-submit { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#formTitle">Saltar al contenido</a>
+
+  <!-- ================= Cabecera con selector de idioma ================= -->
+  <header class="cf-header">
+    <div class="cf-header-inner">
+      <div class="cf-brand">COELBO<small>Control System</small></div>
+      <div class="cf-lang">
+        <label for="langSelect" id="langLabel">Idioma</label>
+        <select id="langSelect" aria-labelledby="langLabel">
+          <option value="ca">CA</option>
+          <option value="es" selected>ES</option>
+          <option value="en">EN</option>
+          <option value="fr">FR</option>
+          <option value="it">IT</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="cf-card">
+      <!-- ============== Formulario ============== -->
+      <form id="contactForm" novalidate>
+        <h1 class="cf-title" id="formTitle">Contacto</h1>
+        <p class="cf-intro" id="formIntro">
+          ¿El asistente no ha podido resolver su consulta? Escríbanos y nuestro
+          equipo se pondrá en contacto con usted.
+        </p>
+        <p class="cf-required-note" id="requiredNote">Los campos marcados con * son obligatorios.</p>
+
+        <!-- Nombre completo (obligatorio) -->
+        <div class="cf-field" id="field-nombre">
+          <label for="nombre" data-i18n="labelName">Nombre completo <span class="cf-req">*</span></label>
+          <input type="text" id="nombre" name="nombre" autocomplete="name"
+                 aria-required="true" aria-describedby="err-nombre">
+          <span class="cf-error" id="err-nombre" role="alert"></span>
+        </div>
+
+        <!-- Empresa (opcional) y Email (obligatorio) en una fila -->
+        <div class="cf-row">
+          <div class="cf-field" id="field-empresa">
+            <label for="empresa" data-i18n="labelCompany">Empresa</label>
+            <input type="text" id="empresa" name="empresa" autocomplete="organization">
+          </div>
+          <div class="cf-field" id="field-email">
+            <label for="email" data-i18n="labelEmail">Email <span class="cf-req">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email"
+                   aria-required="true" aria-describedby="err-email">
+            <span class="cf-error" id="err-email" role="alert"></span>
+          </div>
+        </div>
+
+        <!-- Teléfono (opcional) y Familia (obligatorio) en una fila -->
+        <div class="cf-row">
+          <div class="cf-field" id="field-telefono">
+            <label for="telefono" data-i18n="labelPhone">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+          </div>
+          <div class="cf-field" id="field-familia">
+            <label for="familia" data-i18n="labelFamily">Familia de producto <span class="cf-req">*</span></label>
+            <select id="familia" name="familia" aria-required="true" aria-describedby="err-familia">
+              <option value="" data-i18n="familyPlaceholder">Selecciona…</option>
+              <option value="PressflowTech">PressflowTech</option>
+              <option value="HiTech">HiTech</option>
+              <option value="SmartTech">SmartTech</option>
+              <option value="no_lo_se" data-i18n="familyUnknown">No lo sé</option>
+            </select>
+            <span class="cf-error" id="err-familia" role="alert"></span>
+          </div>
+        </div>
+
+        <!-- Asunto (obligatorio) -->
+        <div class="cf-field" id="field-asunto">
+          <label for="asunto" data-i18n="labelSubject">Asunto <span class="cf-req">*</span></label>
+          <input type="text" id="asunto" name="asunto"
+                 aria-required="true" aria-describedby="err-asunto">
+          <span class="cf-error" id="err-asunto" role="alert"></span>
+        </div>
+
+        <!-- Mensaje (obligatorio) -->
+        <div class="cf-field" id="field-mensaje">
+          <label for="mensaje" data-i18n="labelMessage">Mensaje <span class="cf-req">*</span></label>
+          <textarea id="mensaje" name="mensaje"
+                    aria-required="true" aria-describedby="err-mensaje"></textarea>
+          <span class="cf-error" id="err-mensaje" role="alert"></span>
+        </div>
+
+        <button type="submit" class="cf-submit" id="submitBtn">Enviar</button>
+      </form>
+
+      <!-- ============== Confirmación simulada (demo) ============== -->
+      <div class="cf-success" id="successBox" role="status" aria-live="polite">
+        <div class="cf-check" aria-hidden="true">✓</div>
+        <h2 id="successTitle">¡Mensaje enviado!</h2>
+        <p id="successMsg"></p>
+        <button type="button" class="cf-again" id="againBtn">Enviar otro mensaje</button>
+      </div>
+
+      <a class="cf-back" href="index.html" id="backLink">← Volver a la web</a>
+    </div>
+  </main>
+
+  <script>
+  /* =========================================================
+     Lógica del formulario de contacto
+     ========================================================= */
+  (function () {
+    'use strict';
+
+    /* ------- Correo de destino (demo; no se envía de verdad) ------- */
+    var EMAIL_COELBO = 'comercial@coelbo.es';
+
+    /* =========================================================
+       1) OBJETO DE TRADUCCIONES (5 idiomas)
+          Cada idioma traduce: título, intro, etiquetas,
+          placeholders, opciones, mensajes de error, botones
+          y el mensaje de confirmación.
+       ========================================================= */
+    var I18N = {
+      ca: {
+        htmlLang: 'ca',
+        langLabel: 'Idioma',
+        title: 'Contacte',
+        intro: 'L\'assistent no ha pogut resoldre la seva consulta? Escrigui\'ns i el nostre equip es posarà en contacte amb vostè.',
+        requiredNote: 'Els camps marcats amb * són obligatoris.',
+        labelName: 'Nom complet', labelCompany: 'Empresa', labelEmail: 'Correu electrònic',
+        labelPhone: 'Telèfon', labelFamily: 'Família de producte', labelSubject: 'Assumpte', labelMessage: 'Missatge',
+        phName: 'El seu nom i cognoms', phCompany: 'Nom de l\'empresa (opcional)',
+        phEmail: 'nom@empresa.com', phPhone: 'Telèfon de contacte (opcional)',
+        phSubject: 'Motiu de la consulta', phMessage: 'Expliqui\'ns la seva consulta…',
+        familyPlaceholder: 'Seleccioni…', familyUnknown: 'No ho sé',
+        submit: 'Enviar',
+        errRequired: 'Aquest camp és obligatori.',
+        errEmail: 'Introdueixi un correu electrònic vàlid.',
+        successTitle: 'Missatge enviat!',
+        successMsg: 'Gràcies per contactar amb COELBO. En una implementació real, la seva consulta s\'enviaria a ' + EMAIL_COELBO + ' i el nostre equip li respondria com abans millor.',
+        again: 'Enviar un altre missatge',
+        back: '← Tornar al web'
+      },
+      es: {
+        htmlLang: 'es',
+        langLabel: 'Idioma',
+        title: 'Contacto',
+        intro: '¿El asistente no ha podido resolver su consulta? Escríbanos y nuestro equipo se pondrá en contacto con usted.',
+        requiredNote: 'Los campos marcados con * son obligatorios.',
+        labelName: 'Nombre completo', labelCompany: 'Empresa', labelEmail: 'Email',
+        labelPhone: 'Teléfono', labelFamily: 'Familia de producto', labelSubject: 'Asunto', labelMessage: 'Mensaje',
+        phName: 'Su nombre y apellidos', phCompany: 'Nombre de la empresa (opcional)',
+        phEmail: 'nombre@empresa.com', phPhone: 'Teléfono de contacto (opcional)',
+        phSubject: 'Motivo de la consulta', phMessage: 'Cuéntenos su consulta…',
+        familyPlaceholder: 'Selecciona…', familyUnknown: 'No lo sé',
+        submit: 'Enviar',
+        errRequired: 'Este campo es obligatorio.',
+        errEmail: 'Introduzca un email válido.',
+        successTitle: '¡Mensaje enviado!',
+        successMsg: 'Gracias por contactar con COELBO. En una implementación real, su consulta se enviaría a ' + EMAIL_COELBO + ' y nuestro equipo le respondería lo antes posible.',
+        again: 'Enviar otro mensaje',
+        back: '← Volver a la web'
+      },
+      en: {
+        htmlLang: 'en',
+        langLabel: 'Language',
+        title: 'Contact',
+        intro: 'Couldn\'t the assistant solve your query? Write to us and our team will get back to you.',
+        requiredNote: 'Fields marked with * are required.',
+        labelName: 'Full name', labelCompany: 'Company', labelEmail: 'Email',
+        labelPhone: 'Phone', labelFamily: 'Product family', labelSubject: 'Subject', labelMessage: 'Message',
+        phName: 'Your first and last name', phCompany: 'Company name (optional)',
+        phEmail: 'name@company.com', phPhone: 'Contact phone (optional)',
+        phSubject: 'Reason for your enquiry', phMessage: 'Tell us about your enquiry…',
+        familyPlaceholder: 'Select…', familyUnknown: 'I don\'t know',
+        submit: 'Send',
+        errRequired: 'This field is required.',
+        errEmail: 'Please enter a valid email.',
+        successTitle: 'Message sent!',
+        successMsg: 'Thank you for contacting COELBO. In a real implementation, your enquiry would be sent to ' + EMAIL_COELBO + ' and our team would reply as soon as possible.',
+        again: 'Send another message',
+        back: '← Back to the website'
+      },
+      fr: {
+        htmlLang: 'fr',
+        langLabel: 'Langue',
+        title: 'Contact',
+        intro: 'L\'assistant n\'a pas pu résoudre votre demande ? Écrivez-nous et notre équipe vous recontactera.',
+        requiredNote: 'Les champs marqués d\'un * sont obligatoires.',
+        labelName: 'Nom complet', labelCompany: 'Entreprise', labelEmail: 'E-mail',
+        labelPhone: 'Téléphone', labelFamily: 'Famille de produit', labelSubject: 'Objet', labelMessage: 'Message',
+        phName: 'Vos nom et prénom', phCompany: 'Nom de l\'entreprise (facultatif)',
+        phEmail: 'nom@entreprise.com', phPhone: 'Téléphone de contact (facultatif)',
+        phSubject: 'Motif de la demande', phMessage: 'Décrivez-nous votre demande…',
+        familyPlaceholder: 'Sélectionnez…', familyUnknown: 'Je ne sais pas',
+        submit: 'Envoyer',
+        errRequired: 'Ce champ est obligatoire.',
+        errEmail: 'Veuillez saisir un e-mail valide.',
+        successTitle: 'Message envoyé !',
+        successMsg: 'Merci d\'avoir contacté COELBO. Dans une implémentation réelle, votre demande serait envoyée à ' + EMAIL_COELBO + ' et notre équipe vous répondrait dans les plus brefs délais.',
+        again: 'Envoyer un autre message',
+        back: '← Retour au site'
+      },
+      it: {
+        htmlLang: 'it',
+        langLabel: 'Lingua',
+        title: 'Contatto',
+        intro: 'L\'assistente non ha potuto risolvere la sua richiesta? Ci scriva e il nostro team la ricontatterà.',
+        requiredNote: 'I campi contrassegnati con * sono obbligatori.',
+        labelName: 'Nome completo', labelCompany: 'Azienda', labelEmail: 'Email',
+        labelPhone: 'Telefono', labelFamily: 'Famiglia di prodotto', labelSubject: 'Oggetto', labelMessage: 'Messaggio',
+        phName: 'Nome e cognome', phCompany: 'Nome dell\'azienda (facoltativo)',
+        phEmail: 'nome@azienda.com', phPhone: 'Telefono di contatto (facoltativo)',
+        phSubject: 'Motivo della richiesta', phMessage: 'Ci racconti la sua richiesta…',
+        familyPlaceholder: 'Seleziona…', familyUnknown: 'Non lo so',
+        submit: 'Invia',
+        errRequired: 'Questo campo è obbligatorio.',
+        errEmail: 'Inserisca un\'email valida.',
+        successTitle: 'Messaggio inviato!',
+        successMsg: 'Grazie per aver contattato COELBO. In un\'implementazione reale, la sua richiesta verrebbe inviata a ' + EMAIL_COELBO + ' e il nostro team le risponderebbe al più presto.',
+        again: 'Invia un altro messaggio',
+        back: '← Torna al sito'
+      }
+    };
+
+    /* Idioma activo (por defecto español, como la web) */
+    var lang = 'es';
+
+    /* Referencias a elementos del DOM */
+    var form = document.getElementById('contactForm');
+    var langSelect = document.getElementById('langSelect');
+    var successBox = document.getElementById('successBox');
+    var againBtn = document.getElementById('againBtn');
+
+    /* Placeholders por campo (id -> clave de traducción) */
+    var PLACEHOLDERS = {
+      nombre: 'phName', empresa: 'phCompany', email: 'phEmail',
+      telefono: 'phPhone', asunto: 'phSubject', mensaje: 'phMessage'
+    };
+
+    /* Campos obligatorios y su tipo de validación */
+    var REQUIRED = ['nombre', 'email', 'familia', 'asunto', 'mensaje'];
+
+    /* =========================================================
+       2) APLICAR IDIOMA: traduce textos, etiquetas y placeholders
+       ========================================================= */
+    function applyLang() {
+      var t = I18N[lang];
+      document.documentElement.lang = t.htmlLang;
+
+      /* Textos fijos */
+      document.getElementById('langLabel').textContent = t.langLabel;
+      document.getElementById('formTitle').textContent = t.title;
+      document.getElementById('formIntro').textContent = t.intro;
+      document.getElementById('requiredNote').textContent = t.requiredNote;
+      document.getElementById('submitBtn').textContent = t.submit;
+      document.getElementById('againBtn').textContent = t.again;
+      document.getElementById('backLink').textContent = t.back;
+      document.getElementById('successTitle').textContent = t.successTitle;
+      document.getElementById('successMsg').textContent = t.successMsg;
+
+      /* Etiquetas con asterisco (respeta el * de los obligatorios) */
+      setLabel('nombre', t.labelName, true);
+      setLabel('empresa', t.labelCompany, false);
+      setLabel('email', t.labelEmail, true);
+      setLabel('telefono', t.labelPhone, false);
+      setLabel('familia', t.labelFamily, true);
+      setLabel('asunto', t.labelSubject, true);
+      setLabel('mensaje', t.labelMessage, true);
+
+      /* Placeholders */
+      for (var id in PLACEHOLDERS) {
+        if (PLACEHOLDERS.hasOwnProperty(id)) {
+          var el = document.getElementById(id);
+          if (el) { el.setAttribute('placeholder', t[PLACEHOLDERS[id]]); }
+        }
+      }
+
+      /* Opciones del desplegable de familia */
+      form.querySelector('#familia option[value=""]').textContent = t.familyPlaceholder;
+      form.querySelector('#familia option[value="no_lo_se"]').textContent = t.familyUnknown;
+
+      /* Vuelve a traducir los errores que estén visibles */
+      REQUIRED.forEach(function (id) {
+        var field = document.getElementById('field-' + id);
+        if (field && field.classList.contains('has-error')) { validateField(id); }
+      });
+    }
+
+    /* Escribe la etiqueta y, si es obligatorio, le añade el asterisco */
+    function setLabel(id, text, required) {
+      var label = document.querySelector('label[for="' + id + '"]');
+      if (!label) { return; }
+      label.innerHTML = '';
+      label.appendChild(document.createTextNode(text + ' '));
+      if (required) {
+        var star = document.createElement('span');
+        star.className = 'cf-req';
+        star.textContent = '*';
+        label.appendChild(star);
+      }
+    }
+
+    /* =========================================================
+       3) VALIDACIÓN
+       ========================================================= */
+    /* Expresión regular sencilla para validar el formato del email */
+    function emailValido(valor) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+    }
+
+    /* Valida un campo concreto; devuelve true si es correcto */
+    function validateField(id) {
+      var t = I18N[lang];
+      var el = document.getElementById(id);
+      var field = document.getElementById('field-' + id);
+      var errEl = document.getElementById('err-' + id);
+      var valor = (el.value || '').trim();
+      var mensajeError = '';
+
+      /* Regla 1: obligatorio */
+      if (REQUIRED.indexOf(id) !== -1 && valor === '') {
+        mensajeError = t.errRequired;
+      /* Regla 2: email con formato válido */
+      } else if (id === 'email' && valor !== '' && !emailValido(valor)) {
+        mensajeError = t.errEmail;
+      }
+
+      if (mensajeError) {
+        field.classList.add('has-error');
+        errEl.textContent = mensajeError;
+        el.setAttribute('aria-invalid', 'true');
+        return false;
+      } else {
+        field.classList.remove('has-error');
+        errEl.textContent = '';
+        el.setAttribute('aria-invalid', 'false');
+        return true;
+      }
+    }
+
+    /* =========================================================
+       4) EVENTOS
+       ========================================================= */
+    /* Cambio de idioma */
+    langSelect.addEventListener('change', function () {
+      lang = langSelect.value;
+      applyLang();
+    });
+
+    /* Limpiar el error de un campo mientras el usuario lo corrige */
+    form.addEventListener('input', function (e) {
+      var id = e.target.id;
+      if (document.getElementById('field-' + id) &&
+          document.getElementById('field-' + id).classList.contains('has-error')) {
+        validateField(id);
+      }
+    });
+
+    /* Envío del formulario */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();  /* evitamos el envío real (es una demo) */
+
+      /* Validamos todos los campos obligatorios */
+      var todoOk = true;
+      var primerError = null;
+      REQUIRED.forEach(function (id) {
+        var ok = validateField(id);
+        if (!ok && !primerError) { primerError = id; }
+        if (!ok) { todoOk = false; }
+      });
+
+      if (!todoOk) {
+        /* Llevamos el foco al primer campo con error (accesibilidad) */
+        if (primerError) { document.getElementById(primerError).focus(); }
+        return;
+      }
+
+      /* --- Envío SIMULADO: mostramos la confirmación (demo) --- */
+      /* (En una implementación real aquí se enviaría a un backend
+         o a un servicio tipo Formspree/EmailJS hacia comercial@coelbo.es) */
+      form.style.display = 'none';
+      successBox.classList.add('show');
+      successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    /* Botón "Enviar otro mensaje": reinicia el formulario */
+    againBtn.addEventListener('click', function () {
+      form.reset();
+      REQUIRED.forEach(function (id) {
+        var field = document.getElementById('field-' + id);
+        if (field) { field.classList.remove('has-error'); }
+      });
+      successBox.classList.remove('show');
+      form.style.display = '';
+      document.getElementById('nombre').focus();
+    });
+
+    /* Inicializamos con el idioma por defecto */
+    applyLang();
+  })();
+  </script>
+
+  <!-- Asistente virtual COELBO (chatbot) -->
+  <script src="../chatbot/chatbot.js" defer></script>
+</body>
+</html>
