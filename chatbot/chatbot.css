@@ -85,31 +85,33 @@
   display: flex; align-items: center; justify-content: space-between;
   gap: 10px;
   padding: 12px 14px;
-  background: linear-gradient(135deg, var(--cc-brand), var(--cc-accent));
-  color: #fff;
+  /* Cabecera blanca con el logo, igual que la cabecera de la web */
+  background: #fff;
+  color: var(--cc-text);
+  border-bottom: 1px solid var(--cc-border);
 }
-.cc-head-info { display: flex; flex-direction: column; min-width: 0; }
-.cc-title { font-weight: 700; font-size: 1rem; }
-.cc-subtitle { font-size: .78rem; opacity: .9; }
+.cc-head-info { display: flex; flex-direction: column; min-width: 0; gap: 3px; }
+.cc-logo { height: 24px; width: auto; display: block; }
+.cc-subtitle { font-size: .78rem; color: var(--cc-muted); }
 .cc-head-actions { display: flex; align-items: center; gap: 6px; }
 .cc-lang {
-  background: rgba(255, 255, 255, .18);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, .35);
+  background: var(--cc-surface);
+  color: var(--cc-text);
+  border: 1px solid var(--cc-border);
   border-radius: 8px;
   padding: 4px 6px;
   font-size: .8rem;
   cursor: pointer;
 }
-.cc-lang option { color: #1d2733; }
+.cc-lang option { color: var(--cc-text); }
 .cc-close {
-  background: transparent; border: 0; color: #fff;
+  background: transparent; border: 0; color: var(--cc-muted);
   cursor: pointer; display: grid; place-items: center;
   width: 32px; height: 32px; border-radius: 8px;
 }
-.cc-close:hover { background: rgba(255, 255, 255, .18); }
+.cc-close:hover { background: var(--cc-surface); }
 .cc-close:focus-visible,
-.cc-lang:focus-visible { outline: 2px solid #fff; outline-offset: 1px; }
+.cc-lang:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 1px; }
 
 /* ---------- Conversa ---------- */
 .cc-log {

@@ -16,6 +16,8 @@
   var EMAIL = 'coelbo@coelbo.es';
   var PHONE = '(+34) 93 736 29 50';
   var SUPPORTED = ['ca', 'es', 'en', 'fr', 'it'];
+  /* Logo oficial de COELBO (se muestra en la cabecera del widget, como en la web) */
+  var LOGO = 'https://www.coelbo.es/img/coelbo_logo.png';
 
   /* ---------- Normalització de text (minúscules, sense accents) ---------- */
   function normalize(str) {
@@ -354,7 +356,7 @@
       '<section class="cc-panel" role="dialog" aria-modal="false" aria-label="COELBO" hidden>' +
         '<header class="cc-head">' +
           '<div class="cc-head-info">' +
-            '<span class="cc-title"></span>' +
+            '<img class="cc-logo" alt="COELBO" src="' + LOGO + '">' +
             '<span class="cc-subtitle"></span>' +
           '</div>' +
           '<div class="cc-head-actions">' +
@@ -383,7 +385,6 @@
     var els = {
       launcher: root.querySelector('.cc-launcher'),
       panel: root.querySelector('.cc-panel'),
-      title: root.querySelector('.cc-title'),
       subtitle: root.querySelector('.cc-subtitle'),
       langSel: root.querySelector('.cc-lang'),
       langSr: root.querySelector('.cc-sr'),
@@ -402,7 +403,6 @@
 
     function applyLang() {
       var s = t();
-      els.title.textContent = s.title;
       els.subtitle.textContent = s.subtitle;
       els.langSr.textContent = s.langLabel;
       els.close.setAttribute('aria-label', s.close);
