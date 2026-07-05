@@ -32,6 +32,15 @@
   /* Intenciones que el asistente NO resuelve (deriva): ofrecen el botón de contacto */
   var DERIVE_INTENTS = ['price', 'config', 'error', 'compat', 'warranty', 'stock', 'fallback'];
 
+  /* Aviso, en el mensaje de bienvenida, de que se puede cambiar de idioma */
+  var LANG_HINT = {
+    ca: 'Pot canviar l\'idioma amb el selector de dalt a la dreta.',
+    es: 'Puede cambiar el idioma con el selector de arriba a la derecha.',
+    en: 'You can change the language with the selector at the top right.',
+    fr: 'Vous pouvez changer de langue avec le sélecteur en haut à droite.',
+    it: 'Può cambiare lingua con il selettore in alto a destra.'
+  };
+
   /* ---------- Normalització de text (minúscules, sense accents) ---------- */
   function normalize(str) {
     return (str || '')
@@ -360,8 +369,8 @@
      Widget d'interfície
      ========================================================= */
   function buildWidget() {
-    var initial = (document.documentElement.lang || '').slice(0, 2).toLowerCase();
-    var lang = SUPPORTED.indexOf(initial) !== -1 ? initial : 'es';
+    /* El asistente arranca SIEMPRE en inglés; el usuario puede cambiar el idioma */
+    var lang = 'en';
 
     var root = document.createElement('div');
     root.className = 'coelbo-chat';
@@ -416,8 +425,14 @@
     };
 
     var started = false;
+    var welcomeMsg = null;   /* referencia al mensaje de bienvenida para retraducirlo */
 
     function t() { return I18N[lang]; }
+
+    /* Texto de bienvenida = saludo + aviso para cambiar de idioma, en el idioma actual */
+    function welcomeText() {
+      return t().welcome + ' ' + (LANG_HINT[lang] || '');
+    }
 
     function applyLang() {
       var s = t();
@@ -430,6 +445,11 @@
       els.foot.textContent = s.disclaimer;
       els.launcher.setAttribute('aria-label', s.open);
       els.langSel.value = lang;
+      /* Si ya se mostró la bienvenida, la retraducimos al idioma actual */
+      if (welcomeMsg) {
+        var bubble = welcomeMsg.querySelector('.cc-bubble');
+        if (bubble) { bubble.textContent = welcomeText(); }
+      }
     }
 
     function addMsg(who, textContent) {
@@ -492,7 +512,7 @@
       root.classList.add('is-open');
       if (!started) {
         started = true;
-        addMsg('bot', t().welcome);
+        welcomeMsg = addMsg('bot', welcomeText());
       }
       window.setTimeout(function () { els.input.focus(); }, 50);
     }
