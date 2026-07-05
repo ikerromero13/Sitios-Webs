@@ -368,7 +368,9 @@
               '</select>' +
             '</label>' +
             '<button class="cc-close" type="button" aria-label="">' +
-              '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 6.7 17.3 5.29 15.88 9.18 12 5.29 8.12 6.7 6.71l3.89 3.88L16.89 4.3z"/></svg>' +
+              '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">' +
+                '<path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" d="M6 6 L18 18 M18 6 L6 18"/>' +
+              '</svg>' +
             '</button>' +
           '</div>' +
         '</header>' +
