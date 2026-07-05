@@ -19,6 +19,19 @@
   /* Logo oficial de COELBO (se muestra en la cabecera del widget, como en la web) */
   var LOGO = 'https://www.coelbo.es/img/coelbo_logo.png';
 
+  /* Enlace al formulario de contacto (relativo a la página donde se incrusta) */
+  var CONTACT_URL = 'contacto.html';
+  /* Texto del botón "ir al formulario" por idioma */
+  var CTA = {
+    ca: 'Anar al formulari de contacte',
+    es: 'Ir al formulario de contacto',
+    en: 'Go to the contact form',
+    fr: 'Aller au formulaire de contact',
+    it: 'Vai al modulo di contatto'
+  };
+  /* Intenciones que el asistente NO resuelve (deriva): ofrecen el botón de contacto */
+  var DERIVE_INTENTS = ['price', 'config', 'error', 'compat', 'warranty', 'stock', 'fallback'];
+
   /* ---------- Normalització de text (minúscules, sense accents) ---------- */
   function normalize(str) {
     return (str || '')
@@ -333,7 +346,11 @@
     var lang = (detected && SUPPORTED.indexOf(detected) !== -1) ? detected : currentLang;
     var intent = classify(text);
     var key = INTENT_MAP[intent] || 'fallback';
-    return { lang: lang, reply: I18N[lang][key] };
+    return {
+      lang: lang,
+      reply: I18N[lang][key],
+      contact: DERIVE_INTENTS.indexOf(intent) !== -1  /* true si no lo puede resolver */
+    };
   }
 
   /* Exposat per a proves o integració avançada */
@@ -376,7 +393,6 @@
           '</div>' +
         '</header>' +
         '<div class="cc-log" role="log" aria-live="polite" aria-atomic="false"></div>' +
-        '<div class="cc-chips"></div>' +
         '<form class="cc-form">' +
           '<input class="cc-input" type="text" autocomplete="off" />' +
           '<button class="cc-send" type="submit"></button>' +
@@ -393,7 +409,6 @@
       langSr: root.querySelector('.cc-sr'),
       close: root.querySelector('.cc-close'),
       log: root.querySelector('.cc-log'),
-      chips: root.querySelector('.cc-chips'),
       form: root.querySelector('.cc-form'),
       input: root.querySelector('.cc-input'),
       send: root.querySelector('.cc-send'),
@@ -415,7 +430,6 @@
       els.foot.textContent = s.disclaimer;
       els.launcher.setAttribute('aria-label', s.open);
       els.langSel.value = lang;
-      renderChips();
     }
 
     function addMsg(who, textContent) {
@@ -446,19 +460,22 @@
         if (res.lang !== lang) { lang = res.lang; applyLang(); }
         typing.parentNode.removeChild(typing);
         addMsg('bot', res.reply);
+        /* Si el asistente no lo puede resolver, ofrece ir al formulario de contacto */
+        if (res.contact) { addContactCta(); }
       }, 450);
     }
 
-    function renderChips() {
-      els.chips.innerHTML = '';
-      t().chips.forEach(function (label) {
-        var b = document.createElement('button');
-        b.type = 'button';
-        b.className = 'cc-chip';
-        b.textContent = label;
-        b.addEventListener('click', function () { submitText(label); });
-        els.chips.appendChild(b);
-      });
+    /* Añade un botón que lleva directamente al formulario de contacto */
+    function addContactCta() {
+      var msg = document.createElement('div');
+      msg.className = 'cc-msg cc-bot';
+      var link = document.createElement('a');
+      link.className = 'cc-cta';
+      link.href = CONTACT_URL;
+      link.textContent = CTA[lang] || CTA.es;
+      msg.appendChild(link);
+      els.log.appendChild(msg);
+      els.log.scrollTop = els.log.scrollHeight;
     }
 
     function submitText(value) {
