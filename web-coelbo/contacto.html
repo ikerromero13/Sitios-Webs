@@ -1,629 +1,697 @@
 <!doctype html>
-<!--
-  =========================================================
-  COELBO — Formulario de contacto (demo TDR)
-  Vía de escalado del chatbot: cuando el asistente no puede
-  resolver una consulta, deriva al usuario a este formulario.
-
-  Archivo HTML único y autónomo: HTML + CSS + JS en línea.
-  - Multilingüe (CA / ES / EN / FR / IT) con objeto de traducciones.
-  - Validación en JavaScript (email válido, campos obligatorios).
-  - "Familia de producto" es OPCIONAL.
-  - Diseño coherente con el chatbot (azul corporativo #0a4d8c).
-  - Debajo del formulario: datos de contacto (ubicación y correos).
-  - Al enviar: mensaje de confirmación SIMULADO (demo).
-  Comentarios en español para poder explicarlo en el TDR.
-  =========================================================
--->
-<html lang="es">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es_ES" xml:lang="es_ES">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="robots" content="noindex, nofollow">
-  <title>COELBO — Contacto</title>
+    <!-- Cookie Consent by https://www.FreePrivacyPolicy.com -->
+<script type="text/javascript" src="https://www.coelbo.es/js/cookie-consent.js" charset="UTF-8"></script>
+<script type="text/javascript" charset="UTF-8">
+    document.addEventListener('DOMContentLoaded', function () {
+        cookieconsent.run({"notice_banner_type":"interstitial","consent_type":"express","palette":"light","language":"es","page_load_consent_levels":["strictly-necessary"],"notice_banner_reject_button_hide":false,"preferences_center_close_button_hide":false,"page_refresh_confirmation_buttons":false,"website_name":"www.coelbo.es","open_preferences_center_selector":"#cookie_settings","website_privacy_policy_url":"http://www.coelbo.es/es/index.php?cont=politica_cookies#t"});
+    });
+</script>
+<!-- End Cookie Consent -->
 
-  <!-- Asistente virtual COELBO (chatbot): también disponible en esta página -->
-  <link rel="stylesheet" href="../chatbot/chatbot.css">
+    <!-- google analytics -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script type="text/plain" cookie-consent="tracking" async src="https://www.googletagmanager.com/gtag/js?id=UA-27012259-1"></script>
+<script type="text/plain" cookie-consent="tracking">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-  <style>
-    /* ---------- Paleta (misma que el chatbot y la web) ---------- */
-    :root {
-      --brand: #0a4d8c;        /* azul corporativo */
-      --brand-dark: #073a6b;
-      --accent: #1b9cd8;
-      --ink: #1d2733;
-      --muted: #5b6b7b;
-      --bg: #ffffff;
-      --surface: #f4f7fb;
-      --border: #d9e2ec;
-      --error: #c0392b;        /* rojo para errores (contraste AA sobre blanco) */
-      --ok: #1e8b54;
-      --radius: 14px;
-    }
+    gtag('config', 'UA-27012259-1');
+</script>
+<!-- end of google analytics-->    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>COELBO | Contacto</title>
+    <meta name="title" content="COELBO | Contacto">
+    <meta name="description" content="COELBO produce una completa gama de aparatos electrónicos universales - drivers - para el control de electrobombas">
+    <meta name="keywords" content="coelbo, electrobombas, aparatos electrónicos, drivers, pump, speedmatic, multimatic, onematic, controlpump, controlmatic, compact, optimatic"/>
+    <meta name="lang" content="es"/>
+    <meta name="robots" content="noindex,nofollow"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <script type="text/javascript" src="https://www.coelbo.es/css/iepngfix_tilebg.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/vendor/jquery.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/vendor/foundation.min.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/vendor/what-input.js"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/modernizr-custom.js?"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/jquery.nice-select.min.js?"></script>
+    <script type="text/javascript" src="https://www.coelbo.es/js/funcions.js?RL13"></script>
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="https://www.coelbo.es/css/all.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/foundation.min.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/estilo.css?RL13" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/normalize.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="https://www.coelbo.es/css/nice-select.css" rel="stylesheet" type="text/css" media="all"/>
 
-    * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      color: var(--ink);
-      background: var(--surface);
-      line-height: 1.55;
-    }
+            <link rel="stylesheet" href="https://www.coelbo.es/css/owl.carousel.min.css">
+        <link rel="stylesheet" href="https://www.coelbo.es/css/owl.theme.default.min.css">
 
-    /* ---------- Enlace "saltar al contenido" (accesibilidad) ---------- */
-    .skip-link {
-      position: absolute; left: -999px; top: 0;
-      background: var(--brand); color: #fff; padding: 10px 14px; z-index: 100;
-    }
-    .skip-link:focus { left: 8px; top: 8px; }
-
-    /* ---------- Cabecera ---------- */
-    .cf-header {
-      background: linear-gradient(135deg, var(--brand), var(--accent));
-      color: #fff;
-      padding: 22px 16px;
-    }
-    .cf-header-inner {
-      max-width: 680px; margin: 0 auto;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    }
-    .cf-brand { font-weight: 700; font-size: 1.15rem; letter-spacing: .5px; }
-    .cf-brand small { display: block; font-weight: 400; font-size: .72rem; opacity: .9; letter-spacing: 1px; text-transform: uppercase; }
-
-    /* Selector de idioma */
-    .cf-lang label { font-size: .72rem; display: block; opacity: .9; margin-bottom: 2px; }
-    .cf-lang select {
-      background: rgba(255,255,255,.16);
-      color: #fff; border: 1px solid rgba(255,255,255,.4);
-      border-radius: 8px; padding: 5px 8px; font-size: .85rem; cursor: pointer;
-    }
-    .cf-lang select option { color: var(--ink); }
-
-    /* ---------- Contenedor / tarjeta del formulario ---------- */
-    main { max-width: 680px; margin: 0 auto; padding: 24px 16px 96px; }
-
-    .cf-card {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: 0 12px 32px rgba(7, 36, 64, .10);
-      padding: 26px 24px;
-    }
-
-    .cf-title { color: var(--brand-dark); margin: 0 0 6px; font-size: 1.4rem; }
-    .cf-intro { color: var(--muted); margin: 0 0 20px; font-size: .95rem; }
-    .cf-required-note { color: var(--muted); font-size: .82rem; margin: 0 0 18px; }
-
-    /* ---------- Campos ---------- */
-    .cf-field { margin-bottom: 16px; }
-    .cf-row { display: flex; gap: 16px; flex-wrap: wrap; }
-    .cf-row .cf-field { flex: 1 1 240px; }
-
-    .cf-field label {
-      display: block; font-weight: 600; font-size: .9rem; margin-bottom: 6px; color: var(--ink);
-    }
-    .cf-req { color: var(--error); }         /* asterisco de obligatorio */
-
-    .cf-field input,
-    .cf-field select,
-    .cf-field textarea {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 11px 12px;
-      font-size: .95rem;
-      font-family: inherit;
-      color: var(--ink);
-      background: #fff;
-    }
-    .cf-field textarea { min-height: 130px; resize: vertical; }
-
-    /* Foco visible (accesibilidad / navegación por teclado) */
-    .cf-field input:focus,
-    .cf-field select:focus,
-    .cf-field textarea:focus {
-      outline: 2px solid var(--accent);
-      outline-offset: 0;
-      border-color: var(--accent);
-    }
-
-    /* Estado de error */
-    .cf-field.has-error input,
-    .cf-field.has-error select,
-    .cf-field.has-error textarea {
-      border-color: var(--error);
-    }
-    .cf-error {
-      display: none;               /* oculto hasta que hay error */
-      color: var(--error);
-      font-size: .82rem;
-      margin-top: 5px;
-    }
-    .cf-field.has-error .cf-error { display: block; }
-
-    /* ---------- Botón enviar ---------- */
-    .cf-submit {
-      background: var(--brand); color: #fff;
-      border: 0; border-radius: 10px;
-      padding: 13px 26px; font-size: 1rem; font-weight: 600;
-      cursor: pointer; width: 100%;
-      transition: background .15s ease;
-    }
-    .cf-submit:hover { background: var(--brand-dark); }
-    .cf-submit:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
-
-    /* ---------- Mensaje de confirmación (demo) ---------- */
-    .cf-success { display: none; text-align: center; padding: 20px 8px; }
-    .cf-success.show { display: block; }
-    .cf-success .cf-check {
-      width: 62px; height: 62px; border-radius: 50%;
-      background: var(--ok); color: #fff;
-      display: grid; place-items: center; margin: 0 auto 14px;
-      font-size: 2rem;
-    }
-    .cf-success h2 { color: var(--brand-dark); margin: 0 0 8px; }
-    .cf-success p { color: var(--muted); margin: 0 auto 18px; max-width: 460px; }
-    .cf-again {
-      background: transparent; color: var(--brand);
-      border: 1.5px solid var(--brand);
-      border-radius: 10px; padding: 10px 20px; font-size: .95rem; font-weight: 600; cursor: pointer;
-    }
-    .cf-again:hover { background: var(--brand); color: #fff; }
-
-    /* ---------- Datos de contacto (AÑADIDO debajo del formulario) ---------- */
-    .cf-contact {
-      margin-top: 18px;
-      border-top: 1px solid var(--border);
-      padding-top: 20px;
-    }
-    .cf-contact h2 { color: var(--brand-dark); font-size: 1.1rem; margin: 0 0 12px; }
-    .cf-contact-grid { display: flex; flex-wrap: wrap; gap: 20px; }
-    .cf-contact-block { flex: 1 1 240px; }
-    .cf-contact-block h3 {
-      font-size: .8rem; text-transform: uppercase; letter-spacing: .5px;
-      color: var(--accent); margin: 0 0 6px;
-    }
-    .cf-contact-block p { margin: 2px 0; color: var(--ink); font-size: .92rem; line-height: 1.5; }
-    .cf-contact-block a { color: var(--brand); }
-
-    /* ---------- Enlace volver ---------- */
-    .cf-back { display: inline-block; margin-top: 18px; color: var(--brand); text-decoration: none; font-size: .9rem; }
-    .cf-back:hover { text-decoration: underline; }
-
-    /* ---------- Responsive ---------- */
-    @media (max-width: 520px) {
-      .cf-row { flex-direction: column; gap: 0; }
-      .cf-card { padding: 20px 16px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .cf-submit { transition: none; }
-    }
-  </style>
+    <!-- Asistente virtual COELBO (chatbot) -->
+    <link rel="stylesheet" href="../chatbot/chatbot.css?v=3">
 </head>
-<body>
-  <a class="skip-link" href="#formTitle">Saltar al contenido</a>
-
-  <!-- ================= Cabecera con selector de idioma ================= -->
-  <header class="cf-header">
-    <div class="cf-header-inner">
-      <div class="cf-brand">COELBO<small>Control System</small></div>
-      <div class="cf-lang">
-        <label for="langSelect" id="langLabel">Idioma</label>
-        <select id="langSelect" aria-labelledby="langLabel">
-          <option value="ca">CA</option>
-          <option value="es" selected>ES</option>
-          <option value="en">EN</option>
-          <option value="fr">FR</option>
-          <option value="it">IT</option>
-        </select>
-      </div>
+<body leftmargin="0" marginheight="0" marginwidth="0" topmargin="0" id="inicio">
+<div class="background-menu-top">
+    <div class="off-canvas-wrapper-inner wrapper-layout" data-off-canvas-wrapper>
+        <!-- off-canvas title bar for 'small' screen -->
+<div class="title-bar bg-top-menu show-for-small-only" data-responsive-toggle="widemenu" data-hide-for="medium">
+    <div class="title-bar-left">
+        <button class="menu-icon" type="button" data-open="offCanvasLeft"></button>
     </div>
-  </header>
+</div>
 
-  <main id="main">
-    <div class="cf-card">
-      <!-- ============== Formulario ============== -->
-      <form id="contactForm" novalidate>
-        <h1 class="cf-title" id="formTitle">Contacto</h1>
-        <p class="cf-intro" id="formIntro">
-          ¿El asistente no ha podido resolver su consulta? Escríbanos y nuestro
-          equipo se pondrá en contacto con usted.
-        </p>
-        <p class="cf-required-note" id="requiredNote">Los campos marcados con * son obligatorios.</p>
+<!-- off-canvas left menu -->
+<div class="off-canvas position-left show-for-small-only background" id="offCanvasLeft" data-off-canvas>
+    <ul class="vertical menu" data-accordion-menu>
+        <li><a id="m0" href="https://www.coelbo.es/es/index.php?cont=inicio">Inicio</a></li>
+        <li><a id="m1" href="https://www.coelbo.es/es/index.php?cont=empresa">Empresa</a></li>
+        <li><a id="m2" href="javascript:;">Productos</a>
+            <ul class="menu vertical nested" data-submenu>
+                                        <li>
+                            <a id="sub21" href="https://www.coelbo.es/es/index.php?cont=pressflowtech">PressflowTech</a>
+                        </li>
+                                                <li>
+                            <a id="sub22" href="https://www.coelbo.es/es/index.php?cont=hitech">HiTech</a>
+                        </li>
+                                                <li>
+                            <a id="sub23" href="https://www.coelbo.es/es/index.php?cont=smarttech">SmartTech</a>
+                        </li>
+                                                <li>
+                            <a id="sub24" href="https://www.coelbo.es/es/index.php?cont=accesorios">Accesorios y Recambios</a>
+                        </li>
 
-        <!-- Nombre completo (obligatorio) -->
-        <div class="cf-field" id="field-nombre">
-          <label for="nombre">Nombre completo <span class="cf-req">*</span></label>
-          <input type="text" id="nombre" name="nombre" autocomplete="name"
-                 aria-required="true" aria-describedby="err-nombre">
-          <span class="cf-error" id="err-nombre" role="alert"></span>
-        </div>
-
-        <!-- Empresa (opcional) y Email (obligatorio) en una fila -->
-        <div class="cf-row">
-          <div class="cf-field" id="field-empresa">
-            <label for="empresa">Empresa</label>
-            <input type="text" id="empresa" name="empresa" autocomplete="organization">
-          </div>
-          <div class="cf-field" id="field-email">
-            <label for="email">Email <span class="cf-req">*</span></label>
-            <input type="email" id="email" name="email" autocomplete="email"
-                   aria-required="true" aria-describedby="err-email">
-            <span class="cf-error" id="err-email" role="alert"></span>
-          </div>
-        </div>
-
-        <!-- Teléfono (opcional) y Familia (OPCIONAL) en una fila -->
-        <div class="cf-row">
-          <div class="cf-field" id="field-telefono">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" name="telefono" autocomplete="tel">
-          </div>
-          <div class="cf-field" id="field-familia">
-            <label for="familia">Familia de producto</label>
-            <select id="familia" name="familia">
-              <option value="" data-i18n="familyPlaceholder">Selecciona…</option>
-              <option value="PressflowTech">PressflowTech</option>
-              <option value="HiTech">HiTech</option>
-              <option value="SmartTech">SmartTech</option>
-              <option value="no_lo_se" data-i18n="familyUnknown">No lo sé</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Asunto (obligatorio) -->
-        <div class="cf-field" id="field-asunto">
-          <label for="asunto">Asunto <span class="cf-req">*</span></label>
-          <input type="text" id="asunto" name="asunto"
-                 aria-required="true" aria-describedby="err-asunto">
-          <span class="cf-error" id="err-asunto" role="alert"></span>
-        </div>
-
-        <!-- Mensaje (obligatorio) -->
-        <div class="cf-field" id="field-mensaje">
-          <label for="mensaje">Mensaje <span class="cf-req">*</span></label>
-          <textarea id="mensaje" name="mensaje"
-                    aria-required="true" aria-describedby="err-mensaje"></textarea>
-          <span class="cf-error" id="err-mensaje" role="alert"></span>
-        </div>
-
-        <button type="submit" class="cf-submit" id="submitBtn">Enviar</button>
-      </form>
-
-      <!-- ============== Confirmación simulada (demo) ============== -->
-      <div class="cf-success" id="successBox" role="status" aria-live="polite">
-        <div class="cf-check" aria-hidden="true">&#10003;</div>
-        <h2 id="successTitle">¡Mensaje enviado!</h2>
-        <p id="successMsg"></p>
-        <button type="button" class="cf-again" id="againBtn">Enviar otro mensaje</button>
-      </div>
-
-      <!-- ============== Datos de contacto (AÑADIDO: ubicación y correos) ============== -->
-      <div class="cf-contact">
-        <h2 id="contactTitle">Datos de contacto</h2>
-        <div class="cf-contact-grid">
-          <!-- Ubicación -->
-          <div class="cf-contact-block">
-            <h3 id="locationLabel">Ubicación</h3>
-            <p><strong>COELBO CONTROL SYSTEM, S.L.</strong></p>
-            <p>Ctra. de Rubí, 288 (Pol. Ind. Can Guitard)</p>
-            <p>08228 Terrassa (SPAIN)</p>
-            <p><span id="phoneLabel">Teléfono</span>: (+34) 93 736 29 50</p>
-          </div>
-          <!-- Correos -->
-          <div class="cf-contact-block">
-            <h3 id="emailsLabel">Correos</h3>
-            <p><a href="mailto:comercial@coelbo.es">comercial@coelbo.es</a></p>
-            <p><a href="mailto:coelbo@coelbo.es">coelbo@coelbo.es</a></p>
-          </div>
-        </div>
-      </div>
-
-      <a class="cf-back" href="index.html" id="backLink">← Volver a la web</a>
+            </ul>
+        </li>
+        <li><a id="m3" href="javascript:;">Información técnica</a>
+            <ul class="menu vertical nested" data-submenu>
+               <li><a id="sub37" href="https://www.coelbo.es/es/index.php?cont=manuales_de_instrucciones">Manuales de instrucciones</a></li>
+               <li><a id="sub32" href="https://www.coelbo.es/es/index.php?cont=sistemas_de_funcionamiento">Sistemas de funcionamiento</a></li>
+               <li><a id="sub33" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_pressflowtech">Cuadro aparatos PressflowTech</a></a></li>
+               <li><a id="sub34" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_hitech">Cuadro aparatos HiTech</a></li>
+               <li><a id="sub35" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_smarttech">Cuadro aparatos SmartTech</a></li>
+            </ul>
+        </li>
+        <li><a id="m4" href="contacto.html">Contacto</a></li>
+    </ul>
+</div>
+        <!-- original content goes in this container -->
+        <div class="off-canvas-content layout" data-off-canvas-content>
+            <div id="head" class="padtop15">
+                <div class="row">
+    <div class="small-8 medium-4 large-3 columns">
+            <a title="COELBO, ir al inicio..." href="https://www.coelbo.es/es/index.php?cont=inicio">
+            <img src="https://www.coelbo.es/img/coelbo_logo.png" alt="" height="100%" width="223" border="0"></a>
     </div>
-  </main>
+    <div class="small-4 small-push-0 medium-3 medium-push-5 large-2 large-push-7 columns">
+        <select id="lang_selector" name="lang_selector" size="1" class="select_lang es wide" onchange="switch_lang(this.value, 'es', 'cont=inicio')">
 
-  <script>
-  /* =========================================================
-     Lógica del formulario de contacto
-     ========================================================= */
-  (function () {
-    'use strict';
+        <option class="es" selected = "selected" value="es">Español</option>
 
-    /* ------- Correo de destino (demo; no se envía de verdad) ------- */
-    var EMAIL_COELBO = 'comercial@coelbo.es';
+        <option class="en"  value="en">English</option>
 
-    /* =========================================================
-       1) OBJETO DE TRADUCCIONES (5 idiomas)
-       ========================================================= */
-    var I18N = {
-      ca: {
-        htmlLang: 'ca', langLabel: 'Idioma',
-        title: 'Contacte',
-        intro: 'L\'assistent no ha pogut resoldre la seva consulta? Escrigui\'ns i el nostre equip es posarà en contacte amb vostè.',
-        requiredNote: 'Els camps marcats amb * són obligatoris.',
-        labelName: 'Nom complet', labelCompany: 'Empresa', labelEmail: 'Correu electrònic',
-        labelPhone: 'Telèfon', labelFamily: 'Família de producte', labelSubject: 'Assumpte', labelMessage: 'Missatge',
-        phName: 'El seu nom i cognoms', phCompany: 'Nom de l\'empresa (opcional)',
-        phEmail: 'nom@empresa.com', phPhone: 'Telèfon de contacte (opcional)',
-        phSubject: 'Motiu de la consulta', phMessage: 'Expliqui\'ns la seva consulta…',
-        familyPlaceholder: 'Seleccioni… (opcional)', familyUnknown: 'No ho sé',
-        submit: 'Enviar',
-        errRequired: 'Aquest camp és obligatori.',
-        errEmail: 'Introdueixi un correu electrònic vàlid.',
-        successTitle: 'Missatge enviat!',
-        successMsg: 'Gràcies per contactar amb COELBO. En una implementació real, la seva consulta s\'enviaria a ' + EMAIL_COELBO + ' i el nostre equip li respondria com abans millor.',
-        again: 'Enviar un altre missatge',
-        back: '← Tornar al web',
-        contactTitle: 'Dades de contacte', locationLabel: 'Ubicació', phoneLabel: 'Telèfon', emailsLabel: 'Correus'
-      },
-      es: {
-        htmlLang: 'es', langLabel: 'Idioma',
-        title: 'Contacto',
-        intro: '¿El asistente no ha podido resolver su consulta? Escríbanos y nuestro equipo se pondrá en contacto con usted.',
-        requiredNote: 'Los campos marcados con * son obligatorios.',
-        labelName: 'Nombre completo', labelCompany: 'Empresa', labelEmail: 'Email',
-        labelPhone: 'Teléfono', labelFamily: 'Familia de producto', labelSubject: 'Asunto', labelMessage: 'Mensaje',
-        phName: 'Su nombre y apellidos', phCompany: 'Nombre de la empresa (opcional)',
-        phEmail: 'nombre@empresa.com', phPhone: 'Teléfono de contacto (opcional)',
-        phSubject: 'Motivo de la consulta', phMessage: 'Cuéntenos su consulta…',
-        familyPlaceholder: 'Selecciona… (opcional)', familyUnknown: 'No lo sé',
-        submit: 'Enviar',
-        errRequired: 'Este campo es obligatorio.',
-        errEmail: 'Introduzca un email válido.',
-        successTitle: '¡Mensaje enviado!',
-        successMsg: 'Gracias por contactar con COELBO. En una implementación real, su consulta se enviaría a ' + EMAIL_COELBO + ' y nuestro equipo le respondería lo antes posible.',
-        again: 'Enviar otro mensaje',
-        back: '← Volver a la web',
-        contactTitle: 'Datos de contacto', locationLabel: 'Ubicación', phoneLabel: 'Teléfono', emailsLabel: 'Correos'
-      },
-      en: {
-        htmlLang: 'en', langLabel: 'Language',
-        title: 'Contact',
-        intro: 'Couldn\'t the assistant solve your query? Write to us and our team will get back to you.',
-        requiredNote: 'Fields marked with * are required.',
-        labelName: 'Full name', labelCompany: 'Company', labelEmail: 'Email',
-        labelPhone: 'Phone', labelFamily: 'Product family', labelSubject: 'Subject', labelMessage: 'Message',
-        phName: 'Your first and last name', phCompany: 'Company name (optional)',
-        phEmail: 'name@company.com', phPhone: 'Contact phone (optional)',
-        phSubject: 'Reason for your enquiry', phMessage: 'Tell us about your enquiry…',
-        familyPlaceholder: 'Select… (optional)', familyUnknown: 'I don\'t know',
-        submit: 'Send',
-        errRequired: 'This field is required.',
-        errEmail: 'Please enter a valid email.',
-        successTitle: 'Message sent!',
-        successMsg: 'Thank you for contacting COELBO. In a real implementation, your enquiry would be sent to ' + EMAIL_COELBO + ' and our team would reply as soon as possible.',
-        again: 'Send another message',
-        back: '← Back to the website',
-        contactTitle: 'Contact details', locationLabel: 'Location', phoneLabel: 'Phone', emailsLabel: 'Emails'
-      },
-      fr: {
-        htmlLang: 'fr', langLabel: 'Langue',
-        title: 'Contact',
-        intro: 'L\'assistant n\'a pas pu résoudre votre demande ? Écrivez-nous et notre équipe vous recontactera.',
-        requiredNote: 'Les champs marqués d\'un * sont obligatoires.',
-        labelName: 'Nom complet', labelCompany: 'Entreprise', labelEmail: 'E-mail',
-        labelPhone: 'Téléphone', labelFamily: 'Famille de produit', labelSubject: 'Objet', labelMessage: 'Message',
-        phName: 'Vos nom et prénom', phCompany: 'Nom de l\'entreprise (facultatif)',
-        phEmail: 'nom@entreprise.com', phPhone: 'Téléphone de contact (facultatif)',
-        phSubject: 'Motif de la demande', phMessage: 'Décrivez-nous votre demande…',
-        familyPlaceholder: 'Sélectionnez… (facultatif)', familyUnknown: 'Je ne sais pas',
-        submit: 'Envoyer',
-        errRequired: 'Ce champ est obligatoire.',
-        errEmail: 'Veuillez saisir un e-mail valide.',
-        successTitle: 'Message envoyé !',
-        successMsg: 'Merci d\'avoir contacté COELBO. Dans une implémentation réelle, votre demande serait envoyée à ' + EMAIL_COELBO + ' et notre équipe vous répondrait dans les plus brefs délais.',
-        again: 'Envoyer un autre message',
-        back: '← Retour au site',
-        contactTitle: 'Coordonnées', locationLabel: 'Adresse', phoneLabel: 'Téléphone', emailsLabel: 'E-mails'
-      },
-      it: {
-        htmlLang: 'it', langLabel: 'Lingua',
-        title: 'Contatto',
-        intro: 'L\'assistente non ha potuto risolvere la sua richiesta? Ci scriva e il nostro team la ricontatterà.',
-        requiredNote: 'I campi contrassegnati con * sono obbligatori.',
-        labelName: 'Nome completo', labelCompany: 'Azienda', labelEmail: 'Email',
-        labelPhone: 'Telefono', labelFamily: 'Famiglia di prodotto', labelSubject: 'Oggetto', labelMessage: 'Messaggio',
-        phName: 'Nome e cognome', phCompany: 'Nome dell\'azienda (facoltativo)',
-        phEmail: 'nome@azienda.com', phPhone: 'Telefono di contatto (facoltativo)',
-        phSubject: 'Motivo della richiesta', phMessage: 'Ci racconti la sua richiesta…',
-        familyPlaceholder: 'Seleziona… (facoltativo)', familyUnknown: 'Non lo so',
-        submit: 'Invia',
-        errRequired: 'Questo campo è obbligatorio.',
-        errEmail: 'Inserisca un\'email valida.',
-        successTitle: 'Messaggio inviato!',
-        successMsg: 'Grazie per aver contattato COELBO. In un\'implementazione reale, la sua richiesta verrebbe inviata a ' + EMAIL_COELBO + ' e il nostro team le risponderebbe al più presto.',
-        again: 'Invia un altro messaggio',
-        back: '← Torna al sito',
-        contactTitle: 'Dati di contatto', locationLabel: 'Sede', phoneLabel: 'Telefono', emailsLabel: 'Email'
-      }
-    };
+        <option class="fr"  value="fr">Français</option>
 
-    /* Idioma activo (por defecto español, como la web) */
-    var lang = 'es';
+        <option class="it"  value="it">Italiano</option>
+</select>
 
-    /* Referencias a elementos del DOM */
-    var form = document.getElementById('contactForm');
-    var langSelect = document.getElementById('langSelect');
-    var successBox = document.getElementById('successBox');
-    var againBtn = document.getElementById('againBtn');
+<script>
+var real_value = "es";
+var selected_value = $("#lang_selector").val();
 
-    /* Placeholders por campo (id -> clave de traducción) */
-    var PLACEHOLDERS = {
-      nombre: 'phName', empresa: 'phCompany', email: 'phEmail',
-      telefono: 'phPhone', asunto: 'phSubject', mensaje: 'phMessage'
-    };
+if (selected_value != real_value) {
+    $("#lang_selector").val(real_value);
+}
 
-    /* Campos OBLIGATORIOS (familia NO está: es opcional) */
-    var REQUIRED = ['nombre', 'email', 'asunto', 'mensaje'];
-
-    /* =========================================================
-       2) APLICAR IDIOMA: traduce textos, etiquetas y placeholders
-       ========================================================= */
-    function applyLang() {
-      var t = I18N[lang];
-      document.documentElement.lang = t.htmlLang;
-
-      /* Textos fijos */
-      document.getElementById('langLabel').textContent = t.langLabel;
-      document.getElementById('formTitle').textContent = t.title;
-      document.getElementById('formIntro').textContent = t.intro;
-      document.getElementById('requiredNote').textContent = t.requiredNote;
-      document.getElementById('submitBtn').textContent = t.submit;
-      document.getElementById('againBtn').textContent = t.again;
-      document.getElementById('backLink').textContent = t.back;
-      document.getElementById('successTitle').textContent = t.successTitle;
-      document.getElementById('successMsg').textContent = t.successMsg;
-
-      /* Datos de contacto (ubicación y correos) */
-      document.getElementById('contactTitle').textContent = t.contactTitle;
-      document.getElementById('locationLabel').textContent = t.locationLabel;
-      document.getElementById('phoneLabel').textContent = t.phoneLabel;
-      document.getElementById('emailsLabel').textContent = t.emailsLabel;
-
-      /* Etiquetas con asterisco (solo los obligatorios llevan *) */
-      setLabel('nombre', t.labelName, true);
-      setLabel('empresa', t.labelCompany, false);
-      setLabel('email', t.labelEmail, true);
-      setLabel('telefono', t.labelPhone, false);
-      setLabel('familia', t.labelFamily, false);   /* familia: OPCIONAL */
-      setLabel('asunto', t.labelSubject, true);
-      setLabel('mensaje', t.labelMessage, true);
-
-      /* Placeholders */
-      for (var id in PLACEHOLDERS) {
-        if (PLACEHOLDERS.hasOwnProperty(id)) {
-          var el = document.getElementById(id);
-          if (el) { el.setAttribute('placeholder', t[PLACEHOLDERS[id]]); }
-        }
-      }
-
-      /* Opciones del desplegable de familia */
-      form.querySelector('#familia option[value=""]').textContent = t.familyPlaceholder;
-      form.querySelector('#familia option[value="no_lo_se"]').textContent = t.familyUnknown;
-
-      /* Vuelve a traducir los errores que estén visibles */
-      REQUIRED.forEach(function (id) {
-        var field = document.getElementById('field-' + id);
-        if (field && field.classList.contains('has-error')) { validateField(id); }
-      });
-    }
-
-    /* Escribe la etiqueta y, si es obligatorio, le añade el asterisco */
-    function setLabel(id, text, required) {
-      var label = document.querySelector('label[for="' + id + '"]');
-      if (!label) { return; }
-      label.innerHTML = '';
-      label.appendChild(document.createTextNode(text + ' '));
-      if (required) {
-        var star = document.createElement('span');
-        star.className = 'cf-req';
-        star.textContent = '*';
-        label.appendChild(star);
-      }
-    }
-
-    /* =========================================================
-       3) VALIDACIÓN
-       ========================================================= */
-    /* Expresión regular sencilla para validar el formato del email */
-    function emailValido(valor) {
-      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
-    }
-
-    /* Valida un campo concreto; devuelve true si es correcto */
-    function validateField(id) {
-      var t = I18N[lang];
-      var el = document.getElementById(id);
-      var field = document.getElementById('field-' + id);
-      var errEl = document.getElementById('err-' + id);
-      var valor = (el.value || '').trim();
-      var mensajeError = '';
-
-      /* Regla 1: obligatorio */
-      if (REQUIRED.indexOf(id) !== -1 && valor === '') {
-        mensajeError = t.errRequired;
-      /* Regla 2: email con formato válido */
-      } else if (id === 'email' && valor !== '' && !emailValido(valor)) {
-        mensajeError = t.errEmail;
-      }
-
-      if (mensajeError) {
-        field.classList.add('has-error');
-        errEl.textContent = mensajeError;
-        el.setAttribute('aria-invalid', 'true');
-        return false;
-      } else {
-        field.classList.remove('has-error');
-        errEl.textContent = '';
-        el.setAttribute('aria-invalid', 'false');
-        return true;
-      }
-    }
-
-    /* =========================================================
-       4) EVENTOS
-       ========================================================= */
-    /* Cambio de idioma */
-    langSelect.addEventListener('change', function () {
-      lang = langSelect.value;
-      applyLang();
+$(document).ready(function() {
+    $('#lang_selector').niceSelect();
+    $('.nice-select li').each(function(index, el){
+        var $el = $(el);
+        $el.addClass($el.data('value'));
     });
+});
+</script>
+    </div>
+    <div class="small-12 small-pull-0 medium-5 medium-pull-3 large-7 large-pull-2 columns">
+        <form id="search_form" action="javascript: buscar();" method="get" name="search_form">
+    <div class="row collapse">
+        <div class="small-10 medium-8 large-10 column">
+            <input class="search_box" type="text" name="q" size="24" placeholder="Búsqueda de productos" value="">
+        </div>
+        <div class="small-2 medium-2 medium-pull-2 large-2 column">
+            <button class="expanded button secondary button-search" name="search" id="search" type="submit">
+                <div class="text-button-search hide-for-small-only">Buscar</div>
+                <div class="show-for-small-only"><i class="fa fa-search" aria-hidden="true"></i></div>
+            </button>
+        </div>
+    </div>
+</form>    </div>
+</div>
+<div class="row linia-container show-for-small-only"><img src="https://www.coelbo.es/img/linia.png" class="linia" border="0"/></div>                <div class="hide-for-small-only menu button-group expanded row">
+    <a id="m0" href="https://www.coelbo.es/es/index.php?cont=inicio" class="button">Inicio</a>
+    <a id="m1" href="https://www.coelbo.es/es/index.php?cont=empresa" class="button">Empresa</a>
+    <a id="m2" class="button" data-toggle="dropdown-productos">Productos</a>
+    <a id="m3" class="button" data-toggle="dropdown-info-tecnica">Información técnica</a>
+    <a id="m4" href="contacto.html" class="button">Contacto</a>
+</div>
 
-    /* Limpiar el error de un campo mientras el usuario lo corrige */
-    form.addEventListener('input', function (e) {
-      var id = e.target.id;
-      if (document.getElementById('field-' + id) &&
-          document.getElementById('field-' + id).classList.contains('has-error')) {
-        validateField(id);
-      }
-    });
+<div class="dropdown-pane pad0 row collapse" id="dropdown-productos" data-dropdown data-hover="true" data-hover-pane="true">
+    <div class="hide-for-small-only button-group drop margin0">
+                    <a id="sub21" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=pressflowtech">PressflowTech</a>
+                            <a id="sub22" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=hitech">HiTech</a>
+                            <a id="sub23" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=smarttech">SmartTech</a>
+                            <a id="sub24" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=accesorios">Accesorios y Recambios</a>
+                </div>
+</div>
 
-    /* Envío del formulario */
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();  /* evitamos el envío real (es una demo) */
+<div class="dropdown-pane pad0 row collapse" id="dropdown-info-tecnica" data-dropdown data-hover="true" data-hover-pane="true">
+    <div class="hide-for-small-only button-group drop margin0">
+        <a id="sub37" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=manuales_de_instrucciones">Manuales de instrucciones</a>
+        <a id="sub32" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=sistemas_de_funcionamiento">Sistemas de funcionamiento</a>
+        <a id="sub33" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_pressflowtech">Cuadro aparatos PressflowTech</a>
+        <a id="sub34" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_hitech">Cuadro aparatos HiTech</a>
+        <a id="sub35" class="button expanded medium-12 large-12 columns" href="https://www.coelbo.es/es/index.php?cont=cuadro_aparatos_smarttech">Cuadro aparatos SmartTech</a>
+    </div>
+</div>            </div>
+            <div id="content">
+<!-- =========================================================
+     Apartado de CONTACTO (como la web original de COELBO):
+     ubicacion con mapa + correos, y DEBAJO el formulario.
+     ========================================================= -->
+<style>
+  .cf-wrap { max-width: 960px; margin: 0 auto; padding: 28px 16px 60px; }
+  .cf-h1 { color: #073a6b; font-size: 1.9rem; margin: 0 0 18px; }
 
-      /* Validamos todos los campos obligatorios */
-      var todoOk = true;
-      var primerError = null;
-      REQUIRED.forEach(function (id) {
-        var ok = validateField(id);
-        if (!ok && !primerError) { primerError = id; }
-        if (!ok) { todoOk = false; }
-      });
+  /* Bloque superior: mapa (izquierda) + datos/correos (derecha) */
+  .cf-top { display: flex; flex-wrap: wrap; gap: 22px; margin-bottom: 34px; }
+  .cf-map { flex: 1 1 380px; min-width: 280px; }
+  .cf-map iframe { width: 100%; height: 340px; border: 0; border-radius: 12px; display: block; }
+  .cf-datos { flex: 1 1 300px; }
+  .cf-datos h2 { color: #0a4d8c; font-size: 1.15rem; margin: 0 0 12px; }
+  .cf-datos p { margin: 6px 0; color: #1d2733; font-size: .96rem; line-height: 1.55; }
+  .cf-datos .cf-lbl { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .5px; color: #1b9cd8; margin-top: 14px; }
+  .cf-datos a { color: #0a4d8c; }
 
-      if (!todoOk) {
-        /* Llevamos el foco al primer campo con error (accesibilidad) */
-        if (primerError) { document.getElementById(primerError).focus(); }
-        return;
-      }
+  /* Formulario (DEBAJO del apartado de contacto) */
+  .cf-card { background: #fff; border: 1px solid #d9e2ec; border-radius: 14px;
+    box-shadow: 0 12px 32px rgba(7,36,64,.10); padding: 24px 22px; }
+  .cf-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .cf-card-head h2 { color: #073a6b; font-size: 1.3rem; margin: 0; }
+  .cf-intro { color: #5b6b7b; margin: 0 0 14px; font-size: .95rem; }
+  .cf-required-note { color: #5b6b7b; font-size: .82rem; margin: 0 0 18px; }
+  .cf-lang { display: flex; align-items: center; gap: 6px; }
+  .cf-lang label { font-size: .78rem; color: #5b6b7b; }
+  .cf-lang select { border: 1px solid #d9e2ec; border-radius: 8px; padding: 5px 8px; font-size: .85rem; color: #1d2733; background: #fff; cursor: pointer; }
 
-      /* --- Envío SIMULADO: mostramos la confirmación (demo) --- */
-      form.style.display = 'none';
-      successBox.classList.add('show');
-      successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
+  .cf-field { margin-bottom: 16px; }
+  .cf-frow { display: flex; gap: 16px; flex-wrap: wrap; }
+  .cf-frow .cf-field { flex: 1 1 240px; }
+  .cf-field label { display: block; font-weight: 600; font-size: .9rem; margin-bottom: 6px; color: #1d2733; }
+  .cf-req { color: #c0392b; }
+  .cf-field input, .cf-field select, .cf-field textarea {
+    width: 100%; border: 1px solid #d9e2ec; border-radius: 10px; padding: 11px 12px;
+    font-size: .95rem; font-family: inherit; color: #1d2733; background: #fff; }
+  .cf-field textarea { min-height: 130px; resize: vertical; }
+  .cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus { outline: 2px solid #1b9cd8; outline-offset: 0; border-color: #1b9cd8; }
+  .cf-field.has-error input, .cf-field.has-error select, .cf-field.has-error textarea { border-color: #c0392b; }
+  .cf-error { display: none; color: #c0392b; font-size: .82rem; margin-top: 5px; }
+  .cf-field.has-error .cf-error { display: block; }
 
-    /* Botón "Enviar otro mensaje": reinicia el formulario */
-    againBtn.addEventListener('click', function () {
-      form.reset();
-      REQUIRED.forEach(function (id) {
-        var field = document.getElementById('field-' + id);
-        if (field) { field.classList.remove('has-error'); }
-      });
-      successBox.classList.remove('show');
-      form.style.display = '';
-      document.getElementById('nombre').focus();
-    });
+  .cf-submit { background: #0a4d8c; color: #fff; border: 0; border-radius: 10px; padding: 13px 26px;
+    font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; transition: background .15s ease; }
+  .cf-submit:hover { background: #073a6b; }
+  .cf-submit:focus-visible { outline: 3px solid #1b9cd8; outline-offset: 2px; }
 
-    /* Inicializamos con el idioma por defecto */
-    applyLang();
-  })();
-  </script>
+  .cf-success { display: none; text-align: center; padding: 16px 8px; }
+  .cf-success.show { display: block; }
+  .cf-check { width: 60px; height: 60px; border-radius: 50%; background: #1e8b54; color: #fff; display: grid; place-items: center; margin: 0 auto 14px; font-size: 2rem; }
+  .cf-success h2 { color: #073a6b; margin: 0 0 8px; }
+  .cf-success p { color: #5b6b7b; margin: 0 auto 18px; max-width: 460px; }
+  .cf-again { background: transparent; color: #0a4d8c; border: 1.5px solid #0a4d8c; border-radius: 10px; padding: 10px 20px; font-size: .95rem; font-weight: 600; cursor: pointer; }
+  .cf-again:hover { background: #0a4d8c; color: #fff; }
 
-  <!-- Asistente virtual COELBO (chatbot) -->
-  <script src="../chatbot/chatbot.js" defer></script>
+  @media (max-width: 520px) { .cf-frow { flex-direction: column; gap: 0; } }
+  @media (prefers-reduced-motion: reduce) { .cf-submit { transition: none; } }
+</style>
+
+<div class="cf-wrap">
+  <h1 class="cf-h1" id="cfSectionTitle">Contacto</h1>
+
+  <!-- === Apartado de contacto original: mapa + correos === -->
+  <div class="cf-top">
+    <div class="cf-map">
+      <iframe title="Ubicación COELBO" loading="lazy"
+        src="https://maps.google.com/maps?q=Ctra.%20de%20Rub%C3%AD%20288%2C%2008228%20Terrassa%2C%20Barcelona&z=15&output=embed"></iframe>
+    </div>
+    <div class="cf-datos">
+      <h2>COELBO CONTROL SYSTEM, S.L.</h2>
+      <p>Ctra. de Rubí, 288 (Pol. Ind. Can Guitard)<br>08228 Terrassa (SPAIN)</p>
+      <p>Tel. (+34) 93 736 29 50<br>Fax (+34) 93 736 29 51</p>
+      <span class="cf-lbl" id="cfEmailsLabel">Correos</span>
+      <p><a href="mailto:comercial@coelbo.es">comercial@coelbo.es</a></p>
+      <p><a href="mailto:coelbo@coelbo.es">coelbo@coelbo.es</a></p>
+    </div>
+  </div>
+
+  <!-- === Formulario DEBAJO del apartado de contacto === -->
+  <div class="cf-card">
+    <form id="contactForm" novalidate>
+      <div class="cf-card-head">
+        <h2 id="cfFormHeading">Escríbanos</h2>
+        <div class="cf-lang">
+          <label for="langSelect" id="langLabel">Idioma</label>
+          <select id="langSelect" aria-labelledby="langLabel">
+            <option value="ca">CA</option><option value="es" selected>ES</option>
+            <option value="en">EN</option><option value="fr">FR</option><option value="it">IT</option>
+          </select>
+        </div>
+      </div>
+      <p class="cf-intro" id="cfIntro">¿El asistente no ha podido resolver su consulta? Escríbanos y nuestro equipo se pondrá en contacto con usted.</p>
+      <p class="cf-required-note" id="requiredNote">Los campos marcados con * son obligatorios.</p>
+
+      <div class="cf-field" id="field-nombre">
+        <label for="nombre">Nombre completo <span class="cf-req">*</span></label>
+        <input type="text" id="nombre" name="nombre" autocomplete="name" aria-required="true" aria-describedby="err-nombre">
+        <span class="cf-error" id="err-nombre" role="alert"></span>
+      </div>
+
+      <div class="cf-frow">
+        <div class="cf-field" id="field-empresa">
+          <label for="empresa">Empresa</label>
+          <input type="text" id="empresa" name="empresa" autocomplete="organization">
+        </div>
+        <div class="cf-field" id="field-email">
+          <label for="email">Email <span class="cf-req">*</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" aria-required="true" aria-describedby="err-email">
+          <span class="cf-error" id="err-email" role="alert"></span>
+        </div>
+      </div>
+
+      <div class="cf-frow">
+        <div class="cf-field" id="field-telefono">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" name="telefono" autocomplete="tel">
+        </div>
+        <div class="cf-field" id="field-familia">
+          <label for="familia">Familia de producto</label>
+          <select id="familia" name="familia">
+            <option value="" data-i18n="familyPlaceholder">Selecciona…</option>
+            <option value="PressflowTech">PressflowTech</option>
+            <option value="HiTech">HiTech</option>
+            <option value="SmartTech">SmartTech</option>
+            <option value="no_lo_se" data-i18n="familyUnknown">No lo sé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="cf-field" id="field-asunto">
+        <label for="asunto">Asunto <span class="cf-req">*</span></label>
+        <input type="text" id="asunto" name="asunto" aria-required="true" aria-describedby="err-asunto">
+        <span class="cf-error" id="err-asunto" role="alert"></span>
+      </div>
+
+      <div class="cf-field" id="field-mensaje">
+        <label for="mensaje">Mensaje <span class="cf-req">*</span></label>
+        <textarea id="mensaje" name="mensaje" aria-required="true" aria-describedby="err-mensaje"></textarea>
+        <span class="cf-error" id="err-mensaje" role="alert"></span>
+      </div>
+
+      <button type="submit" class="cf-submit" id="submitBtn">Enviar</button>
+    </form>
+
+    <div class="cf-success" id="successBox" role="status" aria-live="polite">
+      <div class="cf-check" aria-hidden="true">&#10003;</div>
+      <h2 id="successTitle">¡Mensaje enviado!</h2>
+      <p id="successMsg"></p>
+      <button type="button" class="cf-again" id="againBtn">Enviar otro mensaje</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Formulario de contacto (demo TDR): multilingue, validacion, familia OPCIONAL, envio simulado */
+(function () {
+  'use strict';
+  var EMAIL_COELBO = 'comercial@coelbo.es';
+  var I18N = {
+    ca:{htmlLang:'ca',langLabel:'Idioma',sectionTitle:'Contacte',emailsLabel:'Correus',formHeading:'Escrigui\'ns',
+      intro:'L\'assistent no ha pogut resoldre la seva consulta? Escrigui\'ns i el nostre equip es posarà en contacte amb vostè.',
+      requiredNote:'Els camps marcats amb * són obligatoris.',
+      labelName:'Nom complet',labelCompany:'Empresa',labelEmail:'Correu electrònic',labelPhone:'Telèfon',labelFamily:'Família de producte',labelSubject:'Assumpte',labelMessage:'Missatge',
+      phName:'El seu nom i cognoms',phCompany:'Nom de l\'empresa (opcional)',phEmail:'nom@empresa.com',phPhone:'Telèfon de contacte (opcional)',phSubject:'Motiu de la consulta',phMessage:'Expliqui\'ns la seva consulta…',
+      familyPlaceholder:'Seleccioni… (opcional)',familyUnknown:'No ho sé',submit:'Enviar',
+      errRequired:'Aquest camp és obligatori.',errEmail:'Introdueixi un correu electrònic vàlid.',
+      successTitle:'Missatge enviat!',successMsg:'Gràcies per contactar amb COELBO. En una implementació real, la seva consulta s\'enviaria a '+EMAIL_COELBO+' i el nostre equip li respondria com abans millor.',again:'Enviar un altre missatge'},
+    es:{htmlLang:'es',langLabel:'Idioma',sectionTitle:'Contacto',emailsLabel:'Correos',formHeading:'Escríbanos',
+      intro:'¿El asistente no ha podido resolver su consulta? Escríbanos y nuestro equipo se pondrá en contacto con usted.',
+      requiredNote:'Los campos marcados con * son obligatorios.',
+      labelName:'Nombre completo',labelCompany:'Empresa',labelEmail:'Email',labelPhone:'Teléfono',labelFamily:'Familia de producto',labelSubject:'Asunto',labelMessage:'Mensaje',
+      phName:'Su nombre y apellidos',phCompany:'Nombre de la empresa (opcional)',phEmail:'nombre@empresa.com',phPhone:'Teléfono de contacto (opcional)',phSubject:'Motivo de la consulta',phMessage:'Cuéntenos su consulta…',
+      familyPlaceholder:'Selecciona… (opcional)',familyUnknown:'No lo sé',submit:'Enviar',
+      errRequired:'Este campo es obligatorio.',errEmail:'Introduzca un email válido.',
+      successTitle:'¡Mensaje enviado!',successMsg:'Gracias por contactar con COELBO. En una implementación real, su consulta se enviaría a '+EMAIL_COELBO+' y nuestro equipo le respondería lo antes posible.',again:'Enviar otro mensaje'},
+    en:{htmlLang:'en',langLabel:'Language',sectionTitle:'Contact',emailsLabel:'Emails',formHeading:'Write to us',
+      intro:'Couldn\'t the assistant solve your query? Write to us and our team will get back to you.',
+      requiredNote:'Fields marked with * are required.',
+      labelName:'Full name',labelCompany:'Company',labelEmail:'Email',labelPhone:'Phone',labelFamily:'Product family',labelSubject:'Subject',labelMessage:'Message',
+      phName:'Your first and last name',phCompany:'Company name (optional)',phEmail:'name@company.com',phPhone:'Contact phone (optional)',phSubject:'Reason for your enquiry',phMessage:'Tell us about your enquiry…',
+      familyPlaceholder:'Select… (optional)',familyUnknown:'I don\'t know',submit:'Send',
+      errRequired:'This field is required.',errEmail:'Please enter a valid email.',
+      successTitle:'Message sent!',successMsg:'Thank you for contacting COELBO. In a real implementation, your enquiry would be sent to '+EMAIL_COELBO+' and our team would reply as soon as possible.',again:'Send another message'},
+    fr:{htmlLang:'fr',langLabel:'Langue',sectionTitle:'Contact',emailsLabel:'E-mails',formHeading:'Écrivez-nous',
+      intro:'L\'assistant n\'a pas pu résoudre votre demande ? Écrivez-nous et notre équipe vous recontactera.',
+      requiredNote:'Les champs marqués d\'un * sont obligatoires.',
+      labelName:'Nom complet',labelCompany:'Entreprise',labelEmail:'E-mail',labelPhone:'Téléphone',labelFamily:'Famille de produit',labelSubject:'Objet',labelMessage:'Message',
+      phName:'Vos nom et prénom',phCompany:'Nom de l\'entreprise (facultatif)',phEmail:'nom@entreprise.com',phPhone:'Téléphone de contact (facultatif)',phSubject:'Motif de la demande',phMessage:'Décrivez-nous votre demande…',
+      familyPlaceholder:'Sélectionnez… (facultatif)',familyUnknown:'Je ne sais pas',submit:'Envoyer',
+      errRequired:'Ce champ est obligatoire.',errEmail:'Veuillez saisir un e-mail valide.',
+      successTitle:'Message envoyé !',successMsg:'Merci d\'avoir contacté COELBO. Dans une implémentation réelle, votre demande serait envoyée à '+EMAIL_COELBO+' et notre équipe vous répondrait dans les plus brefs délais.',again:'Envoyer un autre message'},
+    it:{htmlLang:'it',langLabel:'Lingua',sectionTitle:'Contatto',emailsLabel:'Email',formHeading:'Ci scriva',
+      intro:'L\'assistente non ha potuto risolvere la sua richiesta? Ci scriva e il nostro team la ricontatterà.',
+      requiredNote:'I campi contrassegnati con * sono obbligatori.',
+      labelName:'Nome completo',labelCompany:'Azienda',labelEmail:'Email',labelPhone:'Telefono',labelFamily:'Famiglia di prodotto',labelSubject:'Oggetto',labelMessage:'Messaggio',
+      phName:'Nome e cognome',phCompany:'Nome dell\'azienda (facoltativo)',phEmail:'nome@azienda.com',phPhone:'Telefono di contatto (facoltativo)',phSubject:'Motivo della richiesta',phMessage:'Ci racconti la sua richiesta…',
+      familyPlaceholder:'Seleziona… (facoltativo)',familyUnknown:'Non lo so',submit:'Invia',
+      errRequired:'Questo campo è obbligatorio.',errEmail:'Inserisca un\'email valida.',
+      successTitle:'Messaggio inviato!',successMsg:'Grazie per aver contattato COELBO. In un\'implementazione reale, la sua richiesta verrebbe inviata a '+EMAIL_COELBO+' e il nostro team le risponderebbe al più presto.',again:'Invia un altro messaggio'}
+  };
+  var lang='es';
+  var form=document.getElementById('contactForm');
+  var langSelect=document.getElementById('langSelect');
+  var successBox=document.getElementById('successBox');
+  var againBtn=document.getElementById('againBtn');
+  var PH={nombre:'phName',empresa:'phCompany',email:'phEmail',telefono:'phPhone',asunto:'phSubject',mensaje:'phMessage'};
+  var REQUIRED=['nombre','email','asunto','mensaje']; /* familia NO: opcional */
+
+  function applyLang(){
+    var t=I18N[lang];
+    document.documentElement.lang=t.htmlLang;
+    document.getElementById('langLabel').textContent=t.langLabel;
+    document.getElementById('cfSectionTitle').textContent=t.sectionTitle;
+    document.getElementById('cfEmailsLabel').textContent=t.emailsLabel;
+    document.getElementById('cfFormHeading').textContent=t.formHeading;
+    document.getElementById('cfIntro').textContent=t.intro;
+    document.getElementById('requiredNote').textContent=t.requiredNote;
+    document.getElementById('submitBtn').textContent=t.submit;
+    document.getElementById('againBtn').textContent=t.again;
+    document.getElementById('successTitle').textContent=t.successTitle;
+    document.getElementById('successMsg').textContent=t.successMsg;
+    setLabel('nombre',t.labelName,true); setLabel('empresa',t.labelCompany,false);
+    setLabel('email',t.labelEmail,true); setLabel('telefono',t.labelPhone,false);
+    setLabel('familia',t.labelFamily,false); setLabel('asunto',t.labelSubject,true); setLabel('mensaje',t.labelMessage,true);
+    for(var id in PH){ if(PH.hasOwnProperty(id)){ var el=document.getElementById(id); if(el){ el.setAttribute('placeholder',t[PH[id]]);} } }
+    form.querySelector('#familia option[value=""]').textContent=t.familyPlaceholder;
+    form.querySelector('#familia option[value="no_lo_se"]').textContent=t.familyUnknown;
+    REQUIRED.forEach(function(id){ var f=document.getElementById('field-'+id); if(f&&f.classList.contains('has-error')){validateField(id);} });
+  }
+  function setLabel(id,text,req){
+    var label=document.querySelector('label[for="'+id+'"]'); if(!label){return;}
+    label.innerHTML=''; label.appendChild(document.createTextNode(text+' '));
+    if(req){ var s=document.createElement('span'); s.className='cf-req'; s.textContent='*'; label.appendChild(s); }
+  }
+  function emailValido(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function validateField(id){
+    var t=I18N[lang]; var el=document.getElementById(id); var field=document.getElementById('field-'+id);
+    var errEl=document.getElementById('err-'+id); var v=(el.value||'').trim(); var m='';
+    if(REQUIRED.indexOf(id)!==-1 && v===''){ m=t.errRequired; }
+    else if(id==='email' && v!=='' && !emailValido(v)){ m=t.errEmail; }
+    if(m){ field.classList.add('has-error'); errEl.textContent=m; el.setAttribute('aria-invalid','true'); return false; }
+    field.classList.remove('has-error'); errEl.textContent=''; el.setAttribute('aria-invalid','false'); return true;
+  }
+  langSelect.addEventListener('change',function(){ lang=langSelect.value; applyLang(); });
+  form.addEventListener('input',function(e){ var f=document.getElementById('field-'+e.target.id); if(f&&f.classList.contains('has-error')){ validateField(e.target.id);} });
+  form.addEventListener('submit',function(e){
+    e.preventDefault(); var ok=true, first=null;
+    REQUIRED.forEach(function(id){ var r=validateField(id); if(!r&&!first){first=id;} if(!r){ok=false;} });
+    if(!ok){ if(first){ document.getElementById(first).focus(); } return; }
+    form.style.display='none'; successBox.classList.add('show'); successBox.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+  againBtn.addEventListener('click',function(){
+    form.reset(); REQUIRED.forEach(function(id){ var f=document.getElementById('field-'+id); if(f){f.classList.remove('has-error');} });
+    successBox.classList.remove('show'); form.style.display=''; document.getElementById('nombre').focus();
+  });
+  applyLang();
+})();
+</script>
+<div id="prefoot">
+                <div class="prefoot">
+    <div class="row">
+        <div class="small-6 large-3 left-text-for-large columns pad0">
+            <img class="nextgen funded" src="https://www.coelbo.es/img/funded-europe.svg" alt=""/>
+        </div>
+        <div class="small-6 large-2 right-text-for-large columns pad0 autoc-s">
+            <img class="nextgen autoconsumo" src="https://www.coelbo.es/img/autoconsumo.png" alt=""/>
+        </div>
+        <div class="small-8 large-4 center-text-for-large columns pad0">
+            <div class="row">
+                <div class="small-6 large-6 center-text-for-large columns pad0">
+                    <img class="nextgen ministerio" src="https://www.coelbo.es/img/ministerio.svg" alt=""/>
+                </div>
+                <div class="small-6 large-6 center-text-for-large columns pad0">
+                    <img class="nextgen idae" src="https://www.coelbo.es/img/idae.svg" alt=""/>
+                </div>
+            </div>
+        </div>
+        <div class="small-4 large-3 right-text-for-large columns pad0">
+            <img class="nextgen planr" src="https://www.coelbo.es/img/plan-r.svg" alt=""/>
+        </div>
+        <div class="small-12 large-2 columns right-text-for-large pad0 autoc-l">
+            <img class="nextgen autoconsumo" src="https://www.coelbo.es/img/autoconsumo.png" alt=""/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-6 large-3 large-push-6 columns pad0">
+            <img class="nextgen next-gen-cat" src="https://www.coelbo.es/img/next-generation-catalunya.svg" alt=""/>
+        </div>
+        <div class="small-6 large-3 columns pad0">
+            <img class="nextgen gencat" src="https://www.coelbo.es/img/gencat-energia.svg" alt=""/>
+        </div>
+    </div>
+</div>
+            </div>
+            <div id="foot">
+                <div class="row foot">
+    <div class="small-8 columns">
+        <div class="row">
+            <div class="small-12 columns padbot40">
+                <a class="legal" href="https://www.coelbo.es/es/index.php?cont=aviso_legal">Aviso legal</a><br/>
+                <a class="legal" href="https://www.coelbo.es/es/index.php?cont=politica_de_privacidad">Política de privacidad</a><br/>
+                <a class="legal" href="https://www.coelbo.es/es/index.php?cont=politica_cookies">Política de cookies</a><br/>
+                <a class="legal" target="_blank" href="https://www.coelbo.es/es/warranty_policy.pdf">Política de garantía</a><br/>
+                <a class="legal" target="_blank" href="https://www.coelbo.es/es/politica_de_calidad.pdf">Política de calidad</a><br/>
+                <a class="legal" target="_blank" href="https://www.coelbo.es/es/RMA_Form.xlsx">Formulario RMA</a><br/>
+            </div>
+
+            <div class="small-12 columns address-block">
+                COELBO&nbsp;CONTROL&nbsp;SYSTEM,&nbsp;S.L.<br/>
+                Ctra.&nbsp;de&nbsp;Rubí,&nbsp;288&nbsp;(Pol.&nbsp;Ind.&nbsp;Can&nbsp;Guitard)
+                08228&nbsp;Terrassa&nbsp;(SPAIN)<br/>
+                Tel.&nbsp;(34)&nbsp;93&nbsp;736&nbsp;29&nbsp;50&nbsp;-&nbsp;Fax&nbsp;(34)&nbsp;93&nbsp;736&nbsp;29&nbsp;51
+            </div>
+        </div>
+    </div>
+
+    <div class="small-4 columns">
+        <div class="logos">
+            <img src="https://www.coelbo.es/img/iso9001.svg" border="0"/>
+        </div>
+    </div>
+</div>
+
+
+            </div>
+        </div>
+        <!-- close wrapper, no more content after this -->
+    </div>
+    <script type="text/javascript" src="https://www.coelbo.es/js/app.js"></script>
+</div>
+<!-- Asistente virtual COELBO (chatbot) -->
+<script src="../chatbot/chatbot.js?v=3" defer></script>
 </body>
+<div id="floating-cookie-policy">
+    <div class="close-button"><a href="javascript: hideFloatingCookiePolicy();">x</a></div>
+    <div class="large-12 columns text">
+
+<h4>Política de cookies y almacenamiento local</h4>
+<p>Este sitio web utiliza cookies y tecnologías similares para proporcionar el servicio, así como permitirnos mejorarlo, a través de la obtención de estadísticas sobre su uso, y otras finalidades.</p>
+<p>Navegar por esta web implica necesariamente la utilización de cookies y tecnologías similares siempre y cuando sea necesario para su funcionamiento. Asimismo, para ciertas finalidades, las cookies y el almacenamiento local estarán sujetas a su previo consentimiento. Puede aceptar o rechazar las cookies mediante el sistema de configuración establecido y también es posible configurar el navegador para impedir su uso.</p>
+<p>Esta política forma parte de nuestra política de privacidad e incluye lo siguiente:</p>
+<p>
+¿Qué son las cookies?<br/>
+¿Para qué se usan las cookies?<br/>
+¿Qué entendemos por tecnologías similares a las cookies?<br/>
+¿Qué son las cookies de terceros? ¿Quiénes son los destinatarios de la información?<br/>
+¿Qué funciones y características de terceros utilizamos en nuestro sitio web?<br/>
+¿Durante cuánto tiempo se mantienen activas las cookies o tecnologías similares?<br/>
+¿Cómo impedir el uso de cookies y cómo borrarlas?<br/>
+Información detallada sobre las cookies utilizadas por este sitio web<br/>
+</p>
+<h4>¿Qué son las cookies?</h4>
+<p>Las "cookies" son pequeños ficheros temporales que se crean  en el dispositivo del usuario (ordenador, teléfono, tableta, etc.) cuando visita una web, y que permiten a la misma almacenar o recuperar información cuando navega, por ejemplo, para guardar sus preferencias de uso o para reconocerlo en posteriores visitas, así como obtener información sobre sus hábitos de navegación.</p>
+<p>Cuando una web crea una cookie en el dispositivo del usuario, se almacena la dirección/dominio de la web que ha creado la cookie, la duración de la cookie que puede ir de escasos minutos a varios años, así como el contenido de la cookie. El usuario puede deshabilitar las cookies en todo momento mediante el sistema de configuración de este sitio web, así como configurar su programa de navegación para impedir (bloquear) el uso de cookies por parte de determinadas webs, así como borrar las cookies almacenadas previamente.</p>
+<h4>¿Para qué se usan las cookies?</h4>
+<p><b>Cookies técnicas esenciales:</b> Se utilizan para gestionar el flujo de navegación dentro de la web o para mantener al usuario conectado a la misma. Al deshabilitarlas, es posible que algún apartado de la web no funcione correctamente.</p>
+<p><b>Cookies de personalización:</b> Necesarias para recordar determinadas preferencias del usuario.</p>
+<p><b>Cookies analíticas:</b> Nos ayudan a nosotros y a terceros a recopilar información de la procedencia de los usuarios y su navegación dentro de la web, a efectos de realizar un análisis estadístico para poder mejorar la estructura y los contenidos.</p>
+<p><b>Cookies publicitarias:</b> Utilizadas para gestionar los anuncios que aparecen en la web, decidir el contenido o la frecuencia de los anuncios.</p>
+<p><b>Cookies publicitarias comportamentales:</b> Ayudan a recopilar los hábitos de navegación del usuario para crear un perfil de sus intereses y para mostrarle anuncios adaptados a los mismos.</p>
+<p><b>Cookies para compartición social:</b> Son necesarias para identificar al usuario en sus redes sociales y así permitirle compartir contenidos.</p>
+<h4>¿Qué entendemos por tecnologías similares a las cookies?</h4>
+<p>Se entiende por tecnologías similares cualquier tipo de mecanismo de almacenamiento y recuperación de datos que se utilice en el dispositivo del usuario para obtener información. Las más habituales incluyen:</p>
+<p><b>El almacenamiento local del navegador:</b> Algunas webs utilizan almacenamientos locales llamados "sessionStorage" y "localStorage", así como la base de datos indexada del navegador, para guardar información.</p>
+<p><b>El almacenamiento local de los complementos del navegador</b> como por ejemplo el almacenamiento local de Flash ("Flash Local Shared Objects") o el almacenamiento local de Silverlight ("Isolated Objects").</p>
+<p><b>El "web beacon"</b> es una técnica de rastreo que consiste en insertar en una página web (o en un correo electrónico) una imagen alojada en un servidor de Internet de forma que, cuando el navegador o programa de correo se conecta a dicho servidor para descargar y visualizar la imagen, la conexión queda registrada. Ello permite conocer que el usuario ha visualizado la página web o el correo. A veces esta imagen es muy pequeña o transparente de forma que el usuario no se percata de su existencia.</p>
+<p><b>Las técnicas de "fingerprinting"</b> que combinan información obtenida del navegador o del equipo de navegación para distinguir a un usuario en sus sucesivas visitas distintos sitios web.</p>
+<h4>¿Qué son las cookies de terceros? ¿Quiénes son los destinatarios de la información?</h4>
+<p>Las cookies de esta web se pueden clasificar, en función de quién las crea, en dos categorías:</p>
+<p><b>Cookies propias:</b> se crean y manejan desde nuestros sitios y dominios web, siendo la información obtenida gestionada directa o indirectamente por nosotros para nuestras propias finalidades.</p>
+<p><b>Cookies de terceros:</b> son las cookies que se crean y se manejan desde otros sitios web que, aunque no están completamente bajo nuestro control, proporcionan funciones y características que hemos decidir incluir en nuestra web, como, por ejemplo: mapas interactivos, vídeos y elementos multimedia, botones para compartir en redes sociales, anuncios, etc. Estas cookies están bajo el control del tercero que proporciona la función correspondiente.</p>
+<p>La gran mayoría de las funciones de terceros implican el acceso o recopilación de información (y el uso de cookies) por parte del tercero que proporciona la función, en base a sus propios criterios y finalidades, incluyendo la recopilación sobre los hábitos de navegación para mostrarle publicidad personalizada. En el siguiente apartado se indican las funciones y características de terceros utilizadas en esta página web.</p>
+<h4>¿Qué funciones y características de terceros utilizamos en nuestro sitio web?</h4>
+<p>A continuación, se proporciona una tabla resumen de las funciones y características proveídos por terceros en nuestra página web que implican la utilización de cookies.</p>
+<div class="overflow-x-table">
+    <table border="1" style="font-size:12px;">
+        <tr>
+            <th>Función o característica</th>
+            <th>Tercero proveedor de la función o característica</th>
+            <th>Implica la transferencia internacional de datos</th>
+            <th>Política de privacidad y garantías del tercero proveedor</th>
+        </tr>
+        <tr>
+            <td>Google Analytics</td>
+            <td>Google, Inc</td>
+            <td>Sí</td>
+            <td><a target="_blank" href="https://policies.google.com/technologies/cookies?hl=es_ES">Leer</a></td>
+        </tr>
+        <tr>
+            <td>Google Maps, Youtube</td>
+            <td>Google, Inc</td>
+            <td>Sí</td>
+            <td><a target="_blank" href="http://www.google.com/intl/es_es/policies/privacy/">Leer</a></td>
+        </tr>
+    </table>
+</div>
+<h4>¿Durante cuánto tiempo se mantienen activas las cookies o tecnologías similares?</h4>
+<p>En función de su permanencia o tiempo de actividad, podemos diferenciar entre:</p>
+<p><b>Cookies temporales de sesión:</b> permanecen almacenadas en el equipo de navegación hasta que el usuario abandona la página web; el navegador las borra al terminar la sesión de navegación.</p>
+<p><b>Cookies persistentes:</b> permanecen en el equipo de navegación y la web las lee cada vez que el usuario realiza una nueva visita. Estas cookies se borran automáticamente pasado cierto plazo de tiempo, que puede ser corto o muy largo.</p>
+<p>En esta política se incluye información sobre la duración de las cookies; para más información, consulte nuestra política de privacidad, así como la información proporcionada en las políticas de privacidad de los terceros proveedores de funciones web.</p>
+<h4>¿Cómo impedir el uso de cookies y cómo borrarlas?</h4>
+<p>Puede configurar sus preferencias en cualquier momento mediante el sistema de configuración de cookies integrado en este sitio web, podrá activar / desactivar el uso de cookies según sus finalidades.</p>
+<p>Puede acceder al sistema de configuración mediante el enlace al pie de la página de inicio <a href="javascript:;" id="cookie_settings">pulsando aquí</a></p>
+<p>La mayoría de navegadores permiten desactivar globalmente las cookies. Muchos navegadores también permiten borrar las cookies asociadas a webs/dominios concretos. Para ello el usuario debe consultar la ayuda de su navegador. A continuación, se incluyen enlaces a las páginas de ayuda de los navegadores más habituales para conocer la configuración de cookies en cada uno:</p>
+<p>
+<strong>Chrome:</strong> <a target="_blank" href="https://support.google.com/chrome/answer/95647?hl=es">https://support.google.com/chrome/answer/95647?hl=es</a></br>
+<strong>Explorer:</strong> <a target="_blank" href="https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d">https://support.microsoft.com/es-es/windows/eliminar-y-administrar-cookies-168dab11-0753-043d-7c16-ede5947fc64d</a></br>
+<strong>Microsoft Edge:</strong> <a target="_blank" href="https://privacy.microsoft.com/es-ES/windows-10-microsoft-edge-and-privacy">https://privacy.microsoft.com/es-ES/windows-10-microsoft-edge-and-privacy</a></br>
+<strong>Firefox:</strong> <a target="_blank" href="https://support.mozilla.org/es/kb/impedir-que-los-sitios-web-guarden-sus-preferencia">https://support.mozilla.org/es/kb/impedir-que-los-sitios-web-guarden-sus-preferencia</a></br>
+<strong>Safari:</strong> <a target="_blank" href="https://support.apple.com/kb/PH17191?viewlocale=es_ES&amp;locale=es_ES">https://support.apple.com/kb/PH17191?viewlocale=es_ES&amp;locale=es_ES</a></br>
+<strong>Safari iOS:</strong> <a target="_blank" href="https://support.apple.com/es-es/HT201265">https://support.apple.com/es-es/HT201265</a></br>
+<strong>Opera:</strong> <a target="_blank" href="https://help.opera.com/en/latest/web-preferences/#cookies">https://help.opera.com/en/latest/web-preferences/#cookies</a>
+</p>
+<p>Para borrar los datos guardados en el almacenamiento local del navegador, el usuario puede borrar el historial de navegación.</p>
+<p>Para otros navegadores, así como para cualquier aclaración o pregunta sobre las cookies de esta web, puede contactarnos por correo electrónico, escribiendo a coelbo@coelbo.es</p>
+<p>Aviso importante: en caso de bloquear las cookies es posible que determinados servicios o funcionalidades de la web no funcionen correctamente.</p>
+<h4>Información detallada sobre las cookies utilizadas por este sitio web</h4>
+<p><strong>Información sobre las cookies propias</strong></p>
+<div class="overflow-x-table">
+    <table border="1" style="font-size:12px;">
+        <tr>
+            <th width="20%">Función o característica</th>
+            <th width="20%">Cookies y tecnología empleada</th>
+            <th width="10%">Dominio web</th>
+            <th width="30%">Duración de la información almacenada</th>
+            <th width="20%">Tipos de finalidad</th>
+        </tr>
+        <tr>
+            <td>Cookies necesarias para para recordar determinadas preferencias del usuario</td>
+            <td>Cookies temporales (cookie_consent_level, cookie_consent_user_accepted, cookie_consent_user_consent_token, PHPSESSID)</td>
+            <td>coelbo.es</td>
+            <td>Meses</td>
+            <td>Cookies técnicas esenciales. Cookies de personalización</td>
+        </tr>
+    </table>
+</div>
+<br/>
+<p><strong>Información sobre las cookies de terceros</strong></p>
+<div class="overflow-x-table">
+    <table border="1" style="font-size:12px;">
+        <tr>
+            <th width="20%">Función o característica</th>
+            <th width="20%">Cookies y tecnología empleada</th>
+            <th width="10%">Dominio web</th>
+            <th width="30%">Duración de la información almacenada</th>
+            <th width="20%">Tipos de finalidad</th>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_ga_0JG2YGZH2N</td>
+            <td>coelbo.es</td>
+            <td>Años</td>
+            <td>Estadística</td>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_gat_gtag_UA_27012259_1</td>
+            <td>coelbo.es</td>
+            <td>Minutos</td>
+            <td>Necesaria</td>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_gid</td>
+            <td>coelbo.es</td>
+            <td>1 día</td>
+            <td>Estadística</td>
+        </tr>
+        <tr>
+            <td>Google Analytics (Google, Inc.)</td>
+            <td>_ga</td>
+            <td>coelbo.es</td>
+            <td>1 año</td>
+            <td>Estadística</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>CONSENT</td>
+            <td>youtube.com</td>
+            <td>Años</td>
+            <td>Necesaria</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>PREF</td>
+            <td>youtube.com</td>
+            <td>8 meses</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>VISITOR_INFO1_LIVE</td>
+            <td>youtube.com</td>
+            <td>6 meses</td>
+            <td>Marketing</td>
+        </tr>
+        <tr>
+            <td>Youtube (Google, Inc.)</td>
+            <td>YSC</td>
+            <td>youtube.com</td>
+            <td>Sesión</td>
+            <td>Marketing</td>
+        </tr>
+    </table>
+</div>
+<br/>
+<br/>
+<p><strong>NOTA:</strong> la información ofrecida es en fecha fecha 01-03-2024 y le informamos que con el paso del tiempo puede no resultar exhaustiva, a pesar de que periódicamente la presente política de cookies es revisada.</p>
+<br/>
+<br/>
+        <div class="center-text">
+            <input class="close-cookie-input" type="button" onclick="hideFloatingCookiePolicy();" value="Cerrar">
+        </div>
+    </div>
+</div>
 </html>
