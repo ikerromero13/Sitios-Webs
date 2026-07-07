@@ -426,12 +426,41 @@
 
     var started = false;
     var welcomeMsg = null;   /* referencia al mensaje de bienvenida para retraducirlo */
+    var langPick = null;     /* fila de botones de idioma del mensaje de bienvenida */
 
     function t() { return I18N[lang]; }
 
     /* Texto de bienvenida = saludo + aviso para cambiar de idioma, en el idioma actual */
     function welcomeText() {
       return t().welcome + ' ' + (LANG_HINT[lang] || '');
+    }
+
+    /* Cambia el idioma activo (desde los botones de bienvenida) y refresca todo */
+    function setLang(code) {
+      if (SUPPORTED.indexOf(code) === -1 || code === lang) { return; }
+      lang = code;
+      applyLang();
+    }
+
+    /* Botones de idioma bajo el mensaje de bienvenida (CA/ES/EN/FR/IT) */
+    function addLangChips() {
+      var msg = document.createElement('div');
+      msg.className = 'cc-msg cc-bot';
+      var row = document.createElement('div');
+      row.className = 'cc-langpick';
+      SUPPORTED.forEach(function (code) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cc-langbtn' + (code === lang ? ' is-active' : '');
+        btn.setAttribute('data-lang', code);
+        btn.textContent = code.toUpperCase();
+        btn.addEventListener('click', function () { setLang(code); });
+        row.appendChild(btn);
+      });
+      msg.appendChild(row);
+      els.log.appendChild(msg);
+      langPick = row;
+      els.log.scrollTop = els.log.scrollHeight;
     }
 
     function applyLang() {
@@ -449,6 +478,12 @@
       if (welcomeMsg) {
         var bubble = welcomeMsg.querySelector('.cc-bubble');
         if (bubble) { bubble.textContent = welcomeText(); }
+      }
+      /* Marca como activo el botón de idioma correspondiente */
+      if (langPick) {
+        Array.prototype.forEach.call(langPick.querySelectorAll('.cc-langbtn'), function (b) {
+          b.classList.toggle('is-active', b.getAttribute('data-lang') === lang);
+        });
       }
     }
 
@@ -513,6 +548,7 @@
       if (!started) {
         started = true;
         welcomeMsg = addMsg('bot', welcomeText());
+        addLangChips();   /* botones para elegir idioma desde la bienvenida */
       }
       window.setTimeout(function () { els.input.focus(); }, 50);
     }
