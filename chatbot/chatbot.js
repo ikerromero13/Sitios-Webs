@@ -146,29 +146,58 @@
       'hey', 'bonjour', 'salut', 'ciao', 'salve', 'good morning', 'good afternoon']
   };
 
-  /* ---------- Detecció d'idioma (heurística per paraules freqüents) ---------- */
-  var LANG_HINTS = {
-    ca: ['aixeta', 'aigua', 'instal lacio', 'quina', 'aquesta', 'necessito', 'tinc',
-      'puc', 'gracies', 'bon dia', 'vull', 'meva', 'seva', 'aparell', 'que necessito'],
-    es: ['necesito', 'instalacion', 'quiero', 'tengo', 'gracias', 'buenas', 'presion',
-      'grifo', 'cual', 'mi casa', 'cuanto', 'como configuro', 'que necesito'],
-    en: ['i have', 'i need', 'what', 'which', 'how much', 'pump', 'thanks', 'hello',
-      'my house', 'water', 'price of', 'do you'],
-    fr: ['bonjour', 'j ai', 'besoin', 'comment', 'quelle', 'pompe', 'prix', 'merci',
-      'robinet', 'pour ma', 'je veux'],
-    it: ['ciao', 'come', 'quale', 'pompa', 'pompe', 'prezzo', 'grazie', 'acqua',
-      'rubinetto', 'installazione', 'vorrei', 'salve', 'ho una', 'avete', 'vendita']
+  /* ---------- Detecció d'idioma (paraules completes + frases freqüents) ----------
+     El text ja arriba normalitzat (minúscules, sense accents). Es puntua per
+     paraules "marca" de cada idioma i per frases (pes doble); guanya el més alt. */
+  var LANG_WORDS = {
+    ca: ['amb', 'aixeta', 'aigua', 'tinc', 'vull', 'meva', 'seva', 'aquest', 'aquesta',
+      'aixo', 'puc', 'quina', 'quines', 'aparell', 'voldria', 'necessito', 'xalet', 'pou',
+      'installacio', 'nostra', 'soc', 'ets', 'gracies', 'sisplau', 'aquestes', 'voleu',
+      'teniu', 'estic', 'aquell', 'bones', 'aquestes', 'necessitaria'],
+    es: ['con', 'agua', 'tengo', 'quiero', 'necesito', 'como', 'cual', 'grifo', 'para',
+      'gracias', 'buenas', 'buenos', 'hola', 'cuanto', 'donde', 'una', 'instalacion',
+      'esta', 'muy', 'pero', 'tambien', 'usted', 'quisiera', 'tiene', 'sirve', 'puedo',
+      'casa', 'tienen', 'vosotros', 'dias', 'presion', 'necesitaria'],
+    en: ['the', 'have', 'need', 'what', 'which', 'how', 'with', 'water', 'pump', 'hello',
+      'thanks', 'my', 'is', 'are', 'do', 'you', 'can', 'price', 'want', 'house', 'well',
+      'for', 'of', 'and', 'your', 'please', 'does', 'tell', 'looking', 'would', 'hi'],
+    fr: ['bonjour', 'bonsoir', 'salut', 'je', 'ai', 'avec', 'besoin', 'comment', 'quelle',
+      'pour', 'eau', 'pompe', 'merci', 'une', 'est', 'robinet', 'installation', 'veux',
+      'vous', 'nous', 'avez', 'puis', 'quel', 'dans', 'sur', 'mon', 'voudrais', 'prix'],
+    it: ['ciao', 'ho', 'come', 'quale', 'acqua', 'pompa', 'grazie', 'rubinetto',
+      'installazione', 'vorrei', 'salve', 'avete', 'sono', 'vendita', 'della', 'delle',
+      'gli', 'vostra', 'posso', 'buongiorno', 'quanto', 'vostri', 'pompe', 'serve', 'prezzo']
+  };
+  /* Frases marca (pes doble) */
+  var LANG_PHRASES = {
+    ca: ['tinc un', 'la meva', 'quina familia', 'vull saber', 'em pot', 'amb un', 'bon dia'],
+    es: ['tengo un', 'mi casa', 'cuanto cuesta', 'donde puedo', 'quiero saber', 'me puede'],
+    en: ['i have', 'i need', 'how much', 'do you', 'can you', 'i want', 'my house', 'i would', 'looking for'],
+    fr: ['j ai', 'je veux', 'je voudrais', 'est ce que', 'pour ma', 'avez vous'],
+    it: ['ho una', 'vorrei sapere', 'quanto costa', 'mi puo', 'vostra gamma', 'avete pompe']
   };
 
   function detectLang(text) {
-    var best = null, bestScore = 0;
-    for (var lang in LANG_HINTS) {
-      if (!LANG_HINTS.hasOwnProperty(lang)) { continue; }
-      var score = 0, hints = LANG_HINTS[lang];
-      for (var i = 0; i < hints.length; i++) {
-        if (text.indexOf(hints[i]) !== -1) { score++; }
+    var tokens = text.split(/[^a-z0-9]+/);
+    var scores = { ca: 0, es: 0, en: 0, fr: 0, it: 0 };
+    var lang, i;
+    for (lang in LANG_WORDS) {
+      if (!LANG_WORDS.hasOwnProperty(lang)) { continue; }
+      var words = LANG_WORDS[lang];
+      for (i = 0; i < tokens.length; i++) {
+        if (tokens[i] && words.indexOf(tokens[i]) !== -1) { scores[lang]++; }
       }
-      if (score > bestScore) { bestScore = score; best = lang; }
+      var phrases = LANG_PHRASES[lang];
+      for (i = 0; i < phrases.length; i++) {
+        if (text.indexOf(phrases[i]) !== -1) { scores[lang] += 2; }
+      }
+    }
+    var best = null, bestScore = 0;
+    for (lang in scores) {
+      if (scores.hasOwnProperty(lang) && scores[lang] > bestScore) {
+        bestScore = scores[lang];
+        best = lang;
+      }
     }
     return bestScore > 0 ? best : null;
   }
