@@ -51,7 +51,7 @@
         <link rel="stylesheet" href="https://www.coelbo.es/css/owl.theme.default.min.css">
 
     <!-- Asistente virtual COELBO (chatbot) -->
-    <link rel="stylesheet" href="../chatbot/chatbot.css?v=8">
+    <link rel="stylesheet" href="../chatbot/chatbot.css?v=9">
 </head>
 <body leftmargin="0" marginheight="0" marginwidth="0" topmargin="0" id="inicio">
 <div class="background-menu-top">
@@ -106,7 +106,7 @@
             <img src="https://www.coelbo.es/img/coelbo_logo.png" alt="" height="100%" width="223" border="0"></a>
     </div>
     <div class="small-4 small-push-0 medium-3 medium-push-5 large-2 large-push-7 columns">
-        <select id="lang_selector" name="lang_selector" size="1" class="select_lang es wide" onchange="switch_lang(this.value, 'es', 'cont=inicio')">
+        <select id="lang_selector" name="lang_selector" size="1" class="select_lang es wide">
 
         <option class="es" selected = "selected" value="es">Español</option>
 
@@ -420,7 +420,11 @@ $(document).ready(function() {
     if(m){ field.classList.add('has-error'); errEl.textContent=m; el.setAttribute('aria-invalid','true'); return false; }
     field.classList.remove('has-error'); errEl.textContent=''; el.setAttribute('aria-invalid','false'); return true;
   }
-  langSelect.addEventListener('change',function(){ lang=langSelect.value; applyLang(); });
+  /* Cambia el idioma del formulario (usado por el selector del formulario y por
+     el selector de la cabecera de COELBO en esta página) */
+  function setFormLang(code){ if(!I18N[code]){ return; } lang=code; langSelect.value=code; applyLang(); }
+  window.__coelboSetFormLang = setFormLang;
+  langSelect.addEventListener('change',function(){ setFormLang(langSelect.value); });
   form.addEventListener('input',function(e){ var f=document.getElementById('field-'+e.target.id); if(f&&f.classList.contains('has-error')){ validateField(e.target.id);} });
   form.addEventListener('submit',function(e){
     e.preventDefault(); var ok=true, first=null;
@@ -433,6 +437,17 @@ $(document).ready(function() {
     successBox.classList.remove('show'); form.style.display=''; document.getElementById('nombre').focus();
   });
   applyLang();
+})();
+</script>
+<script>
+/* En la página de Contacto, el selector de idioma de la cabecera de COELBO
+   cambia el idioma del formulario (en vez de navegar al sitio real) */
+(function () {
+  var top = document.getElementById('lang_selector');
+  if (!top) { return; }
+  top.addEventListener('change', function () {
+    if (window.__coelboSetFormLang) { window.__coelboSetFormLang(top.value); }
+  });
 })();
 </script>
 <div id="prefoot">
@@ -509,7 +524,7 @@ $(document).ready(function() {
     <script type="text/javascript" src="https://www.coelbo.es/js/app.js"></script>
 </div>
 <!-- Asistente virtual COELBO (chatbot) -->
-<script src="../chatbot/chatbot.js?v=8" defer></script>
+<script src="../chatbot/chatbot.js?v=9" defer></script>
 </body>
 <div id="floating-cookie-policy">
     <div class="close-button"><a href="javascript: hideFloatingCookiePolicy();">x</a></div>

@@ -120,9 +120,9 @@
     industrial: ['industrial', 'industria', 'planta', 'riego', 'irrigation', 'irrigazione',
       'agricola', 'invernadero', 'naves'],
     house: ['chalet', 'xalet', 'vivienda unifamiliar', 'habitatge unifamiliar',
-      'casa unifamiliar', 'unifamiliar', 'pozo', 'pou', 'well', 'maison', 'villa',
-      'casa de campo', 'mi casa', 'aljibe', 'cisterna', 'grifo', 'aixeta', 'robinet',
-      'abro el grifo', 'obro l aixeta'],
+      'casa unifamiliar', 'unifamiliar', 'pozo', 'pou', 'water well', 'borehole',
+      ' house', 'maison', 'villa', 'casa de campo', 'mi casa', 'aljibe', 'cisterna',
+      'grifo', 'aixeta', 'robinet', 'abro el grifo', 'obro l aixeta'],
     familyPressflow: ['pressflow', 'optimatic', 'compact 22', 'digiplus', 'digimatic',
       'onematic', 'presscontrol', 'press control', 'presscomfort', ' epr', ' dpr',
       'controlador tradicional', 'sustituye el presostato', 'presostato mecanico',
@@ -166,7 +166,8 @@
       'vous', 'nous', 'avez', 'puis', 'quel', 'dans', 'sur', 'mon', 'voudrais', 'prix'],
     it: ['ciao', 'ho', 'come', 'quale', 'acqua', 'pompa', 'grazie', 'rubinetto',
       'installazione', 'vorrei', 'salve', 'avete', 'sono', 'vendita', 'della', 'delle',
-      'gli', 'vostra', 'posso', 'buongiorno', 'quanto', 'vostri', 'pompe', 'serve', 'prezzo']
+      'gli', 'vostra', 'posso', 'buongiorno', 'quanto', 'vostri', 'pompe', 'serve',
+      'prezzo', 'con', 'una', 'per']
   };
   /* Frases marca (pes doble) */
   var LANG_PHRASES = {
@@ -177,7 +178,7 @@
     it: ['ho una', 'vorrei sapere', 'quanto costa', 'mi puo', 'vostra gamma', 'avete pompe']
   };
 
-  function detectLang(text) {
+  function detectLang(text, current) {
     var tokens = text.split(/[^a-z0-9]+/);
     var scores = { ca: 0, es: 0, en: 0, fr: 0, it: 0 };
     var lang, i;
@@ -199,7 +200,12 @@
         best = lang;
       }
     }
-    return bestScore > 0 ? best : null;
+    if (bestScore === 0) { return null; }
+    /* Empate: si el idioma actual empata con el máximo, no cambiamos (evita saltos) */
+    if (current && SUPPORTED.indexOf(current) !== -1 && scores[current] === bestScore) {
+      return current;
+    }
+    return best;
   }
 
   /* ---------- Classificador d'intencions (ordre = prioritat) ---------- */
@@ -397,7 +403,7 @@
 
   function answer(rawText, currentLang) {
     var text = normalize(rawText);
-    var detected = detectLang(text);
+    var detected = detectLang(text, currentLang);
     var lang = (detected && SUPPORTED.indexOf(detected) !== -1) ? detected : currentLang;
     var intent = classify(text);
     var key = INTENT_MAP[intent] || 'fallback';
@@ -495,6 +501,8 @@
       msg.className = 'cc-msg cc-bot';
       var row = document.createElement('div');
       row.className = 'cc-langpick';
+      row.setAttribute('role', 'group');
+      row.setAttribute('aria-label', t().langLabel);
       SUPPORTED.forEach(function (code) {
         var btn = document.createElement('button');
         btn.type = 'button';
