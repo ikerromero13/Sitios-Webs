@@ -58,6 +58,77 @@
     it: 'Può cambiare lingua con il selettore in alto a destra.'
   };
 
+  /* Botón de descarga del catálogo (PDF) por idioma */
+  var LABEL_PDF = {
+    ca: 'Descarregar catàleg (PDF)', es: 'Descargar catálogo (PDF)',
+    en: 'Download catalogue (PDF)', fr: 'Télécharger le catalogue (PDF)',
+    it: 'Scarica il catalogo (PDF)'
+  };
+  /* Frase que invita a usar el formulario (antes del botón de contacto) */
+  var FORM_HINT = {
+    ca: 'També pot fer servir el formulari de contacte:',
+    es: 'También puede usar el formulario de contacto:',
+    en: 'You can also use the contact form:',
+    fr: 'Vous pouvez aussi utiliser le formulaire de contact :',
+    it: 'Può anche usare il modulo di contatto:'
+  };
+  /* Aviso proactivo (globus que apareix sol als pocs segons) */
+  var TEASER = {
+    ca: 'Necessita ajuda? Pregunti\'m!', es: '¿Necesita ayuda? ¡Pregúnteme!',
+    en: 'Need help? Ask me!', fr: 'Besoin d\'aide ? Demandez-moi !',
+    it: 'Ha bisogno di aiuto? Mi chieda!'
+  };
+  /* Familias: clave -> nombre visible */
+  var FAMILY_NAMES = { pressflow: 'PressflowTech', hitech: 'HiTech', smarttech: 'SmartTech' };
+  /* Catálogos PDF por familia (públicos solo en español) */
+  var PDF_BASE = 'https://www.coelbo.es/pdf/';
+  var PDF_FOR = {
+    pressflow: 'coelbo_g_pressflowtech_es.pdf',
+    hitech: 'coelbo_g_hitech_es.pdf',
+    smarttech: 'coelbo_g_smarttech_es.pdf'
+  };
+  /* Modelos concretos -> familia, nombre y (opcional) catálogo propio */
+  var MODELS = {
+    switchmatic: { f: 'smarttech', n: 'Switchmatic', pdf: 'switchmatic_es.pdf' },
+    panelmatic: { f: 'smarttech', n: 'Panelmatic' },
+    speedmatic: { f: 'hitech', n: 'Speedmatic' },
+    speedbox: { f: 'hitech', n: 'Speedbox' },
+    speedboard: { f: 'hitech', n: 'Speed-board' },
+    'speed-board': { f: 'hitech', n: 'Speed-board' },
+    optimatic: { f: 'pressflow', n: 'Optimatic' },
+    digiplus: { f: 'pressflow', n: 'Digiplus' },
+    digimatic: { f: 'pressflow', n: 'Digimatic' },
+    onematic: { f: 'pressflow', n: 'Onematic' },
+    presscontrol: { f: 'pressflow', n: 'Presscontrol' },
+    presscomfort: { f: 'pressflow', n: 'Presscomfort' },
+    dpr: { f: 'pressflow', n: 'DPR', pdf: 'dpr_epr_es.pdf' },
+    epr: { f: 'pressflow', n: 'EPR', pdf: 'dpr_epr_es.pdf' }
+  };
+  /* Frase "el modelo X pertenece a la familia Y" por idioma */
+  var MODEL_INTRO = {
+    ca: function (n, f) { return n + ' pertany a la família ' + f + '. '; },
+    es: function (n, f) { return 'El ' + n + ' pertenece a la familia ' + f + '. '; },
+    en: function (n, f) { return 'The ' + n + ' belongs to the ' + f + ' family. '; },
+    fr: function (n, f) { return 'Le ' + n + ' appartient à la famille ' + f + '. '; },
+    it: function (n, f) { return 'Il ' + n + ' appartiene alla famiglia ' + f + '. '; }
+  };
+  /* Frases de "amplíame / y eso" para preguntas de seguimiento */
+  var MORE_KW = ['mas info', 'mes info', 'more info', 'more information', 'plus d info',
+    'piu info', 'piu informazioni', 'tell me more', 'en savoir plus', 'dime mas',
+    'explica mes', 'continua', 'y eso', 'y ese', 'y esa', 'y de eso', 'sobre eso',
+    'mas detalles', 'mes detalls', 'more details'];
+  /* Familia asociada a cada intención (para recordar el contexto) */
+  var FAMILY_OF_INTENT = {
+    pressflow: 'pressflow', hitech: 'hitech', smarttech: 'smarttech',
+    recHouse: 'pressflow', recConstant: 'hitech', recIndustrial: 'hitech', recDrainage: 'smarttech'
+  };
+  /* Términos importantes para tolerar erratas (distancia de edición <= 1) */
+  var IMPORTANT_TERMS = ['pressflowtech', 'hitech', 'smarttech', 'switchmatic', 'panelmatic',
+    'speedmatic', 'speedbox', 'optimatic', 'digiplus', 'digimatic', 'onematic', 'presscontrol',
+    'presscomfort', 'inverter', 'variador', 'presostato', 'pressostato', 'catalogo', 'manual',
+    'garantia', 'precio', 'configuracion', 'contacto', 'drenaje', 'constante', 'electrobomba',
+    'instalacion', 'pressio', 'presion'];
+
   /* ---------- Normalització de text (minúscules, sense accents) ---------- */
   function normalize(str) {
     return (str || '')
@@ -82,6 +153,56 @@
     if (hasAny(text, KW.familyHitech)) { n++; }
     if (hasAny(text, KW.familySmart)) { n++; }
     return n;
+  }
+
+  /* ---------- Distància d'edició (Levenshtein) per tolerar errates ---------- */
+  function levenshtein(a, b) {
+    var m = a.length, n = b.length;
+    if (!m) { return n; }
+    if (!n) { return m; }
+    var prev = [], cur = [], i, j;
+    for (j = 0; j <= n; j++) { prev[j] = j; }
+    for (i = 1; i <= m; i++) {
+      cur[0] = i;
+      for (j = 1; j <= n; j++) {
+        var cost = a.charAt(i - 1) === b.charAt(j - 1) ? 0 : 1;
+        cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+      }
+      for (j = 0; j <= n; j++) { prev[j] = cur[j]; }
+    }
+    return prev[n];
+  }
+
+  /* Corregeix errates lleus cap als termes importants (models, famílies, etc.) */
+  function spellNormalize(text) {
+    var toks = text.split(' ');
+    for (var i = 0; i < toks.length; i++) {
+      var tk = toks[i];
+      if (tk.length < 5 || IMPORTANT_TERMS.indexOf(tk) !== -1) { continue; }
+      for (var k = 0; k < IMPORTANT_TERMS.length; k++) {
+        var term = IMPORTANT_TERMS[k];
+        if (Math.abs(term.length - tk.length) <= 1 && levenshtein(tk, term) <= 1) {
+          toks[i] = term;
+          break;
+        }
+      }
+    }
+    return toks.join(' ');
+  }
+
+  /* Detecta un model concret esmentat al text (Switchmatic, Speedbox, DPR…) */
+  function detectModel(text) {
+    var toks = text.split(' ');
+    for (var key in MODELS) {
+      if (!MODELS.hasOwnProperty(key)) { continue; }
+      if (key.indexOf(' ') === -1 && key.indexOf('-') === -1) {
+        if (toks.indexOf(key) !== -1) { return MODELS[key]; }
+      } else if (text.indexOf(key) !== -1) {
+        return MODELS[key];
+      }
+    }
+    if (text.indexOf('speed board') !== -1) { return MODELS.speedboard; }
+    return null;
   }
 
   /* ---------- Paraules clau d'intencions (normalitzades) ---------- */
@@ -392,6 +513,17 @@
     }
   };
 
+  /* Permet a COELBO substituir textos sense tocar aquest fitxer: definiu
+     window.COELBO_I18N_OVERRIDES = { es: { price: '…' }, en: {…} } abans d'aquest script. */
+  if (typeof window !== 'undefined' && window.COELBO_I18N_OVERRIDES) {
+    for (var _ol in window.COELBO_I18N_OVERRIDES) {
+      if (I18N[_ol]) {
+        var _ov = window.COELBO_I18N_OVERRIDES[_ol];
+        for (var _ok in _ov) { if (_ov.hasOwnProperty(_ok)) { I18N[_ol][_ok] = _ov[_ok]; } }
+      }
+    }
+  }
+
   /* mapatge intent -> clau de resposta */
   var INTENT_MAP = {
     greeting: 'greeting', overview: 'overview', pressflow: 'pressflow',
@@ -401,33 +533,87 @@
     compat: 'compat', warranty: 'warranty', stock: 'stock', fallback: 'fallback'
   };
 
-  function answer(rawText, currentLang) {
-    var text = normalize(rawText);
-    var detected = detectLang(text, currentLang);
+  function answer(rawText, currentLang, context) {
+    var raw = normalize(rawText);
+    var text = spellNormalize(raw);          /* text amb errates corregides per classificar */
+    var detected = detectLang(raw, currentLang);
     var lang = (detected && SUPPORTED.indexOf(detected) !== -1) ? detected : currentLang;
-    var intent = classify(text);
-    var key = INTENT_MAP[intent] || 'fallback';
+    context = context || {};
+
+    var intent, reply, family = null, pdfFile = null, linkPage = null, model = detectModel(text);
+
+    if (model) {
+      /* Ha esmentat un model concret: diem a quina família pertany + resposta de família */
+      family = model.f;
+      intent = family;
+      reply = MODEL_INTRO[lang](model.n, FAMILY_NAMES[family]) + I18N[lang][family];
+      linkPage = PAGE_FOR_INTENT[family];
+      pdfFile = model.pdf || PDF_FOR[family] || null;
+    } else {
+      intent = classify(text);
+      /* Pregunta de seguiment ("amplia", "y eso"): usem la família del context */
+      if (intent === 'fallback' && hasAny(text, MORE_KW) && context.family) {
+        intent = context.family;
+      }
+      var key = INTENT_MAP[intent] || 'fallback';
+      reply = I18N[lang][key];
+      family = FAMILY_OF_INTENT[intent] || null;
+      linkPage = PAGE_FOR_INTENT[intent] || (family ? PAGE_FOR_INTENT[family] : null);
+      pdfFile = (family && PDF_FOR[family]) ? PDF_FOR[family] : null;
+      if (intent === 'docs') { pdfFile = null; }
+    }
+
+    var contact = DERIVE_INTENTS.indexOf(intent) !== -1;
+    if (contact) { reply = reply + ' ' + (FORM_HINT[lang] || ''); }
+
     return {
       lang: lang,
-      reply: I18N[lang][key],
-      contact: DERIVE_INTENTS.indexOf(intent) !== -1,  /* true si no lo puede resolver */
-      linkPage: PAGE_FOR_INTENT[intent] || null        /* enlace directo a la web, si aplica */
+      reply: reply,
+      contact: contact,
+      linkPage: linkPage || null,
+      pdf: pdfFile ? (PDF_BASE + pdfFile) : null,
+      family: family,
+      intent: intent
     };
   }
 
   /* Exposat per a proves o integració avançada */
-  window.CoelboBot = { answer: answer, classify: function (t) { return classify(normalize(t)); } };
+  window.CoelboBot = {
+    answer: answer,
+    classify: function (t) { return classify(spellNormalize(normalize(t))); }
+  };
+
+  /* =========================================================
+     Persistència (localStorage) — segura si no està disponible
+     ========================================================= */
+  var K_CHAT = 'coelbo_chat_v1';     /* idioma + conversa + família del context */
+  var K_SEEN = 'coelbo_seen_v1';     /* ja s'ha obert alguna vegada (avís proactiu) */
+  var K_SIZE = 'coelbo_size_v1';     /* mida del text (0/1/2) */
+  var K_LASTQ = 'coelbo_last_q';     /* última pregunta (per pre-omplir el formulari) */
+  var K_UNRES = 'coelbo_unresolved_v1'; /* preguntes no resoltes (analítica local) */
+
+  function lsGet(k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } }
+  function lsSet(k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
 
   /* =========================================================
      Widget d'interfície
      ========================================================= */
   function buildWidget() {
-    /* El asistente arranca SIEMPRE en inglés; el usuario puede cambiar el idioma */
-    var lang = 'en';
+    /* Estat inicial (recuperat de localStorage si n'hi ha) */
+    var saved = null;
+    try { saved = JSON.parse(lsGet(K_CHAT) || 'null'); } catch (e) { saved = null; }
+    var lang = (saved && SUPPORTED.indexOf(saved.lang) !== -1) ? saved.lang : 'en';
+    var context = { family: (saved && saved.family) || null };
+    var history = (saved && saved.msgs) ? saved.msgs.slice(0) : [];  /* [{who,text}] preguntes/respostes */
+    var sizeIdx = parseInt(lsGet(K_SIZE) || '0', 10) || 0;
 
     var root = document.createElement('div');
     root.className = 'coelbo-chat';
     root.innerHTML =
+      '<div class="cc-teaser" hidden>' +
+        '<button class="cc-teaser-msg" type="button"></button>' +
+        '<button class="cc-teaser-x" type="button" aria-label="x">&times;</button>' +
+      '</div>' +
       '<button class="cc-launcher" type="button" aria-haspopup="dialog" aria-expanded="false">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" width="26" height="26"><path fill="currentColor" d="M12 3C6.5 3 2 6.86 2 11.6c0 2.5 1.27 4.74 3.3 6.3L4.6 21.6l3.9-2.05c1.07.3 2.22.45 3.5.45 5.5 0 10-3.86 10-8.6S17.5 3 12 3z"/></svg>' +
         '<span class="cc-launcher-dot" aria-hidden="true"></span>' +
@@ -439,6 +625,7 @@
             '<span class="cc-subtitle"></span>' +
           '</div>' +
           '<div class="cc-head-actions">' +
+            '<button class="cc-textsize" type="button" title="A">A</button>' +
             '<label class="cc-lang-wrap"><span class="cc-sr"></span>' +
               '<select class="cc-lang">' +
                 '<option value="ca">CA</option><option value="es">ES</option>' +
@@ -469,33 +656,60 @@
       subtitle: root.querySelector('.cc-subtitle'),
       langSel: root.querySelector('.cc-lang'),
       langSr: root.querySelector('.cc-sr'),
+      textsize: root.querySelector('.cc-textsize'),
       close: root.querySelector('.cc-close'),
       log: root.querySelector('.cc-log'),
       form: root.querySelector('.cc-form'),
       input: root.querySelector('.cc-input'),
       send: root.querySelector('.cc-send'),
-      foot: root.querySelector('.cc-foot')
+      foot: root.querySelector('.cc-foot'),
+      teaser: root.querySelector('.cc-teaser'),
+      teaserMsg: root.querySelector('.cc-teaser-msg'),
+      teaserX: root.querySelector('.cc-teaser-x')
     };
 
-    var started = false;
-    var welcomeMsg = null;   /* referencia al mensaje de bienvenida para retraducirlo */
-    var langPick = null;     /* fila de botones de idioma del mensaje de bienvenida */
+    var started = false;     /* ja s'ha construït el registre (benvinguda + història) */
+    var welcomeMsg = null;
+    var langPick = null;
 
     function t() { return I18N[lang]; }
+    function welcomeText() { return t().welcome + ' ' + (LANG_HINT[lang] || ''); }
 
-    /* Texto de bienvenida = saludo + aviso para cambiar de idioma, en el idioma actual */
-    function welcomeText() {
-      return t().welcome + ' ' + (LANG_HINT[lang] || '');
+    /* Desa l'estat de la conversa */
+    function persist() {
+      lsSet(K_CHAT, JSON.stringify({ lang: lang, family: context.family, msgs: history }));
     }
 
-    /* Cambia el idioma activo (desde los botones de bienvenida) y refresca todo */
     function setLang(code) {
       if (SUPPORTED.indexOf(code) === -1 || code === lang) { return; }
       lang = code;
       applyLang();
+      persist();
     }
 
-    /* Botones de idioma bajo el mensaje de bienvenida (CA/ES/EN/FR/IT) */
+    /* Aplica la mida de text triada */
+    function applySize() { els.panel.setAttribute('data-size', String(sizeIdx)); }
+
+    /* --- Missatges --- */
+    function addMsgDom(who, text) {
+      var msg = document.createElement('div');
+      msg.className = 'cc-msg cc-' + who;
+      var bubble = document.createElement('div');
+      bubble.className = 'cc-bubble';
+      bubble.textContent = text;
+      msg.appendChild(bubble);
+      els.log.appendChild(msg);
+      els.log.scrollTop = els.log.scrollHeight;
+      return msg;
+    }
+    /* addMsg = mostra + desa a la història */
+    function addMsg(who, text) {
+      var m = addMsgDom(who, text);
+      history.push({ who: who, text: text });
+      persist();
+      return m;
+    }
+
     function addLangChips() {
       var msg = document.createElement('div');
       msg.className = 'cc-msg cc-bot';
@@ -523,35 +737,22 @@
       els.subtitle.textContent = s.subtitle;
       els.langSr.textContent = s.langLabel;
       els.close.setAttribute('aria-label', s.close);
+      els.textsize.setAttribute('aria-label', s.langLabel === 'Language' ? 'Text size' : 'Mida del text');
       els.input.setAttribute('placeholder', s.placeholder);
       els.input.setAttribute('aria-label', s.placeholder);
       els.send.textContent = s.send;
       els.foot.textContent = s.disclaimer;
       els.launcher.setAttribute('aria-label', s.open);
       els.langSel.value = lang;
-      /* Si ya se mostró la bienvenida, la retraducimos al idioma actual */
       if (welcomeMsg) {
         var bubble = welcomeMsg.querySelector('.cc-bubble');
         if (bubble) { bubble.textContent = welcomeText(); }
       }
-      /* Marca como activo el botón de idioma correspondiente */
       if (langPick) {
         Array.prototype.forEach.call(langPick.querySelectorAll('.cc-langbtn'), function (b) {
           b.classList.toggle('is-active', b.getAttribute('data-lang') === lang);
         });
       }
-    }
-
-    function addMsg(who, textContent) {
-      var msg = document.createElement('div');
-      msg.className = 'cc-msg cc-' + who;
-      var bubble = document.createElement('div');
-      bubble.className = 'cc-bubble';
-      bubble.textContent = textContent;
-      msg.appendChild(bubble);
-      els.log.appendChild(msg);
-      els.log.scrollTop = els.log.scrollHeight;
-      return msg;
     }
 
     function botTyping() {
@@ -563,71 +764,83 @@
       return msg;
     }
 
+    /* Botó/enllaç auxiliar sota una resposta (contacte, web, PDF) */
+    function addAction(text, href, opts) {
+      opts = opts || {};
+      var msg = document.createElement('div');
+      msg.className = 'cc-msg cc-bot';
+      var link = document.createElement('a');
+      link.className = 'cc-cta' + (opts.ghost ? ' cc-cta-ghost' : '');
+      link.href = href;
+      if (opts.blank) { link.target = '_blank'; link.rel = 'noopener'; }
+      link.textContent = text;
+      msg.appendChild(link);
+      els.log.appendChild(msg);
+      els.log.scrollTop = els.log.scrollHeight;
+    }
+
     function botReply(userText) {
       var typing = botTyping();
-      var res = answer(userText, lang);
-      /* "Procesamiento": retardo variable según la longitud de la pregunta y la
-         respuesta, para que no sea instantáneo. Siempre por debajo de 5 segundos. */
+      var res = answer(userText, lang, context);
       var delay = 1000 + Math.min(2800, (userText.length + res.reply.length) * 12);
       window.setTimeout(function () {
         if (res.lang !== lang) { lang = res.lang; applyLang(); }
         typing.parentNode.removeChild(typing);
         addMsg('bot', res.reply);
-        /* Enlace directo al sitio concreto de la web (catálogo / familia / técnica) */
-        if (res.linkPage) { addLinkButton(res.linkPage); }
-        /* Si el asistente no lo puede resolver, ofrece ir al formulario de contacto */
-        if (res.contact) { addContactCta(); }
+        /* Recordem la família per a preguntes de seguiment */
+        if (res.family) { context.family = res.family; persist(); }
+        /* Enllaç directe a la pàgina concreta de la web */
+        if (res.linkPage) {
+          var siteLang = (lang === 'ca') ? 'es' : lang;
+          addAction(LABEL_INFO[lang] || LABEL_INFO.es,
+            'https://www.coelbo.es/' + siteLang + '/index.php?cont=' + res.linkPage, { blank: true });
+        }
+        /* Descàrrega directa del catàleg (PDF) */
+        if (res.pdf) {
+          addAction(LABEL_PDF[lang] || LABEL_PDF.es, res.pdf, { blank: true, ghost: true });
+        }
+        /* Si no ho pot resoldre: botó al formulari + analítica local */
+        if (res.contact) {
+          addAction(CTA[lang] || CTA.es, CONTACT_URL, {});
+          logUnresolved(userText, res.intent);
+        }
       }, delay);
     }
 
-    /* Añade un enlace directo a la página concreta de la web de COELBO */
-    function addLinkButton(page) {
-      /* La web de COELBO está en es/en/fr/it; para catalán usamos el sitio en español */
-      var siteLang = (lang === 'ca') ? 'es' : lang;
-      var url = 'https://www.coelbo.es/' + siteLang + '/index.php?cont=' + page;
-      var msg = document.createElement('div');
-      msg.className = 'cc-msg cc-bot';
-      var link = document.createElement('a');
-      link.className = 'cc-cta';
-      link.href = url;
-      link.target = '_blank';
-      link.rel = 'noopener';
-      link.textContent = LABEL_INFO[lang] || LABEL_INFO.es;
-      msg.appendChild(link);
-      els.log.appendChild(msg);
-      els.log.scrollTop = els.log.scrollHeight;
-    }
-
-    /* Añade un botón que lleva directamente al formulario de contacto */
-    function addContactCta() {
-      var msg = document.createElement('div');
-      msg.className = 'cc-msg cc-bot';
-      var link = document.createElement('a');
-      link.className = 'cc-cta';
-      link.href = CONTACT_URL;
-      link.textContent = CTA[lang] || CTA.es;
-      msg.appendChild(link);
-      els.log.appendChild(msg);
-      els.log.scrollTop = els.log.scrollHeight;
+    /* Analítica local: desa preguntes no resoltes (fins a 100) */
+    function logUnresolved(q, intent) {
+      var arr = [];
+      try { arr = JSON.parse(lsGet(K_UNRES) || '[]'); } catch (e) { arr = []; }
+      arr.push({ q: q, intent: intent, at: new Date().toISOString(), lang: lang });
+      if (arr.length > 100) { arr = arr.slice(arr.length - 100); }
+      lsSet(K_UNRES, JSON.stringify(arr));
     }
 
     function submitText(value) {
       var text = (value || '').trim();
       if (!text) { return; }
+      lsSet(K_LASTQ, text);   /* per pre-omplir el formulari de contacte */
       addMsg('user', text);
       els.input.value = '';
       botReply(text);
     }
 
+    /* Construeix el registre la primera vegada (benvinguda + història desada) */
+    function buildLog() {
+      welcomeMsg = addMsgDom('bot', welcomeText());
+      addLangChips();
+      history.forEach(function (h) { addMsgDom(h.who, h.text); });
+    }
+
+    function hideTeaser() { els.teaser.hidden = true; }
+
     function openPanel() {
       els.panel.hidden = false;
       els.launcher.setAttribute('aria-expanded', 'true');
       root.classList.add('is-open');
-      if (!started) {
-        started = true;
-        welcomeMsg = addMsg('bot', welcomeText());
-        addLangChips();   /* botones para elegir idioma desde la bienvenida */
-      }
+      hideTeaser();
+      lsSet(K_SEEN, '1');
+      if (!started) { started = true; buildLog(); }
       window.setTimeout(function () { els.input.focus(); }, 50);
     }
 
@@ -642,19 +855,31 @@
       if (els.panel.hidden) { openPanel(); } else { closePanel(); }
     });
     els.close.addEventListener('click', closePanel);
-    els.form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      submitText(els.input.value);
+    els.form.addEventListener('submit', function (e) { e.preventDefault(); submitText(els.input.value); });
+    els.langSel.addEventListener('change', function () { lang = els.langSel.value; applyLang(); persist(); });
+    els.textsize.addEventListener('click', function () {
+      sizeIdx = (sizeIdx + 1) % 3;
+      applySize();
+      lsSet(K_SIZE, String(sizeIdx));
     });
-    els.langSel.addEventListener('change', function () {
-      lang = els.langSel.value;
-      applyLang();
-    });
+    els.teaserMsg.addEventListener('click', openPanel);
+    els.teaserX.addEventListener('click', function () { hideTeaser(); lsSet(K_SEEN, '1'); });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !els.panel.hidden) { closePanel(); }
     });
 
+    applySize();
     applyLang();
+
+    /* Avís proactiu: als 8 s, si no s'ha obert mai el xat en aquest navegador */
+    if (!lsGet(K_SEEN)) {
+      window.setTimeout(function () {
+        if (!lsGet(K_SEEN) && els.panel.hidden) {
+          els.teaserMsg.textContent = TEASER[lang] || TEASER.en;
+          els.teaser.hidden = false;
+        }
+      }, 8000);
+    }
   }
 
   if (document.readyState === 'loading') {

@@ -233,3 +233,61 @@
 @media (prefers-reduced-motion: reduce) {
   .cc-panel, .cc-launcher, .cc-typing .cc-bubble span { animation: none; transition: none; }
 }
+
+/* ---------- Botó de mida de text ---------- */
+.cc-textsize {
+  background: var(--cc-surface); color: var(--cc-brand);
+  border: 1px solid var(--cc-border); border-radius: 8px;
+  width: 30px; height: 30px; cursor: pointer; font-weight: 700; font-size: .8rem; line-height: 1;
+}
+.cc-textsize:hover { background: #e7eef7; }
+.cc-textsize:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 1px; }
+
+/* Mides de text (0 normal · 1 gran · 2 molt gran) */
+.cc-panel[data-size="1"] .cc-bubble,
+.cc-panel[data-size="1"] .cc-input,
+.cc-panel[data-size="1"] .cc-cta { font-size: 1.02rem; }
+.cc-panel[data-size="2"] .cc-bubble,
+.cc-panel[data-size="2"] .cc-input,
+.cc-panel[data-size="2"] .cc-cta { font-size: 1.14rem; }
+
+/* ---------- Botó secundari (descàrrega PDF) ---------- */
+.cc-cta-ghost { background: #fff; color: var(--cc-brand); border: 1.5px solid var(--cc-brand); }
+.cc-cta-ghost:hover { background: var(--cc-surface); color: var(--cc-brand); }
+
+/* ---------- Avís proactiu (teaser) ---------- */
+.cc-teaser {
+  position: absolute; right: 4px; bottom: 74px;
+  display: flex; align-items: flex-start; gap: 4px; max-width: 250px;
+  animation: cc-pop .2s ease;
+}
+.cc-teaser-msg {
+  background: #fff; color: var(--cc-text);
+  border: 1px solid var(--cc-border); border-radius: 14px; box-shadow: var(--cc-shadow);
+  padding: 10px 14px; font-size: .88rem; font-weight: 600; cursor: pointer; text-align: left;
+}
+.cc-teaser-msg:hover { background: var(--cc-surface); }
+.cc-teaser-x {
+  background: var(--cc-brand); color: #fff; border: 0; border-radius: 50%;
+  width: 20px; height: 20px; cursor: pointer; font-size: 14px; line-height: 1; flex: 0 0 auto;
+}
+.cc-teaser-x:focus-visible, .cc-teaser-msg:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
+@media (max-width: 480px) { .cc-teaser { bottom: 70px; right: 2px; } }
+
+/* ---------- Mode fosc (segueix la preferència del sistema) ---------- */
+@media (prefers-color-scheme: dark) {
+  .coelbo-chat {
+    --cc-bg: #1b2330;
+    --cc-surface: #141a24;
+    --cc-text: #e8eef6;
+    --cc-muted: #9fb0c3;
+    --cc-border: #2c3646;
+    --cc-bot-bg: #232e3d;
+  }
+  .cc-head { background: #1b2330; border-bottom-color: #2c3646; }
+  .cc-logo { filter: brightness(0) invert(1); }
+  .cc-lang, .cc-textsize { background: #232e3d; color: var(--cc-text); }
+  .cc-langbtn, .cc-cta-ghost, .cc-teaser-msg { background: #232e3d; color: #cfe0f5; }
+  .cc-input { background: #141a24; color: var(--cc-text); }
+  .cc-teaser-msg { border-color: #2c3646; }
+}
