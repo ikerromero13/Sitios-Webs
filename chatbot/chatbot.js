@@ -32,6 +32,23 @@
   /* Intenciones que el asistente NO resuelve (deriva): ofrecen el botón de contacto */
   var DERIVE_INTENTS = ['price', 'config', 'error', 'compat', 'warranty', 'stock', 'fallback'];
 
+  /* Intenciones cuya respuesta remite a un sitio concreto de la web (catálogo /
+     página de familia / información técnica): se añade un enlace directo. */
+  var PAGE_FOR_INTENT = {
+    pressflow: 'pressflowtech',
+    hitech: 'hitech',
+    smarttech: 'smarttech',
+    docs: 'manuales_de_instrucciones'
+  };
+  /* Texto del enlace "ver la información completa" por idioma */
+  var LABEL_INFO = {
+    ca: 'Veure la informació completa',
+    es: 'Ver la información completa',
+    en: 'See the full information',
+    fr: 'Voir l\'information complète',
+    it: 'Vedi le informazioni complete'
+  };
+
   /* Aviso, en el mensaje de bienvenida, de que se puede cambiar de idioma */
   var LANG_HINT = {
     ca: 'Pot canviar l\'idioma amb el selector de dalt a la dreta.',
@@ -358,7 +375,8 @@
     return {
       lang: lang,
       reply: I18N[lang][key],
-      contact: DERIVE_INTENTS.indexOf(intent) !== -1  /* true si no lo puede resolver */
+      contact: DERIVE_INTENTS.indexOf(intent) !== -1,  /* true si no lo puede resolver */
+      linkPage: PAGE_FOR_INTENT[intent] || null        /* enlace directo a la web, si aplica */
     };
   }
 
@@ -510,14 +528,37 @@
 
     function botReply(userText) {
       var typing = botTyping();
+      var res = answer(userText, lang);
+      /* "Procesamiento": retardo variable según la longitud de la pregunta y la
+         respuesta, para que no sea instantáneo. Siempre por debajo de 5 segundos. */
+      var delay = 1000 + Math.min(2800, (userText.length + res.reply.length) * 12);
       window.setTimeout(function () {
-        var res = answer(userText, lang);
         if (res.lang !== lang) { lang = res.lang; applyLang(); }
         typing.parentNode.removeChild(typing);
         addMsg('bot', res.reply);
+        /* Enlace directo al sitio concreto de la web (catálogo / familia / técnica) */
+        if (res.linkPage) { addLinkButton(res.linkPage); }
         /* Si el asistente no lo puede resolver, ofrece ir al formulario de contacto */
         if (res.contact) { addContactCta(); }
-      }, 450);
+      }, delay);
+    }
+
+    /* Añade un enlace directo a la página concreta de la web de COELBO */
+    function addLinkButton(page) {
+      /* La web de COELBO está en es/en/fr/it; para catalán usamos el sitio en español */
+      var siteLang = (lang === 'ca') ? 'es' : lang;
+      var url = 'https://www.coelbo.es/' + siteLang + '/index.php?cont=' + page;
+      var msg = document.createElement('div');
+      msg.className = 'cc-msg cc-bot';
+      var link = document.createElement('a');
+      link.className = 'cc-cta';
+      link.href = url;
+      link.target = '_blank';
+      link.rel = 'noopener';
+      link.textContent = LABEL_INFO[lang] || LABEL_INFO.es;
+      msg.appendChild(link);
+      els.log.appendChild(msg);
+      els.log.scrollTop = els.log.scrollHeight;
     }
 
     /* Añade un botón que lleva directamente al formulario de contacto */
