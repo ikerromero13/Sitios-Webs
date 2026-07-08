@@ -616,7 +616,6 @@
     root.innerHTML =
       '<div class="cc-teaser" hidden>' +
         '<button class="cc-teaser-msg" type="button"></button>' +
-        '<button class="cc-teaser-x" type="button" aria-label="x">&times;</button>' +
       '</div>' +
       '<button class="cc-launcher" type="button" aria-haspopup="dialog" aria-expanded="false">' +
         '<svg viewBox="0 0 24 24" aria-hidden="true" width="26" height="26"><path fill="currentColor" d="M12 3C6.5 3 2 6.86 2 11.6c0 2.5 1.27 4.74 3.3 6.3L4.6 21.6l3.9-2.05c1.07.3 2.22.45 3.5.45 5.5 0 10-3.86 10-8.6S17.5 3 12 3z"/></svg>' +
@@ -672,8 +671,7 @@
       send: root.querySelector('.cc-send'),
       foot: root.querySelector('.cc-foot'),
       teaser: root.querySelector('.cc-teaser'),
-      teaserMsg: root.querySelector('.cc-teaser-msg'),
-      teaserX: root.querySelector('.cc-teaser-x')
+      teaserMsg: root.querySelector('.cc-teaser-msg')
     };
 
     var started = false;     /* ja s'ha construït el registre (benvinguda + història) */
@@ -877,7 +875,6 @@
       if (sizeIdx < 2) { sizeIdx++; applySize(); lsSet(K_SIZE, String(sizeIdx)); }
     });
     els.teaserMsg.addEventListener('click', openPanel);
-    els.teaserX.addEventListener('click', function () { hideTeaser(); opened = true; });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !els.panel.hidden) { closePanel(); }
     });
@@ -885,11 +882,13 @@
     applySize();
     applyLang();
 
-    /* Avís proactiu: als 6 s, si encara no s'ha obert el xat en aquesta càrrega */
+    /* Avís proactiu: als 6 s, si encara no s'ha obert el xat en aquesta càrrega.
+       Un cop apareix, es tanca sol als 5 s (o abans si s'obre el xat o s'hi clica). */
     window.setTimeout(function () {
       if (!opened && els.panel.hidden) {
         els.teaserMsg.textContent = TEASER[lang] || TEASER.en;
         els.teaser.hidden = false;
+        window.setTimeout(hideTeaser, 5000);
       }
     }, 6000);
   }
