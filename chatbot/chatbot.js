@@ -676,6 +676,7 @@
     };
 
     var started = false;     /* ja s'ha construït el registre (benvinguda + història) */
+    var opened = false;      /* s'ha obert el xat en aquesta càrrega (per a l'avís proactiu) */
     var welcomeMsg = null;
     var langPick = null;
 
@@ -849,7 +850,7 @@
       els.launcher.setAttribute('aria-expanded', 'true');
       root.classList.add('is-open');
       hideTeaser();
-      lsSet(K_SEEN, '1');
+      opened = true;
       if (!started) { started = true; buildLog(); }
       window.setTimeout(function () { els.input.focus(); }, 50);
     }
@@ -874,7 +875,7 @@
       if (sizeIdx < 2) { sizeIdx++; applySize(); lsSet(K_SIZE, String(sizeIdx)); }
     });
     els.teaserMsg.addEventListener('click', openPanel);
-    els.teaserX.addEventListener('click', function () { hideTeaser(); lsSet(K_SEEN, '1'); });
+    els.teaserX.addEventListener('click', function () { hideTeaser(); opened = true; });
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && !els.panel.hidden) { closePanel(); }
     });
@@ -882,15 +883,13 @@
     applySize();
     applyLang();
 
-    /* Avís proactiu: als 8 s, si no s'ha obert mai el xat en aquest navegador */
-    if (!lsGet(K_SEEN)) {
-      window.setTimeout(function () {
-        if (!lsGet(K_SEEN) && els.panel.hidden) {
-          els.teaserMsg.textContent = TEASER[lang] || TEASER.en;
-          els.teaser.hidden = false;
-        }
-      }, 8000);
-    }
+    /* Avís proactiu: als 6 s, si encara no s'ha obert el xat en aquesta càrrega */
+    window.setTimeout(function () {
+      if (!opened && els.panel.hidden) {
+        els.teaserMsg.textContent = TEASER[lang] || TEASER.en;
+        els.teaser.hidden = false;
+      }
+    }, 6000);
   }
 
   if (document.readyState === 'loading') {
