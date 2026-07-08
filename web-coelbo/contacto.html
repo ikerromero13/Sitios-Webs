@@ -53,7 +53,7 @@
         <link rel="stylesheet" href="https://www.coelbo.es/css/owl.theme.default.min.css">
 
     <!-- Asistente virtual COELBO (chatbot) -->
-    <link rel="stylesheet" href="../chatbot/chatbot.css?v=17">
+    <link rel="stylesheet" href="../chatbot/chatbot.css?v=18">
 </head>
 <body leftmargin="0" marginheight="0" marginwidth="0" topmargin="0" id="inicio">
 <div class="background-menu-top">
@@ -225,6 +225,8 @@ $(document).ready(function() {
     font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; transition: background .15s ease; }
   .cf-submit:hover { background: #073a6b; }
   .cf-submit:focus-visible { outline: 3px solid #1b9cd8; outline-offset: 2px; }
+  .cf-submit[disabled] { opacity: .6; cursor: default; }
+  .cf-send-error { color: #c0392b; font-size: .9rem; margin: 12px 0 0; text-align: center; }
 
   .cf-success { display: none; text-align: center; padding: 16px 8px; }
   .cf-success.show { display: block; }
@@ -320,7 +322,12 @@ $(document).ready(function() {
         <span class="cf-error" id="err-mensaje" role="alert"></span>
       </div>
 
+      <!-- Campos ocultos para el envío (Formspree) -->
+      <input type="hidden" name="_subject" value="Nuevo mensaje del formulario de contacto (web COELBO)">
+      <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+
       <button type="submit" class="cf-submit" id="submitBtn">Enviar</button>
+      <p class="cf-send-error" id="cf-send-error" role="alert" hidden></p>
     </form>
 
     <div class="cf-success" id="successBox" role="status" aria-live="polite">
@@ -337,6 +344,20 @@ $(document).ready(function() {
 (function () {
   'use strict';
   var EMAIL_COELBO = 'comercial@coelbo.es';
+
+  /* === ENVÍO REAL (Formspree) ===
+     Pega aquí el endpoint de Formspree para activar el envío real de correos,
+     por ejemplo: 'https://formspree.io/f/xxxxxxxx'
+     Si se deja VACÍO, el formulario funciona en modo demo (confirmación simulada). */
+  var FORM_ENDPOINT = '';
+  /* Mensaje de error si el envío falla */
+  var ERR_SEND = {
+    ca: 'No s\'ha pogut enviar el missatge. Torni-ho a provar més tard.',
+    es: 'No se ha podido enviar el mensaje. Inténtelo de nuevo más tarde.',
+    en: 'The message could not be sent. Please try again later.',
+    fr: 'Le message n\'a pas pu être envoyé. Réessayez plus tard.',
+    it: 'Non è stato possibile inviare il messaggio. Riprovi più tardi.'
+  };
   var I18N = {
     ca:{htmlLang:'ca',langLabel:'Idioma',sectionTitle:'Contacte',emailsLabel:'Correus',formHeading:'Escrigui\'ns',
       intro:'L\'assistent no ha pogut resoldre la seva consulta? Escrigui\'ns i el nostre equip es posarà en contacte amb vostè.',
@@ -428,11 +449,31 @@ $(document).ready(function() {
   window.__coelboSetFormLang = setFormLang;
   langSelect.addEventListener('change',function(){ setFormLang(langSelect.value); });
   form.addEventListener('input',function(e){ var f=document.getElementById('field-'+e.target.id); if(f&&f.classList.contains('has-error')){ validateField(e.target.id);} });
+  function showSuccess(){
+    form.style.display='none'; successBox.classList.add('show');
+    successBox.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function showSendError(){
+    var el=document.getElementById('cf-send-error');
+    if(el){ el.textContent=ERR_SEND[lang]||ERR_SEND.es; el.hidden=false; }
+  }
   form.addEventListener('submit',function(e){
-    e.preventDefault(); var ok=true, first=null;
+    e.preventDefault();
+    var ok=true, first=null;
     REQUIRED.forEach(function(id){ var r=validateField(id); if(!r&&!first){first=id;} if(!r){ok=false;} });
     if(!ok){ if(first){ document.getElementById(first).focus(); } return; }
-    form.style.display='none'; successBox.classList.add('show'); successBox.scrollIntoView({behavior:'smooth',block:'center'});
+    var errEl=document.getElementById('cf-send-error'); if(errEl){ errEl.hidden=true; }
+    var btn=document.getElementById('submitBtn');
+    if(FORM_ENDPOINT){
+      /* Envío real via Formspree */
+      btn.disabled=true;
+      fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json'},body:new FormData(form)})
+        .then(function(res){ btn.disabled=false; if(res.ok){ showSuccess(); } else { showSendError(); } })
+        .catch(function(){ btn.disabled=false; showSendError(); });
+    } else {
+      /* Modo demo (sin endpoint configurado): confirmación simulada */
+      showSuccess();
+    }
   });
   againBtn.addEventListener('click',function(){
     form.reset(); REQUIRED.forEach(function(id){ var f=document.getElementById('field-'+id); if(f){f.classList.remove('has-error');} });
@@ -536,7 +577,7 @@ $(document).ready(function() {
     <script type="text/javascript" src="https://www.coelbo.es/js/app.js"></script>
 </div>
 <!-- Asistente virtual COELBO (chatbot) -->
-<script src="../chatbot/chatbot.js?v=17" defer></script>
+<script src="../chatbot/chatbot.js?v=18" defer></script>
 </body>
 <div id="floating-cookie-policy">
     <div class="close-button"><a href="javascript: hideFloatingCookiePolicy();">x</a></div>
