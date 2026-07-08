@@ -607,7 +607,8 @@
     try { saved = JSON.parse(lsGet(K_CHAT) || 'null'); } catch (e) { saved = null; }
     var lang = (saved && SUPPORTED.indexOf(saved.lang) !== -1) ? saved.lang : 'en';
     var context = { family: (saved && saved.family) || null };
-    var history = (saved && saved.msgs) ? saved.msgs.slice(0) : [];  /* [{who,text}] preguntes/respostes */
+    /* [{who,text}] preguntes/respostes desades; blindat contra dades corruptes */
+    var history = (saved && Array.isArray(saved.msgs)) ? saved.msgs.slice(0) : [];
     var sizeIdx = parseInt(lsGet(K_SIZE) || '0', 10) || 0;
 
     var root = document.createElement('div');
@@ -683,9 +684,10 @@
     function t() { return I18N[lang]; }
     function welcomeText() { return t().welcome + ' ' + (LANG_HINT[lang] || ''); }
 
-    /* Desa l'estat de la conversa */
+    /* Desa l'estat de la conversa (limita a les últimes 40 per no inflar localStorage) */
     function persist() {
-      lsSet(K_CHAT, JSON.stringify({ lang: lang, family: context.family, msgs: history }));
+      var msgs = history.length > 40 ? history.slice(history.length - 40) : history;
+      lsSet(K_CHAT, JSON.stringify({ lang: lang, family: context.family, msgs: msgs }));
     }
 
     function setLang(code) {
