@@ -234,14 +234,16 @@
   .cc-panel, .cc-launcher, .cc-typing .cc-bubble span { animation: none; transition: none; }
 }
 
-/* ---------- Botó de mida de text ---------- */
-.cc-textsize {
+/* ---------- Botons de mida de text (A- / A+) ---------- */
+.cc-textsize { display: inline-flex; gap: 4px; }
+.cc-ts-dec, .cc-ts-inc {
   background: var(--cc-surface); color: var(--cc-brand);
   border: 1px solid var(--cc-border); border-radius: 8px;
-  width: 30px; height: 30px; cursor: pointer; font-weight: 700; font-size: .8rem; line-height: 1;
+  min-width: 30px; height: 30px; padding: 0 4px;
+  cursor: pointer; font-weight: 700; font-size: .8rem; line-height: 1;
 }
-.cc-textsize:hover { background: #e7eef7; }
-.cc-textsize:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 1px; }
+.cc-ts-dec:hover, .cc-ts-inc:hover { background: #e7eef7; }
+.cc-ts-dec:focus-visible, .cc-ts-inc:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 1px; }
 
 /* Mides de text (0 normal · 1 gran · 2 molt gran) */
 .cc-panel[data-size="1"] .cc-bubble,
@@ -288,7 +290,7 @@
   }
   .cc-head { background: #1b2330; border-bottom-color: #2c3646; }
   .cc-logo { filter: brightness(0) invert(1); }
-  .cc-lang, .cc-textsize { background: #232e3d; color: var(--cc-text); }
+  .cc-lang, .cc-ts-dec, .cc-ts-inc { background: #232e3d; color: var(--cc-text); }
   .cc-langbtn, .cc-cta-ghost, .cc-teaser-msg { background: #232e3d; color: #cfe0f5; }
   .cc-input { background: #141a24; color: var(--cc-text); }
   .cc-teaser-msg { border-color: #2c3646; }

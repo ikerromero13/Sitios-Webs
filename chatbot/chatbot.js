@@ -72,6 +72,9 @@
     fr: 'Vous pouvez aussi utiliser le formulaire de contact :',
     it: 'Può anche usare il modulo di contatto:'
   };
+  /* Etiquetes accessibles dels botons de mida de text */
+  var TS_DEC = { ca: 'Reduir el text', es: 'Reducir el texto', en: 'Decrease text size', fr: 'Réduire le texte', it: 'Riduci il testo' };
+  var TS_INC = { ca: 'Ampliar el text', es: 'Ampliar el texto', en: 'Increase text size', fr: 'Agrandir le texte', it: 'Ingrandisci il testo' };
   /* Aviso proactivo (globus que apareix sol als pocs segons) */
   var TEASER = {
     ca: 'Necessita ajuda? Pregunti\'m!', es: '¿Necesita ayuda? ¡Pregúnteme!',
@@ -625,7 +628,10 @@
             '<span class="cc-subtitle"></span>' +
           '</div>' +
           '<div class="cc-head-actions">' +
-            '<button class="cc-textsize" type="button" title="A">A</button>' +
+            '<span class="cc-textsize" role="group">' +
+              '<button class="cc-ts-dec" type="button">A&minus;</button>' +
+              '<button class="cc-ts-inc" type="button">A+</button>' +
+            '</span>' +
             '<label class="cc-lang-wrap"><span class="cc-sr"></span>' +
               '<select class="cc-lang">' +
                 '<option value="ca">CA</option><option value="es">ES</option>' +
@@ -656,7 +662,8 @@
       subtitle: root.querySelector('.cc-subtitle'),
       langSel: root.querySelector('.cc-lang'),
       langSr: root.querySelector('.cc-sr'),
-      textsize: root.querySelector('.cc-textsize'),
+      tsDec: root.querySelector('.cc-ts-dec'),
+      tsInc: root.querySelector('.cc-ts-inc'),
       close: root.querySelector('.cc-close'),
       log: root.querySelector('.cc-log'),
       form: root.querySelector('.cc-form'),
@@ -737,7 +744,10 @@
       els.subtitle.textContent = s.subtitle;
       els.langSr.textContent = s.langLabel;
       els.close.setAttribute('aria-label', s.close);
-      els.textsize.setAttribute('aria-label', s.langLabel === 'Language' ? 'Text size' : 'Mida del text');
+      els.tsDec.setAttribute('aria-label', TS_DEC[lang] || TS_DEC.en);
+      els.tsDec.setAttribute('title', TS_DEC[lang] || TS_DEC.en);
+      els.tsInc.setAttribute('aria-label', TS_INC[lang] || TS_INC.en);
+      els.tsInc.setAttribute('title', TS_INC[lang] || TS_INC.en);
       els.input.setAttribute('placeholder', s.placeholder);
       els.input.setAttribute('aria-label', s.placeholder);
       els.send.textContent = s.send;
@@ -857,10 +867,11 @@
     els.close.addEventListener('click', closePanel);
     els.form.addEventListener('submit', function (e) { e.preventDefault(); submitText(els.input.value); });
     els.langSel.addEventListener('change', function () { lang = els.langSel.value; applyLang(); persist(); });
-    els.textsize.addEventListener('click', function () {
-      sizeIdx = (sizeIdx + 1) % 3;
-      applySize();
-      lsSet(K_SIZE, String(sizeIdx));
+    els.tsDec.addEventListener('click', function () {
+      if (sizeIdx > 0) { sizeIdx--; applySize(); lsSet(K_SIZE, String(sizeIdx)); }
+    });
+    els.tsInc.addEventListener('click', function () {
+      if (sizeIdx < 2) { sizeIdx++; applySize(); lsSet(K_SIZE, String(sizeIdx)); }
     });
     els.teaserMsg.addEventListener('click', openPanel);
     els.teaserX.addEventListener('click', function () { hideTeaser(); lsSet(K_SEEN, '1'); });
