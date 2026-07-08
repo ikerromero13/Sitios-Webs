@@ -257,8 +257,10 @@
 
 /* ---------- Avís proactiu (teaser) ---------- */
 .cc-teaser {
-  position: absolute; right: 4px; bottom: 74px;
-  display: flex; align-items: flex-start; gap: 4px; max-width: 250px;
+  position: fixed; right: 20px; bottom: 92px;
+  z-index: 2147483000;
+  display: flex; align-items: flex-start; gap: 6px;
+  width: max-content; max-width: 250px;
   animation: cc-pop .2s ease;
 }
 .cc-teaser-msg {
@@ -272,7 +274,7 @@
   width: 20px; height: 20px; cursor: pointer; font-size: 14px; line-height: 1; flex: 0 0 auto;
 }
 .cc-teaser-x:focus-visible, .cc-teaser-msg:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
-@media (max-width: 480px) { .cc-teaser { bottom: 70px; right: 2px; } }
+@media (max-width: 480px) { .cc-teaser { bottom: 84px; right: 14px; } }
 
 /* ---------- Mode fosc (segueix la preferència del sistema) ---------- */
 @media (prefers-color-scheme: dark) {
