@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /legal/
 
-Sitemap: https://www.clinicum.es/dental/sitemap.xml
+Sitemap: https://www.hannaeventsdecorations.com/sitemap.xml

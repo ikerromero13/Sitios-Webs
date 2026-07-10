@@ -1,0 +1,11 @@
+<!-- PLACEHOLDER 1200x630 — Imagen para compartir en redes (Open Graph). Sustituir por foto real + logo -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Hanna Events & Decorations — Terrassa">
+  <defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#FAF6F0"/><stop offset="1" stop-color="#E7D6C4"/></linearGradient></defs>
+  <rect width="1200" height="630" fill="url(#b)"/>
+  <g fill="none" stroke="#C8735A" stroke-opacity="0.4" stroke-width="3">
+    <path d="M600 120c-40 0-66 26-66 66 0 52 66 104 66 104s66-52 66-104c0-40-26-66-66-66z"/></g>
+  <text x="600" y="360" text-anchor="middle" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#2E2A26">Hanna Events</text>
+  <text x="600" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="40" fill="#C8735A">&amp; Decorations</text>
+  <text x="600" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" letter-spacing="6" fill="#8A9A7B">DECORACIÓN DE BODAS · TERRASSA</text>
+</svg>

@@ -1,0 +1,18 @@
+<!-- PLACEHOLDER 800x980 — FOTO REAL PENDIENTE: Arco o photocall floral -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 980" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Arco o photocall floral">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFE6DA"/>
+      <stop offset="0.55" stop-color="#E3D3C6"/>
+      <stop offset="1" stop-color="#D9C4B0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="980" fill="url(#g)"/>
+  <g fill="none" stroke="#C8735A" stroke-opacity="0.35" stroke-width="2">
+    <circle cx="400" cy="472" r="26"/>
+    <path d="M360 524 q40 -30 80 0"/>
+  </g>
+  <circle cx="400" cy="472" r="7" fill="#C8735A" fill-opacity="0.5"/>
+  <text x="50%" y="560" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#8A6C55">Arco floral</text>
+  <text x="50%" y="588" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" letter-spacing="2" fill="#A98F79">800 × 980</text>
+</svg>

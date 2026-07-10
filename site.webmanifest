@@ -1,0 +1,13 @@
+{
+  "name": "Hanna Events & Decorations",
+  "short_name": "Hanna Events",
+  "description": "Decoración de bodas y eventos en Terrassa y toda Catalunya.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF6F0",
+  "theme_color": "#FAF6F0",
+  "lang": "es",
+  "icons": [
+    { "src": "img/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

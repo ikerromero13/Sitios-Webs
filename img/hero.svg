@@ -1,0 +1,18 @@
+<!-- PLACEHOLDER 1920x1080 — FOTO REAL PENDIENTE: Foto apaisada de una boda/evento montado por Hanna (mesa, flores, iluminacion) — WebP recomendado -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Foto apaisada de una boda/evento montado por Hanna (mesa, flores, iluminacion) — WebP recomendado">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFE6DA"/>
+      <stop offset="0.55" stop-color="#E3D3C6"/>
+      <stop offset="1" stop-color="#D9C4B0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#g)"/>
+  <g fill="none" stroke="#C8735A" stroke-opacity="0.35" stroke-width="2">
+    <circle cx="960" cy="522" r="26"/>
+    <path d="M920 574 q40 -30 80 0"/>
+  </g>
+  <circle cx="960" cy="522" r="7" fill="#C8735A" fill-opacity="0.5"/>
+  <text x="50%" y="610" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#8A6C55">Boda decorada</text>
+  <text x="50%" y="638" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" letter-spacing="2" fill="#A98F79">1920 × 1080</text>
+</svg>

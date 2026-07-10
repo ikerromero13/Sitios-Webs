@@ -1,0 +1,18 @@
+<!-- PLACEHOLDER 900x1100 — FOTO REAL PENDIENTE: Retrato del equipo o de la fundadora de Hanna Events -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Retrato del equipo o de la fundadora de Hanna Events">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFE6DA"/>
+      <stop offset="0.55" stop-color="#E3D3C6"/>
+      <stop offset="1" stop-color="#D9C4B0"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1100" fill="url(#g)"/>
+  <g fill="none" stroke="#C8735A" stroke-opacity="0.35" stroke-width="2">
+    <circle cx="450" cy="532" r="26"/>
+    <path d="M410 584 q40 -30 80 0"/>
+  </g>
+  <circle cx="450" cy="532" r="7" fill="#C8735A" fill-opacity="0.5"/>
+  <text x="50%" y="620" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#8A6C55">El equipo</text>
+  <text x="50%" y="648" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" letter-spacing="2" fill="#A98F79">900 × 1100</text>
+</svg>

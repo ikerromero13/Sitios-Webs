@@ -1,0 +1,18 @@
+<!-- PLACEHOLDER 800x700 — FOTO REAL PENDIENTE: Iluminacion ambiente / velas -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Iluminacion ambiente / velas">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#EFE6DA"/>
+      <stop offset="0.55" stop-color="#E3D3C6"/>
+      <stop offset="1" stop-color="#D9C4B0"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="700" fill="url(#g)"/>
+  <g fill="none" stroke="#C8735A" stroke-opacity="0.35" stroke-width="2">
+    <circle cx="400" cy="332" r="26"/>
+    <path d="M360 384 q40 -30 80 0"/>
+  </g>
+  <circle cx="400" cy="332" r="7" fill="#C8735A" fill-opacity="0.5"/>
+  <text x="50%" y="420" text-anchor="middle" font-family="Georgia, serif" font-size="22" fill="#8A6C55">Iluminacion</text>
+  <text x="50%" y="448" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" letter-spacing="2" fill="#A98F79">800 × 700</text>
+</svg>
