@@ -1,0 +1,294 @@
+/* =========================================================
+   COELBO — Assistent virtual (widget)
+   Estils encapsulats sota .coelbo-chat per no interferir
+   amb el lloc on s'incrusti. Sense dependències.
+   ========================================================= */
+.coelbo-chat {
+  --cc-brand: #0a4d8c;
+  --cc-brand-dark: #073a6b;
+  --cc-accent: #1b9cd8;
+  --cc-bg: #ffffff;
+  --cc-surface: #f4f7fb;
+  --cc-text: #1d2733;
+  --cc-muted: #5b6b7b;
+  --cc-bot-bg: #eef3f9;
+  --cc-user-bg: #0a4d8c;
+  --cc-border: #d9e2ec;
+  --cc-radius: 16px;
+  --cc-shadow: 0 14px 40px rgba(7, 36, 64, .22);
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 2147483000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--cc-text);
+  line-height: 1.45;
+  box-sizing: border-box;
+}
+.coelbo-chat *,
+.coelbo-chat *::before,
+.coelbo-chat *::after { box-sizing: border-box; }
+
+.cc-sr {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ---------- Botó flotant ---------- */
+.cc-launcher {
+  position: relative;
+  width: 60px; height: 60px;
+  border: 0; border-radius: 50%;
+  background: var(--cc-brand);
+  color: #fff;
+  cursor: pointer;
+  display: grid; place-items: center;
+  box-shadow: var(--cc-shadow);
+  transition: transform .18s ease, background .18s ease;
+}
+.cc-launcher:hover { background: var(--cc-brand-dark); transform: translateY(-2px); }
+.cc-launcher:focus-visible { outline: 3px solid var(--cc-accent); outline-offset: 3px; }
+.coelbo-chat.is-open .cc-launcher { transform: scale(.92); }
+.cc-launcher-dot {
+  position: absolute; top: 12px; right: 12px;
+  width: 11px; height: 11px; border-radius: 50%;
+  background: #2bd47d; border: 2px solid #fff;
+}
+
+/* ---------- Panell ---------- */
+.cc-panel {
+  position: absolute;
+  right: 0; bottom: 74px;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  height: 540px;
+  max-height: calc(100vh - 120px);
+  background: var(--cc-bg);
+  border: 1px solid var(--cc-border);
+  border-radius: var(--cc-radius);
+  box-shadow: var(--cc-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: cc-pop .18s ease;
+}
+.coelbo-chat .cc-panel[hidden] { display: none; }
+@keyframes cc-pop {
+  from { opacity: 0; transform: translateY(10px) scale(.98); }
+  to   { opacity: 1; transform: none; }
+}
+
+.cc-head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  /* Cabecera blanca con el logo, igual que la cabecera de la web */
+  background: #fff;
+  color: var(--cc-text);
+  border-bottom: 1px solid var(--cc-border);
+}
+.cc-head-info { display: flex; flex-direction: column; min-width: 0; gap: 3px; }
+.cc-logo { height: 24px; width: auto; display: block; }
+.cc-subtitle { font-size: .78rem; color: var(--cc-muted); }
+.cc-head-actions { display: flex; align-items: center; gap: 6px; }
+.cc-lang {
+  background: var(--cc-surface);
+  color: var(--cc-text);
+  border: 1px solid var(--cc-border);
+  border-radius: 8px;
+  padding: 4px 6px;
+  font-size: .8rem;
+  cursor: pointer;
+}
+.cc-lang option { color: var(--cc-text); }
+.cc-close {
+  background: transparent; border: 0; color: var(--cc-muted);
+  cursor: pointer; display: grid; place-items: center;
+  width: 32px; height: 32px; border-radius: 8px;
+}
+.cc-close:hover { background: var(--cc-surface); }
+.cc-close:focus-visible,
+.cc-lang:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 1px; }
+
+/* ---------- Conversa ---------- */
+.cc-log {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 14px;
+  background: var(--cc-surface);
+  display: flex; flex-direction: column; gap: 10px;
+}
+.cc-msg { display: flex; }
+.cc-msg.cc-user { justify-content: flex-end; }
+.cc-bubble {
+  max-width: 84%;
+  padding: 10px 13px;
+  border-radius: 14px;
+  font-size: .9rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.cc-bot .cc-bubble {
+  background: var(--cc-bot-bg);
+  color: var(--cc-text);
+  border-bottom-left-radius: 4px;
+}
+.cc-user .cc-bubble {
+  background: var(--cc-user-bg);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+/* indicador d'escriptura */
+.cc-typing .cc-bubble { display: inline-flex; gap: 4px; align-items: center; }
+.cc-typing .cc-bubble span {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--cc-muted); opacity: .5;
+  animation: cc-blink 1.2s infinite ease-in-out;
+}
+.cc-typing .cc-bubble span:nth-child(2) { animation-delay: .2s; }
+.cc-typing .cc-bubble span:nth-child(3) { animation-delay: .4s; }
+@keyframes cc-blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+/* ---------- Botons per triar l'idioma (dins la benvinguda) ---------- */
+.cc-langpick { display: flex; flex-wrap: wrap; gap: 6px; }
+.cc-langbtn {
+  border: 1px solid var(--cc-border);
+  background: #fff;
+  color: var(--cc-brand);
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .3px;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.cc-langbtn:hover { background: var(--cc-surface); }
+.cc-langbtn.is-active { background: var(--cc-brand); color: #fff; border-color: var(--cc-brand); }
+.cc-langbtn:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
+
+/* ---------- Botó "anar al formulari de contacte" ---------- */
+.cc-cta {
+  display: inline-block;
+  background: var(--cc-brand);
+  color: #fff;
+  text-decoration: none;
+  font-size: .85rem;
+  font-weight: 600;
+  padding: 9px 14px;
+  border-radius: 14px;
+  border-bottom-left-radius: 4px;
+  transition: background .15s ease;
+}
+.cc-cta:hover { background: var(--cc-brand-dark); }
+.cc-cta:focus-visible { outline: 3px solid var(--cc-accent); outline-offset: 2px; }
+
+/* ---------- Formulari ---------- */
+.cc-form {
+  display: flex; gap: 8px;
+  padding: 10px 12px;
+  background: var(--cc-bg);
+  border-top: 1px solid var(--cc-border);
+}
+.cc-input {
+  flex: 1 1 auto;
+  border: 1px solid var(--cc-border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: .9rem;
+  color: var(--cc-text);
+}
+.cc-input:focus { outline: 2px solid var(--cc-accent); outline-offset: 0; border-color: var(--cc-accent); }
+.cc-send {
+  border: 0; border-radius: 10px;
+  background: var(--cc-brand); color: #fff;
+  padding: 0 16px; font-size: .88rem; font-weight: 600;
+  cursor: pointer;
+}
+.cc-send:hover { background: var(--cc-brand-dark); }
+.cc-send:focus-visible { outline: 3px solid var(--cc-accent); outline-offset: 2px; }
+
+.cc-foot {
+  margin: 0;
+  padding: 4px 14px 12px;
+  background: var(--cc-bg);
+  color: var(--cc-muted);
+  font-size: .68rem;
+}
+
+/* ---------- Mòbil ---------- */
+@media (max-width: 480px) {
+  .coelbo-chat { right: 14px; bottom: 14px; }
+  .cc-panel {
+    width: calc(100vw - 20px);
+    height: calc(100vh - 96px);
+    right: -4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-panel, .cc-launcher, .cc-typing .cc-bubble span { animation: none; transition: none; }
+}
+
+/* ---------- Botons de mida de text (A- / A+) ---------- */
+.cc-textsize { display: inline-flex; gap: 4px; }
+.cc-ts-dec, .cc-ts-inc {
+  background: var(--cc-surface); color: var(--cc-brand);
+  border: 1px solid var(--cc-border); border-radius: 8px;
+  min-width: 30px; height: 30px; padding: 0 4px;
+  cursor: pointer; font-weight: 700; font-size: .8rem; line-height: 1;
+}
+.cc-ts-dec:hover, .cc-ts-inc:hover { background: #e7eef7; }
+.cc-ts-dec:focus-visible, .cc-ts-inc:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 1px; }
+
+/* Mides de text (0 normal · 1 gran · 2 molt gran) */
+.cc-panel[data-size="1"] .cc-bubble,
+.cc-panel[data-size="1"] .cc-input,
+.cc-panel[data-size="1"] .cc-cta { font-size: 1.02rem; }
+.cc-panel[data-size="2"] .cc-bubble,
+.cc-panel[data-size="2"] .cc-input,
+.cc-panel[data-size="2"] .cc-cta { font-size: 1.14rem; }
+
+/* ---------- Botó secundari (descàrrega PDF) ---------- */
+.cc-cta-ghost { background: #fff; color: var(--cc-brand); border: 1.5px solid var(--cc-brand); }
+.cc-cta-ghost:hover { background: var(--cc-surface); color: var(--cc-brand); }
+
+/* ---------- Avís proactiu (teaser) ---------- */
+.cc-teaser {
+  position: fixed; right: 20px; bottom: 92px;
+  z-index: 2147483000;
+  display: flex; align-items: flex-start; gap: 6px;
+  width: max-content; max-width: 250px;
+  animation: cc-pop .2s ease;
+}
+.coelbo-chat .cc-teaser[hidden] { display: none; }   /* que l'atribut hidden funcioni */
+.cc-teaser-msg {
+  background: #fff; color: var(--cc-text);
+  border: 1px solid var(--cc-border); border-radius: 14px; box-shadow: var(--cc-shadow);
+  padding: 10px 14px; font-size: .88rem; font-weight: 600; cursor: pointer; text-align: left;
+}
+.cc-teaser-msg:hover { background: var(--cc-surface); }
+.cc-teaser-msg:focus-visible { outline: 2px solid var(--cc-accent); outline-offset: 2px; }
+@media (max-width: 480px) { .cc-teaser { bottom: 84px; right: 14px; } }
+
+/* ---------- Mode fosc (segueix la preferència del sistema) ---------- */
+@media (prefers-color-scheme: dark) {
+  .coelbo-chat {
+    --cc-bg: #1b2330;
+    --cc-surface: #141a24;
+    --cc-text: #e8eef6;
+    --cc-muted: #9fb0c3;
+    --cc-border: #2c3646;
+    --cc-bot-bg: #232e3d;
+  }
+  .cc-head { background: #1b2330; border-bottom-color: #2c3646; }
+  .cc-logo { filter: brightness(0) invert(1); }
+  .cc-lang, .cc-ts-dec, .cc-ts-inc { background: #232e3d; color: var(--cc-text); }
+  .cc-langbtn, .cc-cta-ghost, .cc-teaser-msg { background: #232e3d; color: #cfe0f5; }
+  .cc-input { background: #141a24; color: var(--cc-text); }
+  .cc-teaser-msg { border-color: #2c3646; }
+}
