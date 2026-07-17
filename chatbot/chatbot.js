@@ -637,8 +637,8 @@
           '</div>' +
           '<div class="cc-head-actions">' +
             '<span class="cc-textsize" role="group">' +
-              '<button class="cc-ts-dec" type="button">A&minus;</button>' +
-              '<button class="cc-ts-inc" type="button">A+</button>' +
+              '<button class="cc-ts-dec" type="button">&minus;</button>' +
+              '<button class="cc-ts-inc" type="button">+</button>' +
             '</span>' +
             '<label class="cc-lang-wrap"><span class="cc-sr"></span>' +
               '<select class="cc-lang">' +
