@@ -527,6 +527,96 @@
     }
   }
 
+  /* ---------- Variants de resposta (2a redacció per intenció) ----------
+     Perquè l'assistent no repeteixi sempre el mateix text, cada intenció
+     informativa té una redacció alternativa. answerText() alterna entre la
+     versió de I18N i aquesta, evitant repetir la darrera. */
+  var I18N_ALT = {
+    ca: {
+      greeting: "Hola de nou! Expliqui'm quina instal·lació té o què necessita i li diré si li encaixa PressflowTech, HiTech o SmartTech. Sobre què voldria saber?",
+      overview: "Amb molt de gust. COELBO fabrica l'electrònica que controla i protegeix les electrobombes —no les bombes—. La gamma s'agrupa en tres famílies: PressflowTech (controladors senzills que substitueixen el pressòstat mecànic), HiTech (variadors inverter per a pressió constant i estalvi) i SmartTech (pressòstats electrònics i quadres de control/protecció). Digui'm el seu cas i li recomano la més adient.",
+      pressflow: "La família PressflowTech engega la bomba quan detecta una caiguda de pressió i l'atura en tancar les aixetes, sense tanc hidropneumàtic. Porten alarma per falta d'aigua i alguns models regulador de pressió integrat. Són l'opció robusta i econòmica per a habitatges i petites comunitats; en trobarà el detall a la secció Informació tècnica del web.",
+      hitech: "HiTech és la nostra gamma de variadors de velocitat (inverter): regulen la freqüència de la bomba per donar una pressió constant, amb estalvi d'energia i menys desgast. Hi ha versió en línia (Speedmatic), mural (Speedbox, fins a 15 kW) i a bord del motor (Speed-board). Perfectes per a edificis, hotels i grups de pressió. Més informació a la secció Informació tècnica del web.",
+      smarttech: "SmartTech aplega electrònica avançada sense inverter: el Switchmatic, un pressòstat electrònic molt fàcil de programar que gestiona engegada/aturada i protegeix la bomba, i el Panelmatic, un quadre multifunció per a drenatge, ompliment de dipòsits i funcionament pressostàtic. Trobarà les fitxes a la secció Informació tècnica del web.",
+      recHouse: "Per a un habitatge unifamiliar amb pou o bomba, el més habitual és un PressflowTech: automatitza l'engegada i l'aturada sense necessitat de tanc hidropneumàtic. Si busca pressió constant i encara més estalvi, un variador HiTech també és una bona alternativa. Per afinar el model exacte, l'equip tècnic l'ajuda a " + EMAIL + ".",
+      recConstant: "Si necessita pressió constant en un edifici, hotel o grup de pressió, la gamma HiTech (variadors inverter) és la indicada: adapta la velocitat de la bomba a la demanda en cada moment i redueix el consum. Per dimensionar-la segons la potència de la seva bomba, contacti amb l'equip tècnic a " + EMAIL + " o al " + PHONE + ".",
+      recDrainage: "Per a buidatge o drenatge (aigües netes, grises o fecals) i per a ompliment o buidatge de dipòsits, el Panelmatic (família SmartTech) és el més adequat: un quadre multifunció que controla i protegeix la bomba en cada mode. L'equip tècnic li concreta la configuració a " + EMAIL + ".",
+      recIndustrial: "En aplicacions industrials o exigents amb pressió constant, el més normal és recórrer a la gamma HiTech (variadors inverter). Si es tracta de transvasament o drenatge, el Panelmatic (SmartTech) pot encaixar millor. Per a una recomanació ajustada a la seva instal·lació, l'equip tècnic l'atén a " + EMAIL + " o al " + PHONE + ".",
+      pumps: "Li aclareixo un punt important: COELBO no fabrica ni ven electrobombes, sinó els dispositius electrònics que les controlen i protegeixen (controladors, variadors i pressòstats electrònics). Si m'indica quina instal·lació té, l'oriento cap a la família que millor li encaixa.",
+      docs: "Els catàlegs, manuals i fitxes tècniques són a la secció Informació tècnica del web de COELBO. Si prefereix tracte directe, escrigui a " + EMAIL + " o truqui al " + PHONE + " i l'equip li facilitarà la documentació que necessiti.",
+      fallback: "El puc ajudar a orientar-se entre les tres famílies de COELBO —PressflowTech, HiTech i SmartTech— segons la seva instal·lació (habitatge, comunitat, edifici, hotel, indústria, drenatge…). Descrigui'm una mica el seu cas i li indico per on anar; per a preus, configuració o avaries, el poso en contacte amb l'equip tècnic."
+    },
+    es: {
+      greeting: "¡Hola de nuevo! Cuénteme qué instalación tiene o qué necesita y le indico si le encaja PressflowTech, HiTech o SmartTech. ¿Sobre qué le gustaría saber?",
+      overview: "Con gusto. COELBO fabrica la electrónica que controla y protege las electrobombas —no las bombas en sí—. La gama se agrupa en tres familias: PressflowTech (controladores sencillos que sustituyen al presóstato mecánico), HiTech (variadores inverter para presión constante y ahorro) y SmartTech (presóstatos electrónicos y cuadros de control/protección). Dígame su caso y le recomiendo la más adecuada.",
+      pressflow: "La familia PressflowTech pone en marcha la bomba al detectar una caída de presión y la detiene cuando cierra los grifos, sin depósito hidroneumático. Llevan alarma por falta de agua y algunos modelos regulador de presión integrado. Son la opción robusta y económica para viviendas y pequeñas comunidades; tiene el detalle en la sección Información técnica de la web.",
+      hitech: "HiTech es nuestra gama de variadores de velocidad (inverter): regulan la frecuencia de la bomba para dar una presión constante, con ahorro de energía y menos desgaste. Hay versión en línea (Speedmatic), mural (Speedbox, hasta 15 kW) y a bordo del motor (Speed-board). Perfectos para edificios, hoteles y grupos de presión. Más información en la sección Información técnica de la web.",
+      smarttech: "SmartTech reúne electrónica avanzada sin inverter: el Switchmatic, un presóstato electrónico muy fácil de programar que gestiona arranque y paro y protege la bomba, y el Panelmatic, un cuadro multifunción para drenaje, llenado de depósitos y funcionamiento presostático. Encontrará las fichas en la sección Información técnica de la web.",
+      recHouse: "Para una casa unifamiliar con pozo o bomba, lo más habitual es un PressflowTech: automatiza el arranque y el paro sin necesidad de depósito hidroneumático. Si busca presión constante y aún más ahorro, un variador HiTech también es una buena alternativa. Para afinar el modelo exacto, el equipo técnico le ayuda en " + EMAIL + ".",
+      recConstant: "Si necesita presión constante en un edificio, hotel o grupo de presión, la gama HiTech (variadores inverter) es la indicada: adapta la velocidad de la bomba a la demanda en cada momento y reduce el consumo. Para dimensionarla según la potencia de su bomba, contacte con el equipo técnico en " + EMAIL + " o en el " + PHONE + ".",
+      recDrainage: "Para achique o drenaje (aguas limpias, grises o fecales) y para llenado o vaciado de depósitos, el Panelmatic (familia SmartTech) es lo más adecuado: un cuadro multifunción que controla y protege la bomba en cada modo. El equipo técnico le concreta la configuración en " + EMAIL + ".",
+      recIndustrial: "En aplicaciones industriales o exigentes con presión constante, lo normal es recurrir a la gama HiTech (variadores inverter). Si se trata de trasvase o drenaje, el Panelmatic (SmartTech) puede encajar mejor. Para una recomendación ajustada a su instalación, el equipo técnico le atiende en " + EMAIL + " o en el " + PHONE + ".",
+      pumps: "Le aclaro un punto importante: COELBO no fabrica ni vende electrobombas, sino los dispositivos electrónicos que las controlan y protegen (controladores, variadores y presóstatos electrónicos). Si me indica qué instalación tiene, le oriento hacia la familia que mejor le encaja.",
+      docs: "Los catálogos, manuales y fichas técnicas están en la sección Información técnica de la web de COELBO. Si prefiere trato directo, escriba a " + EMAIL + " o llame al " + PHONE + " y el equipo le facilita la documentación que necesite.",
+      fallback: "Puedo ayudarle a orientarse entre las tres familias de COELBO —PressflowTech, HiTech y SmartTech— según su instalación (vivienda, comunidad, edificio, hotel, industria, drenaje…). Descríbame un poco su caso y le indico por dónde ir; para precios, configuración o averías, le pongo en contacto con el equipo técnico."
+    },
+    en: {
+      greeting: "Hello again! Tell me about your installation or what you need and I'll say whether PressflowTech, HiTech or SmartTech fits best. What would you like to know?",
+      overview: "Happy to help. COELBO makes the electronics that control and protect electric pumps —not the pumps themselves—. The range is split into three families: PressflowTech (simple controllers that replace the mechanical pressure switch), HiTech (inverter drives for constant pressure and savings) and SmartTech (electronic pressure switches and control/protection panels). Tell me your case and I'll recommend the right one.",
+      pressflow: "The PressflowTech family starts the pump when it senses a pressure drop and stops it when the taps close, with no pressure tank required. They include a dry-running alarm and some models an integrated pressure regulator. A robust, affordable choice for homes and small communities; full details are in the Technical Information section of the website.",
+      hitech: "HiTech is our range of variable speed drives (inverter): they adjust the pump frequency to deliver constant pressure, saving energy and reducing wear. Available in-line (Speedmatic), wall-mounted (Speedbox, up to 15 kW) and on-board the motor (Speed-board). Ideal for buildings, hotels and pressure sets. More in the Technical Information section of the website.",
+      smarttech: "SmartTech brings together advanced electronics without an inverter: the Switchmatic, an easy-to-program electronic pressure switch that manages start/stop and protects the pump, and the Panelmatic, a multi-function panel for drainage, tank filling and pressure-switch operation. You'll find the datasheets in the Technical Information section of the website.",
+      recHouse: "For a single-family home with a well or pump, a PressflowTech is the usual pick: it automates start and stop with no pressure tank. If you're after constant pressure and even more savings, a HiTech drive is also worth considering. To pin down the exact model, our technical team will help at " + EMAIL + ".",
+      recConstant: "If you need constant pressure in a building, hotel or pressure set, the HiTech range (inverter drives) is the one: it matches pump speed to demand moment by moment and cuts consumption. To size it for your pump power, contact our technical team at " + EMAIL + " or " + PHONE + ".",
+      recDrainage: "For drainage (clean, grey or sewage water) and for filling or emptying tanks, the Panelmatic (SmartTech family) is the best fit: a multi-function panel that controls and protects the pump in each mode. Our technical team will confirm the configuration at " + EMAIL + ".",
+      recIndustrial: "For industrial or demanding applications needing constant pressure, the HiTech range (inverter drives) is the usual choice. For transfer or drainage, the Panelmatic (SmartTech) may fit better. For advice tailored to your installation, our technical team is at " + EMAIL + " or " + PHONE + ".",
+      pumps: "An important clarification: COELBO does not make or sell electric pumps, but the electronic devices that control and protect them (controllers, drives and electronic pressure switches). Tell me about your installation and I'll point you to the family that fits best.",
+      docs: "Catalogues, manuals and datasheets are in the Technical Information section of the COELBO website. If you'd rather deal with someone directly, write to " + EMAIL + " or call " + PHONE + " and the team will send the documentation you need.",
+      fallback: "I can help you find your way among COELBO's three families —PressflowTech, HiTech and SmartTech— based on your installation (home, community, building, hotel, industry, drainage…). Describe your case and I'll point you the right way; for prices, configuration or faults I'll put you in touch with the technical team."
+    },
+    fr: {
+      greeting: "Rebonjour ! Décrivez-moi votre installation ou votre besoin et je vous dirai si PressflowTech, HiTech ou SmartTech convient le mieux. Que souhaitez-vous savoir ?",
+      overview: "Avec plaisir. COELBO fabrique l'électronique qui contrôle et protège les électropompes —pas les pompes elles-mêmes—. La gamme se répartit en trois familles : PressflowTech (contrôleurs simples qui remplacent le pressostat mécanique), HiTech (variateurs inverter pour une pression constante et des économies) et SmartTech (pressostats électroniques et coffrets de contrôle/protection). Décrivez votre cas et je vous recommande la bonne.",
+      pressflow: "La famille PressflowTech démarre la pompe dès qu'elle détecte une baisse de pression et l'arrête à la fermeture des robinets, sans réservoir à vessie. Elle intègre une alarme de manque d'eau et, sur certains modèles, un régulateur de pression. Un choix robuste et économique pour les maisons et petites communautés ; le détail est dans la section Information technique du site.",
+      hitech: "HiTech est notre gamme de variateurs de vitesse (inverter) : ils ajustent la fréquence de la pompe pour fournir une pression constante, avec économie d'énergie et moins d'usure. Disponibles en ligne (Speedmatic), muraux (Speedbox, jusqu'à 15 kW) et à bord du moteur (Speed-board). Parfaits pour bâtiments, hôtels et groupes de pression. Plus d'informations dans la section Information technique du site.",
+      smarttech: "SmartTech réunit une électronique avancée sans inverter : le Switchmatic, un pressostat électronique très simple à programmer qui gère marche/arrêt et protège la pompe, et le Panelmatic, un coffret multifonction pour le drainage, le remplissage de réservoirs et le fonctionnement pressostatique. Les fiches sont dans la section Information technique du site.",
+      recHouse: "Pour une maison individuelle avec puits ou pompe, le choix habituel est un PressflowTech : il automatise le démarrage et l'arrêt sans réservoir à vessie. Si vous visez une pression constante et encore plus d'économies, un variateur HiTech est aussi une bonne option. Pour le modèle précis, notre équipe technique vous aide à " + EMAIL + ".",
+      recConstant: "Si vous avez besoin d'une pression constante dans un bâtiment, un hôtel ou un groupe de pression, la gamme HiTech (variateurs inverter) est la solution : elle adapte la vitesse de la pompe à la demande à chaque instant et réduit la consommation. Pour la dimensionner selon la puissance de votre pompe, contactez notre équipe technique à " + EMAIL + " ou au " + PHONE + ".",
+      recDrainage: "Pour le relevage ou le drainage (eaux claires, grises ou usées) et pour le remplissage ou la vidange de réservoirs, le Panelmatic (famille SmartTech) est le plus adapté : un coffret multifonction qui contrôle et protège la pompe dans chaque mode. Notre équipe technique vous confirme la configuration à " + EMAIL + ".",
+      recIndustrial: "Pour des applications industrielles ou exigeantes nécessitant une pression constante, on recourt généralement à la gamme HiTech (variateurs inverter). Pour du transfert ou du drainage, le Panelmatic (SmartTech) peut mieux convenir. Pour un conseil adapté à votre installation, notre équipe technique est à " + EMAIL + " ou au " + PHONE + ".",
+      pumps: "Une précision importante : COELBO ne fabrique ni ne vend d'électropompes, mais les dispositifs électroniques qui les contrôlent et les protègent (contrôleurs, variateurs et pressostats électroniques). Indiquez-moi votre installation et je vous oriente vers la bonne famille.",
+      docs: "Les catalogues, manuels et fiches techniques se trouvent dans la section Information technique du site COELBO. Si vous préférez un contact direct, écrivez à " + EMAIL + " ou appelez le " + PHONE + " et l'équipe vous fournira la documentation nécessaire.",
+      fallback: "Je peux vous aider à vous orienter parmi les trois familles COELBO —PressflowTech, HiTech et SmartTech— selon votre installation (logement, communauté, bâtiment, hôtel, industrie, drainage…). Décrivez votre cas et je vous indique la voie ; pour les prix, la configuration ou les pannes, je vous mets en relation avec l'équipe technique."
+    },
+    it: {
+      greeting: "Salve di nuovo! Mi descriva il suo impianto o cosa le serve e le dirò se le conviene PressflowTech, HiTech o SmartTech. Su cosa vuole informazioni?",
+      overview: "Con piacere. COELBO produce l'elettronica che controlla e protegge le elettropompe —non le pompe—. La gamma è divisa in tre famiglie: PressflowTech (controllori semplici che sostituiscono il pressostato meccanico), HiTech (variatori inverter per pressione costante e risparmio) e SmartTech (pressostati elettronici e quadri di controllo/protezione). Mi dica il suo caso e le consiglio la più adatta.",
+      pressflow: "La famiglia PressflowTech avvia la pompa quando rileva un calo di pressione e la ferma alla chiusura dei rubinetti, senza serbatoio autoclave. Includono l'allarme di mancanza d'acqua e, in alcuni modelli, un regolatore di pressione integrato. Una scelta robusta ed economica per abitazioni e piccole comunità; il dettaglio è nella sezione Informazioni tecniche del sito.",
+      hitech: "HiTech è la nostra gamma di variatori di velocità (inverter): regolano la frequenza della pompa per fornire una pressione costante, con risparmio energetico e minore usura. Disponibili in linea (Speedmatic), a parete (Speedbox, fino a 15 kW) e a bordo motore (Speed-board). Perfetti per edifici, hotel e gruppi di pressione. Maggiori informazioni nella sezione Informazioni tecniche del sito.",
+      smarttech: "SmartTech raccoglie elettronica avanzata senza inverter: lo Switchmatic, un pressostato elettronico molto facile da programmare che gestisce avvio/arresto e protegge la pompa, e il Panelmatic, un quadro multifunzione per drenaggio, riempimento serbatoi e funzionamento pressostatico. Trova le schede nella sezione Informazioni tecniche del sito.",
+      recHouse: "Per un'abitazione unifamiliare con pozzo o pompa, la scelta abituale è un PressflowTech: automatizza avvio e arresto senza serbatoio autoclave. Se cerca pressione costante e ancora più risparmio, anche un variatore HiTech è una buona opzione. Per definire il modello preciso, il nostro team tecnico la aiuta a " + EMAIL + ".",
+      recConstant: "Se le serve pressione costante in un edificio, hotel o gruppo di pressione, la gamma HiTech (variatori inverter) è quella giusta: adegua la velocità della pompa alla richiesta momento per momento e riduce i consumi. Per dimensionarla in base alla potenza della pompa, contatti il team tecnico a " + EMAIL + " o al " + PHONE + ".",
+      recDrainage: "Per aggottamento o drenaggio (acque chiare, grigie o nere) e per riempimento o svuotamento di serbatoi, il Panelmatic (famiglia SmartTech) è il più adatto: un quadro multifunzione che controlla e protegge la pompa in ogni modalità. Il team tecnico le conferma la configurazione a " + EMAIL + ".",
+      recIndustrial: "Per applicazioni industriali o impegnative con pressione costante, di solito si ricorre alla gamma HiTech (variatori inverter). Se si tratta di travaso o drenaggio, il Panelmatic (SmartTech) può andare meglio. Per una consulenza adatta al suo impianto, il team tecnico è a " + EMAIL + " o al " + PHONE + ".",
+      pumps: "Una precisazione importante: COELBO non produce né vende elettropompe, ma i dispositivi elettronici che le controllano e proteggono (controllori, variatori e pressostati elettronici). Mi indichi il suo impianto e la oriento verso la famiglia più adatta.",
+      docs: "Cataloghi, manuali e schede tecniche si trovano nella sezione Informazioni tecniche del sito COELBO. Se preferisce un contatto diretto, scriva a " + EMAIL + " o chiami il " + PHONE + " e il team le fornirà la documentazione necessaria.",
+      fallback: "Posso aiutarla a orientarsi tra le tre famiglie COELBO —PressflowTech, HiTech e SmartTech— in base al suo impianto (abitazione, comunità, edificio, hotel, industria, drenaggio…). Mi descriva il caso e le indico la strada; per prezzi, configurazione o guasti, la metto in contatto con il team tecnico."
+    }
+  };
+
+  /* Alterna entre la resposta original i la variant, evitant repetir l'última. */
+  var _lastAlt = {};
+  function answerText(lang, key) {
+    var base = I18N[lang][key];
+    var alt = I18N_ALT[lang] && I18N_ALT[lang][key];
+    if (!alt) { return base; }
+    var ck = lang + ':' + key;
+    var idx = Math.random() < 0.5 ? 0 : 1;
+    if (_lastAlt[ck] === idx) { idx = idx ? 0 : 1; }
+    _lastAlt[ck] = idx;
+    return idx === 0 ? base : alt;
+  }
+
   /* mapatge intent -> clau de resposta */
   var INTENT_MAP = {
     greeting: 'greeting', overview: 'overview', pressflow: 'pressflow',
@@ -549,7 +639,7 @@
       /* Ha esmentat un model concret: diem a quina família pertany + resposta de família */
       family = model.f;
       intent = family;
-      reply = MODEL_INTRO[lang](model.n, FAMILY_NAMES[family]) + I18N[lang][family];
+      reply = MODEL_INTRO[lang](model.n, FAMILY_NAMES[family]) + answerText(lang, family);
       linkPage = PAGE_FOR_INTENT[family];
       pdfFile = model.pdf || PDF_FOR[family] || null;
     } else {
@@ -559,7 +649,7 @@
         intent = context.family;
       }
       var key = INTENT_MAP[intent] || 'fallback';
-      reply = I18N[lang][key];
+      reply = answerText(lang, key);
       family = FAMILY_OF_INTENT[intent] || null;
       linkPage = PAGE_FOR_INTENT[intent] || (family ? PAGE_FOR_INTENT[family] : null);
       pdfFile = (family && PDF_FOR[family]) ? PDF_FOR[family] : null;
