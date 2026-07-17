@@ -601,11 +601,19 @@
   /* =========================================================
      Widget d'interfície
      ========================================================= */
+  /* Idioma inicial: pren l'atribut lang de la pàgina (<html lang="es_ES">,
+     "ca", "en-US"…) i n'agafa els dos primers caràcters; si no és un idioma
+     suportat, anglès per defecte. */
+  function pageLang() {
+    var l = (document.documentElement.getAttribute('lang') || '').slice(0, 2).toLowerCase();
+    return SUPPORTED.indexOf(l) !== -1 ? l : 'en';
+  }
+
   function buildWidget() {
-    /* Estat inicial (recuperat de localStorage si n'hi ha) */
+    /* Estat inicial (recuperat de localStorage si n'hi ha; si no, l'idioma de la pàgina) */
     var saved = null;
     try { saved = JSON.parse(lsGet(K_CHAT) || 'null'); } catch (e) { saved = null; }
-    var lang = (saved && SUPPORTED.indexOf(saved.lang) !== -1) ? saved.lang : 'en';
+    var lang = (saved && SUPPORTED.indexOf(saved.lang) !== -1) ? saved.lang : pageLang();
     var context = { family: (saved && saved.family) || null };
     /* [{who,text}] preguntes/respostes desades; blindat contra dades corruptes */
     var history = (saved && Array.isArray(saved.msgs)) ? saved.msgs.slice(0) : [];

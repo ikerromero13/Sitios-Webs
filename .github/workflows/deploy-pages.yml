@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - claude/adrian-saenz-hostinger-premium-f9XVT
+      - claude/coelbo-contact-form-recovery-kl8x1a
   workflow_dispatch:
 
 permissions:
