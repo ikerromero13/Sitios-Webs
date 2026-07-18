@@ -21,6 +21,11 @@
 
   /* Enlace al formulario de contacto (relativo a la página donde se incrusta) */
   var CONTACT_URL = 'contacto.html';
+
+  /* Endpoint del backend de IA (Cloudflare Worker). Si está vacío, el chatbot
+     usa el motor de reglas. También puede definirse en la página con
+     window.COELBO_AI_ENDPOINT = 'https://...'. Ver la carpeta chatbot/backend/. */
+  var AI_ENDPOINT = '';
   /* Texto del botón "ir al formulario" por idioma */
   var CTA = {
     ca: 'Anar al formulari de contacte',
@@ -888,32 +893,73 @@
       els.log.scrollTop = els.log.scrollHeight;
     }
 
+    /* Botons auxiliars sota la resposta (web, PDF, formulari). El motor de
+       regles decideix quins botons posar encara que el text el redacti la IA. */
+    function applyReplyMeta(res, userText) {
+      if (res.family) { context.family = res.family; persist(); }
+      if (res.linkPage) {
+        var siteLang = (lang === 'ca') ? 'es' : lang;
+        addAction(LABEL_INFO[lang] || LABEL_INFO.es,
+          'https://www.coelbo.es/' + siteLang + '/index.php?cont=' + res.linkPage, { blank: true });
+      }
+      if (res.pdf) {
+        addAction(LABEL_PDF[lang] || LABEL_PDF.es, res.pdf, { blank: true, ghost: true });
+      }
+      if (res.contact) {
+        addAction(CTA[lang] || CTA.es, CONTACT_URL, {});
+        logUnresolved(userText, res.intent);
+      }
+    }
+
+    /* Historial per a la IA: rols user/assistant a partir de la conversa desada
+       (welcome i chips no hi són). Limitem als últims 12 torns. */
+    function aiHistory() {
+      var src = history.length > 12 ? history.slice(history.length - 12) : history;
+      var out = [];
+      for (var i = 0; i < src.length; i++) {
+        out.push({ role: src[i].who === 'user' ? 'user' : 'assistant', text: src[i].text });
+      }
+      return out;
+    }
+
     function botReply(userText) {
       var typing = botTyping();
       var res = answer(userText, lang, context);
-      var delay = 1000 + Math.min(2800, (userText.length + res.reply.length) * 12);
-      window.setTimeout(function () {
+      var endpoint = ((typeof window !== 'undefined' && window.COELBO_AI_ENDPOINT) || AI_ENDPOINT || '');
+      endpoint = String(endpoint).trim();
+
+      function finish(replyText) {
+        if (typing.parentNode) { typing.parentNode.removeChild(typing); }
         if (res.lang !== lang) { lang = res.lang; applyLang(); }
-        typing.parentNode.removeChild(typing);
-        addMsg('bot', res.reply);
-        /* Recordem la família per a preguntes de seguiment */
-        if (res.family) { context.family = res.family; persist(); }
-        /* Enllaç directe a la pàgina concreta de la web */
-        if (res.linkPage) {
-          var siteLang = (lang === 'ca') ? 'es' : lang;
-          addAction(LABEL_INFO[lang] || LABEL_INFO.es,
-            'https://www.coelbo.es/' + siteLang + '/index.php?cont=' + res.linkPage, { blank: true });
-        }
-        /* Descàrrega directa del catàleg (PDF) */
-        if (res.pdf) {
-          addAction(LABEL_PDF[lang] || LABEL_PDF.es, res.pdf, { blank: true, ghost: true });
-        }
-        /* Si no ho pot resoldre: botó al formulari + analítica local */
-        if (res.contact) {
-          addAction(CTA[lang] || CTA.es, CONTACT_URL, {});
-          logUnresolved(userText, res.intent);
-        }
-      }, delay);
+        addMsg('bot', replyText);
+        applyReplyMeta(res, userText);
+      }
+
+      /* Sense endpoint: motor de regles (amb un petit retard "d'escriptura") */
+      if (!endpoint || typeof window.fetch !== 'function') {
+        var delay = 1000 + Math.min(2800, (userText.length + res.reply.length) * 12);
+        window.setTimeout(function () { finish(res.reply); }, delay);
+        return;
+      }
+
+      /* Mode IA: la IA redacta; si falla, caiem al motor de regles */
+      var settled = false;
+      window.fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lang: res.lang, messages: aiHistory() })
+      }).then(function (r) {
+        if (!r.ok) { throw new Error('http ' + r.status); }
+        return r.json();
+      }).then(function (data) {
+        var reply = (data && typeof data.reply === 'string') ? data.reply.trim() : '';
+        if (!reply) { throw new Error('empty'); }
+        settled = true;
+        finish(reply);
+      }).catch(function () {
+        if (settled) { return; }
+        finish(res.reply);
+      });
     }
 
     /* Analítica local: desa preguntes no resoltes (fins a 100) */

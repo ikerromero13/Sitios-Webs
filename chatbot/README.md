@@ -78,3 +78,12 @@ afegir noves intencions i respostes editant `KW` i `I18N`, ampliar la base de
 coneixement amb el contingut dels catàlegs, o connectar-lo a un servei amb un
 model de llenguatge si més endavant es vol comprensió de llenguatge natural
 més oberta.
+
+### Connexió amb una IA real (Claude) — ja preparada
+
+El widget pot funcionar amb un **model d'IA real** (Claude, d'Anthropic) perquè
+raoni i redacti cada resposta en lloc de fer servir el motor de regles. Cal un
+petit backend (Cloudflare Worker) que guardi la clau de l'API; el codi i els
+passos estan a [`backend/`](./backend/). Si es configura l'endpoint
+(`window.COELBO_AI_ENDPOINT` o la constant `AI_ENDPOINT` de `chatbot.js`),
+l'assistent usa la IA i **recau en el motor de regles** si la IA falla.

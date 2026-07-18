@@ -1,0 +1,16 @@
+# Configuración de Cloudflare Workers para el backend de IA de COELBO.
+# Despliegue con Wrangler:  npm i -g wrangler  &&  wrangler deploy
+# (o pegue worker.js en el editor del panel de Cloudflare, ver README.md)
+
+name = "coelbo-chatbot"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# Origen(es) permitido(s) para llamar al Worker (separados por comas).
+# Ponga aquí el dominio real de COELBO cuando lo publique en su web.
+[vars]
+ALLOWED_ORIGIN = "https://ikerromero13.github.io"
+
+# La clave de Anthropic NO va aquí. Se define como SECRETO:
+#   wrangler secret put ANTHROPIC_API_KEY
+# (o en el panel: Settings > Variables and Secrets > Add > Secret)
