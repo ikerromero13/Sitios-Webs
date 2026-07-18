@@ -1,20 +1,20 @@
 /* =========================================================
    COELBO — Backend de IA para el asistente virtual (Fase 2)
    Cloudflare Worker que hace de intermediario entre el chatbot
-   (navegador) y la API de Claude (Anthropic).
+   (navegador) y la API de Google Gemini (capa GRATUITA).
 
-   - La CLAVE de Anthropic vive como SECRETO del Worker
-     (ANTHROPIC_API_KEY) y NUNCA llega al navegador.
+   - La CLAVE de Gemini vive como SECRETO del Worker
+     (GEMINI_API_KEY) y NUNCA llega al navegador.
    - El origen permitido se controla con la variable ALLOWED_ORIGIN.
    - El prompt de sistema (identidad y reglas de COELBO) se define
      aquí, en el servidor, para que no se pueda manipular desde fuera.
 
-   Despliegue: ver chatbot/backend/README.md
+   Despliegue y clave gratuita: ver chatbot/backend/README.md
    ========================================================= */
 
-/* Modelo de Claude. Para ABARATAR mucho el coste en un asistente de
-   orientación como este, cambie a 'claude-haiku-4-5' (ver README). */
-const MODEL = 'claude-opus-4-8';
+/* Modelo de Gemini (capa gratuita). 'gemini-2.0-flash' es rápido y multilingüe.
+   Si tu cuenta no lo tuviera, prueba 'gemini-1.5-flash'. */
+const MODEL = 'gemini-2.0-flash';
 const MAX_TOKENS = 512;          // respuestas breves (asistente de orientación)
 const MAX_MSG_CHARS = 1500;      // longitud máxima por mensaje del usuario
 const MAX_MESSAGES = 20;         // nº máximo de turnos aceptados por petición
@@ -47,7 +47,7 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
     if (request.method !== 'POST') return json({ error: 'method_not_allowed' }, 405, cors);
     if (allowed.length && !allowed.includes(origin)) return json({ error: 'origin_not_allowed' }, 403, cors);
-    if (!env.ANTHROPIC_API_KEY) return json({ error: 'server_not_configured' }, 500, cors);
+    if (!env.GEMINI_API_KEY) return json({ error: 'server_not_configured' }, 500, cors);
 
     let body;
     try { body = await request.json(); } catch (e) { return json({ error: 'bad_json' }, 400, cors); }
@@ -55,20 +55,27 @@ export default {
     const messages = sanitize(body && body.messages);
     if (!messages.length) return json({ error: 'no_messages' }, 400, cors);
 
+    /* Formato de Gemini: contents con role user/model (assistant → model). */
+    const contents = messages.map((m) => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.text }],
+    }));
+
+    const url = 'https://generativelanguage.googleapis.com/v1beta/models/' +
+      encodeURIComponent(MODEL) + ':generateContent';
+
     let resp;
     try {
-      resp = await fetch('https://api.anthropic.com/v1/messages', {
+      resp = await fetch(url, {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
-          'x-api-key': env.ANTHROPIC_API_KEY,
-          'anthropic-version': '2023-06-01',
+          'x-goog-api-key': env.GEMINI_API_KEY,
         },
         body: JSON.stringify({
-          model: MODEL,
-          max_tokens: MAX_TOKENS,
-          system: SYSTEM_PROMPT,
-          messages: messages.map((m) => ({ role: m.role, content: m.text })),
+          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: contents,
+          generationConfig: { maxOutputTokens: MAX_TOKENS, temperature: 0.6 },
         }),
       });
     } catch (e) {
@@ -80,19 +87,22 @@ export default {
     let data;
     try { data = await resp.json(); } catch (e) { return json({ error: 'bad_upstream' }, 502, cors); }
 
-    const reply = (data.content || [])
-      .filter((b) => b && b.type === 'text')
-      .map((b) => b.text)
-      .join('')
-      .trim();
-
+    const reply = extractText(data);
     if (!reply) return json({ error: 'empty' }, 502, cors);
     return json({ reply }, 200, cors);
   },
 };
 
+/* Extrae el texto de la respuesta de Gemini (candidates[].content.parts[].text). */
+function extractText(data) {
+  const cand = data && data.candidates && data.candidates[0];
+  const parts = cand && cand.content && cand.content.parts;
+  if (!Array.isArray(parts)) return '';
+  return parts.map((p) => (p && typeof p.text === 'string' ? p.text : '')).join('').trim();
+}
+
 /* Solo aceptamos pares {role, text}; recortamos longitud y nº de mensajes,
-   y garantizamos que el primer mensaje sea del usuario (lo exige la API). */
+   y garantizamos que el primer mensaje sea del usuario. */
 function sanitize(list) {
   if (!Array.isArray(list)) return [];
   const out = [];

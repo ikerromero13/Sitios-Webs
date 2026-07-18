@@ -81,9 +81,10 @@ més oberta.
 
 ### Connexió amb una IA real (Claude) — ja preparada
 
-El widget pot funcionar amb un **model d'IA real** (Claude, d'Anthropic) perquè
-raoni i redacti cada resposta en lloc de fer servir el motor de regles. Cal un
-petit backend (Cloudflare Worker) que guardi la clau de l'API; el codi i els
-passos estan a [`backend/`](./backend/). Si es configura l'endpoint
+El widget pot funcionar amb un **model d'IA real** (per defecte Google Gemini,
+en la seva capa gratuïta) perquè raoni i redacti cada resposta en lloc de fer
+servir el motor de regles. Cal un petit backend (Cloudflare Worker) que guardi
+la clau de l'API; el codi i els passos estan a [`backend/`](./backend/). Si es
+configura l'endpoint
 (`window.COELBO_AI_ENDPOINT` o la constant `AI_ENDPOINT` de `chatbot.js`),
 l'assistent usa la IA i **recau en el motor de regles** si la IA falla.

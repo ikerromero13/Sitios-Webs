@@ -11,6 +11,6 @@ compatibility_date = "2026-01-01"
 [vars]
 ALLOWED_ORIGIN = "https://ikerromero13.github.io"
 
-# La clave de Anthropic NO va aquí. Se define como SECRETO:
-#   wrangler secret put ANTHROPIC_API_KEY
+# La clave de Gemini NO va aquí. Se define como SECRETO:
+#   wrangler secret put GEMINI_API_KEY
 # (o en el panel: Settings > Variables and Secrets > Add > Secret)
