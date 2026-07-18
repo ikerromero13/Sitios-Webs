@@ -705,6 +705,17 @@
   }
 
   function buildWidget() {
+    /* Si l'enllaç porta ?chatnuevo / ?reset (o al hash), esborra la conversa
+       desada per començar de zero. Útil per a demos i captures. */
+    try {
+      var qs = (window.location.search + ' ' + window.location.hash).toLowerCase();
+      if (qs.indexOf('chatnuevo') !== -1 || qs.indexOf('chat=new') !== -1 || qs.indexOf('reset') !== -1) {
+        [K_CHAT, K_SEEN, K_SIZE, K_LASTQ, K_UNRES].forEach(function (k) {
+          try { window.localStorage.removeItem(k); } catch (e) {}
+        });
+      }
+    } catch (e) {}
+
     /* Estat inicial (recuperat de localStorage si n'hi ha; si no, l'idioma de la pàgina) */
     var saved = null;
     try { saved = JSON.parse(lsGet(K_CHAT) || 'null'); } catch (e) { saved = null; }
