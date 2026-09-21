@@ -1,0 +1,133 @@
+/* Widget de chat COELBO conectado a n8n — estilos encapsulados bajo .coelbo-n8n-chat */
+.coelbo-n8n-chat, .coelbo-n8n-chat * { box-sizing: border-box; }
+
+.coelbo-n8n-fab {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #0a4d8c;
+  background: linear-gradient(135deg, #0a4d8c 0%, #1b9cd8 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 12px 32px rgba(7, 36, 64, .28);
+  cursor: pointer;
+  z-index: 9998;
+  display: grid;
+  place-items: center;
+  transition: transform .15s ease;
+}
+.coelbo-n8n-fab:hover { transform: translateY(-2px) scale(1.04); }
+.coelbo-n8n-fab svg { width: 26px; height: 26px; }
+
+.coelbo-n8n-panel {
+  position: fixed;
+  bottom: 96px;
+  right: 22px;
+  width: 360px;
+  max-width: 92vw;
+  height: 520px;
+  max-height: 75vh;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(7, 36, 64, .22);
+  border: 1px solid #d9e2ec;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.coelbo-n8n-panel.open { display: flex; }
+
+.coelbo-n8n-header {
+  background: linear-gradient(135deg, #0a4d8c 0%, #1b9cd8 100%);
+  color: #fff;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.coelbo-n8n-header strong { font-size: 14px; }
+.coelbo-n8n-header span { display: block; font-size: 11px; opacity: .85; }
+.coelbo-n8n-close {
+  background: rgba(255,255,255,.15);
+  border: none;
+  color: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.coelbo-n8n-messages {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  background: #f4f7fb;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.coelbo-n8n-msg {
+  max-width: 82%;
+  padding: 9px 13px;
+  border-radius: 14px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+.coelbo-n8n-msg.bot {
+  background: #e7eef7;
+  color: #1d2733;
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.coelbo-n8n-msg.user {
+  background: #0a4d8c;
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+.coelbo-n8n-msg.typing {
+  background: #e7eef7;
+  color: #5b6b7b;
+  align-self: flex-start;
+  font-style: italic;
+}
+
+.coelbo-n8n-inputbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px;
+  border-top: 1px solid #d9e2ec;
+  background: #fff;
+}
+.coelbo-n8n-inputbar input {
+  flex: 1;
+  border: 1px solid #d9e2ec;
+  border-radius: 20px;
+  padding: 9px 14px;
+  font-size: 13.5px;
+  outline: none;
+}
+.coelbo-n8n-inputbar input:focus { border-color: #1b9cd8; }
+.coelbo-n8n-inputbar button {
+  background: #0a4d8c;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0 18px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+.coelbo-n8n-inputbar button:disabled { opacity: .5; cursor: not-allowed; }
+
+@media (max-width: 480px) {
+  .coelbo-n8n-panel { right: 4vw; left: 4vw; width: auto; bottom: 90px; }
+}
