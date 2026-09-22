@@ -13,6 +13,22 @@
 
   var WEBHOOK_URL = window.COELBO_N8N_WEBHOOK_URL || "PEGA_AQUI_TU_PRODUCTION_URL";
 
+  // Genera (o recupera) un identificador único de sesión para esta conversación,
+  // necesario para que la memoria del AI Agent en n8n no mezcle usuarios distintos.
+  function getSessionId() {
+    var key = "coelbo_chat_session_id";
+    var id = sessionStorage.getItem(key);
+    if (!id) {
+      id =
+        window.crypto && crypto.randomUUID
+          ? crypto.randomUUID()
+          : "sess-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+      sessionStorage.setItem(key, id);
+    }
+    return id;
+  }
+  var SESSION_ID = getSessionId();
+
   var WELCOME_MSG =
     "Hello! I'm COELBO's virtual assistant. I can guide you on our three families of electric-pump controllers — PressflowTech, HiTech and SmartTech — and help you choose the best fit. How can I help you?";
 
@@ -84,7 +100,7 @@
       var res = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: texto }),
+        body: JSON.stringify({ message: texto, sessionId: SESSION_ID }),
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
       var data = await res.json();
