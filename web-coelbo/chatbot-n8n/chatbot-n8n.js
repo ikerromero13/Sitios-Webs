@@ -30,7 +30,7 @@
   var SESSION_ID = getSessionId();
 
   var WELCOME_MSG =
-    "Hello! I'm COELBO's virtual assistant. I can guide you on our three families of electric-pump controllers — PressflowTech, HiTech and SmartTech — and help you choose the best fit. How can I help you?";
+    "Hello! I'm COELBO's virtual assistant. I speak English, català, español, français and italiano — feel free to write in any of them. I can guide you on our three families of electric-pump controllers — PressflowTech, HiTech and SmartTech — and help you choose the best fit. How can I help you?";
 
   var ERROR_MSG =
     "Lo siento, ha ocurrido un error de conexión. Inténtalo de nuevo en unos segundos o escríbenos a comercial@coelbo.es.";
