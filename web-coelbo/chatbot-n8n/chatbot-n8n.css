@@ -1,133 +1,133 @@
-/* Widget de chat COELBO conectado a n8n — estilos encapsulados bajo .coelbo-n8n-chat */
+/* Widget de chat COELBO conectado a n8n */
 .coelbo-n8n-chat, .coelbo-n8n-chat * { box-sizing: border-box; }
 
+/* --- Teaser --- */
+.coelbo-n8n-teaser {
+  position: fixed; bottom: 96px; right: 22px; max-width: 240px;
+  background: #fff; color: #1d2733; padding: 12px 14px;
+  border-radius: 14px; border-bottom-right-radius: 4px;
+  box-shadow: 0 10px 26px rgba(7,36,64,.18);
+  font-size: 13px; line-height: 1.4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  z-index: 9997; opacity: 0; transform: translateY(8px);
+  transition: opacity .35s ease, transform .35s ease;
+  pointer-events: none; cursor: pointer;
+}
+.coelbo-n8n-teaser.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.coelbo-n8n-teaser button.coelbo-n8n-teaser-close {
+  position: absolute; top: -7px; right: -7px; width: 20px; height: 20px;
+  border-radius: 50%; background: #0a4d8c; color: #fff; border: none;
+  font-size: 11px; cursor: pointer; line-height: 1;
+}
+
+/* --- FAB con mascota animada --- */
 .coelbo-n8n-fab {
-  position: fixed;
-  bottom: 22px;
-  right: 22px;
-  width: 60px;
-  height: 60px;
+  position: fixed; bottom: 22px; right: 22px; width: 64px; height: 64px;
   border-radius: 50%;
-  background: #0a4d8c;
   background: linear-gradient(135deg, #0a4d8c 0%, #1b9cd8 100%);
-  color: #fff;
-  border: none;
-  box-shadow: 0 12px 32px rgba(7, 36, 64, .28);
-  cursor: pointer;
-  z-index: 9998;
-  display: grid;
-  place-items: center;
+  border: none; box-shadow: 0 12px 32px rgba(7,36,64,.28);
+  cursor: pointer; z-index: 9998; display: grid; place-items: center;
   transition: transform .15s ease;
 }
-.coelbo-n8n-fab:hover { transform: translateY(-2px) scale(1.04); }
-.coelbo-n8n-fab svg { width: 26px; height: 26px; }
+.coelbo-n8n-fab:hover { transform: translateY(-2px) scale(1.05); }
+.coelbo-n8n-fab svg { width: 34px; height: 34px; overflow: visible; }
+.coelbo-n8n-fab-body { animation: coelbo-float 3s ease-in-out infinite; transform-origin: center; }
+.coelbo-n8n-eye { transform-origin: center; animation: coelbo-blink 4.5s infinite; }
+@keyframes coelbo-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2.5px); } }
+@keyframes coelbo-blink { 0%,90%,100% { transform: scaleY(1); } 95% { transform: scaleY(0.12); } }
 
+/* --- Panel --- */
 .coelbo-n8n-panel {
-  position: fixed;
-  bottom: 96px;
-  right: 22px;
-  width: 360px;
-  max-width: 92vw;
-  height: 520px;
-  max-height: 75vh;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(7, 36, 64, .22);
-  border: 1px solid #d9e2ec;
-  display: none;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 9999;
+  position: fixed; bottom: 100px; right: 22px; width: 380px; max-width: 92vw;
+  height: 580px; max-height: 78vh; background: #fff; border-radius: 16px;
+  box-shadow: 0 12px 32px rgba(7,36,64,.22); border: 1px solid #d9e2ec;
+  display: none; flex-direction: column; overflow: hidden; z-index: 9999;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 .coelbo-n8n-panel.open { display: flex; }
 
-.coelbo-n8n-header {
-  background: linear-gradient(135deg, #0a4d8c 0%, #1b9cd8 100%);
-  color: #fff;
-  padding: 14px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.coelbo-n8n-header strong { font-size: 14px; }
-.coelbo-n8n-header span { display: block; font-size: 11px; opacity: .85; }
+.coelbo-n8n-header { background: linear-gradient(135deg, #0a4d8c 0%, #1b9cd8 100%); color: #fff; padding: 10px 12px; }
+.coelbo-n8n-header-top { display: flex; align-items: center; gap: 10px; }
+.coelbo-n8n-header-logo { height: 26px; width: auto; background: #fff; border-radius: 6px; padding: 3px 6px; flex-shrink: 0; }
+.coelbo-n8n-header-text { flex: 1; min-width: 0; }
+.coelbo-n8n-header-text strong { display: block; font-size: 14px; }
+.coelbo-n8n-header-text span { display: block; font-size: 11px; opacity: .85; }
 .coelbo-n8n-close {
-  background: rgba(255,255,255,.15);
-  border: none;
-  color: #fff;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 14px;
-  line-height: 1;
+  background: rgba(255,255,255,.15); border: none; color: #fff;
+  width: 26px; height: 26px; border-radius: 50%; cursor: pointer;
+  font-size: 14px; line-height: 1; flex-shrink: 0;
 }
 
-.coelbo-n8n-messages {
-  flex: 1;
-  padding: 14px;
-  overflow-y: auto;
-  background: #f4f7fb;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.coelbo-n8n-toolbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.2);
 }
+.coelbo-n8n-langs { display: flex; gap: 4px; flex-wrap: wrap; }
+.coelbo-n8n-langs button {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: #fff;
+  font-size: 10.5px; font-weight: 600; padding: 3px 6px; border-radius: 6px; cursor: pointer;
+}
+.coelbo-n8n-langs button.active { background: #fff; color: #0a4d8c; }
+.coelbo-n8n-textsize { display: flex; gap: 4px; }
+.coelbo-n8n-textsize button {
+  background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3); color: #fff;
+  width: 24px; height: 24px; border-radius: 6px; cursor: pointer;
+  display: grid; place-items: center;
+}
+.coelbo-n8n-textsize svg { width: 13px; height: 13px; }
+
+/* --- Respuestas rápidas --- */
+.coelbo-n8n-quickreplies { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 0 4px; }
+.coelbo-n8n-quickreplies button {
+  background: #fff; border: 1px solid #0a4d8c; color: #0a4d8c;
+  font-size: 12px; padding: 7px 11px; border-radius: 16px; cursor: pointer;
+  text-align: left;
+}
+.coelbo-n8n-quickreplies button:hover { background: #eaf2fa; }
+
+/* --- Botón hablar con humano --- */
+.coelbo-n8n-human {
+  align-self: center; margin: 4px 0;
+  background: none; border: 1px dashed #9aa9ba; color: #55657a;
+  font-size: 11.5px; padding: 5px 10px; border-radius: 12px; cursor: pointer;
+}
+.coelbo-n8n-human:hover { background: #eef1f5; }
+
+/* --- Mensajes --- */
+.coelbo-n8n-messages {
+  flex: 1; padding: 14px; overflow-y: auto; background: #f4f7fb;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.coelbo-n8n-messages.fs-sm { font-size: 12px; }
+.coelbo-n8n-messages.fs-md { font-size: 13.5px; }
+.coelbo-n8n-messages.fs-lg { font-size: 15.5px; }
 
 .coelbo-n8n-msg {
-  max-width: 82%;
-  padding: 9px 13px;
-  border-radius: 14px;
-  font-size: 13.5px;
-  line-height: 1.45;
-  white-space: pre-wrap;
+  max-width: 82%; padding: 9px 13px; border-radius: 14px;
+  line-height: 1.45; white-space: pre-wrap; font-size: inherit;
 }
-.coelbo-n8n-msg.bot {
-  background: #e7eef7;
-  color: #1d2733;
-  align-self: flex-start;
-  border-bottom-left-radius: 4px;
-}
-.coelbo-n8n-msg.user {
-  background: #0a4d8c;
-  color: #fff;
-  align-self: flex-end;
-  border-bottom-right-radius: 4px;
-}
-.coelbo-n8n-msg.typing {
-  background: #e7eef7;
-  color: #5b6b7b;
-  align-self: flex-start;
-  font-style: italic;
-}
+.coelbo-n8n-msg.bot { background: #e7eef7; color: #1d2733; align-self: flex-start; border-bottom-left-radius: 4px; }
+.coelbo-n8n-msg.user { background: #0a4d8c; color: #fff; align-self: flex-end; border-bottom-right-radius: 4px; }
 
-.coelbo-n8n-inputbar {
-  display: flex;
-  gap: 8px;
-  padding: 10px;
-  border-top: 1px solid #d9e2ec;
-  background: #fff;
+.coelbo-n8n-typing {
+  background: #e7eef7; align-self: flex-start; border-radius: 14px;
+  border-bottom-left-radius: 4px; padding: 11px 15px; display: flex; gap: 4px;
 }
-.coelbo-n8n-inputbar input {
-  flex: 1;
-  border: 1px solid #d9e2ec;
-  border-radius: 20px;
-  padding: 9px 14px;
-  font-size: 13.5px;
-  outline: none;
+.coelbo-n8n-typing span {
+  width: 6px; height: 6px; border-radius: 50%; background: #5b6b7b;
+  animation: coelbo-typing 1.2s infinite ease-in-out;
 }
+.coelbo-n8n-typing span:nth-child(2) { animation-delay: .15s; }
+.coelbo-n8n-typing span:nth-child(3) { animation-delay: .3s; }
+@keyframes coelbo-typing { 0%,60%,100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+.coelbo-n8n-inputbar { display: flex; gap: 8px; padding: 10px; border-top: 1px solid #d9e2ec; background: #fff; }
+.coelbo-n8n-inputbar input { flex: 1; border: 1px solid #d9e2ec; border-radius: 20px; padding: 9px 14px; font-size: 13.5px; outline: none; }
 .coelbo-n8n-inputbar input:focus { border-color: #1b9cd8; }
-.coelbo-n8n-inputbar button {
-  background: #0a4d8c;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  padding: 0 18px;
-  font-size: 13.5px;
-  cursor: pointer;
-}
+.coelbo-n8n-inputbar button { background: #0a4d8c; color: #fff; border: none; border-radius: 20px; padding: 0 18px; font-size: 13.5px; cursor: pointer; }
 .coelbo-n8n-inputbar button:disabled { opacity: .5; cursor: not-allowed; }
 
 @media (max-width: 480px) {
-  .coelbo-n8n-panel { right: 4vw; left: 4vw; width: auto; bottom: 90px; }
+  .coelbo-n8n-panel { right: 4vw; left: 4vw; width: auto; bottom: 94px; }
+  .coelbo-n8n-teaser { right: 4vw; max-width: 70vw; }
 }
