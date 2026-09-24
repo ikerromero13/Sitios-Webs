@@ -33,33 +33,19 @@
   ];
 
   var STORAGE_KEY = "coelbo_chat_session_id";
-  var HISTORY_KEY = "coelbo_chat_history";
 
   function getSessionId() {
-    var id = localStorage.getItem(STORAGE_KEY);
+    var id = sessionStorage.getItem(STORAGE_KEY);
     if (!id) {
       id =
         window.crypto && crypto.randomUUID
           ? crypto.randomUUID()
           : "sess-" + Date.now() + "-" + Math.random().toString(36).slice(2);
-      localStorage.setItem(STORAGE_KEY, id);
+      sessionStorage.setItem(STORAGE_KEY, id);
     }
     return id;
   }
   var SESSION_ID = getSessionId();
-
-  function loadHistory() {
-    try {
-      return JSON.parse(localStorage.getItem(HISTORY_KEY) || "[]");
-    } catch (e) {
-      return [];
-    }
-  }
-  function saveHistory(history) {
-    try {
-      localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-40)));
-    } catch (e) {}
-  }
 
   // Icono "mascota" del controlador con cara amigable
   var MASCOT_SVG =
@@ -134,7 +120,6 @@
 
     var fontSizes = ["fs-sm", "fs-md", "fs-lg"];
     var fontIndex = 1;
-    var history = loadHistory();
     var opened = false;
 
     LANGS.forEach(function (lang) {
@@ -156,16 +141,12 @@
       });
     });
 
-    function addMessage(text, sender, skipSave) {
+    function addMessage(text, sender) {
       var div = document.createElement("div");
       div.className = "coelbo-n8n-msg " + sender;
       div.textContent = text;
       messagesEl.appendChild(div);
       messagesEl.scrollTop = messagesEl.scrollHeight;
-      if (!skipSave) {
-        history.push({ text: text, sender: sender });
-        saveHistory(history);
-      }
       return div;
     }
 
@@ -211,12 +192,8 @@
       panel.classList.add("open");
       if (!opened) {
         opened = true;
-        if (history.length) {
-          history.forEach(function (m) { addMessage(m.text, m.sender, true); });
-        } else {
-          addMessage(WELCOME_MSG, "bot");
-          addQuickReplies();
-        }
+        addMessage(WELCOME_MSG, "bot");
+        addQuickReplies();
         addHumanButton();
       }
       inputEl.focus();
