@@ -141,13 +141,50 @@
       });
     });
 
-    function addMessage(text, sender) {
+    function addMessage(text, sender, noRating) {
       var div = document.createElement("div");
       div.className = "coelbo-n8n-msg " + sender;
       div.textContent = text;
       messagesEl.appendChild(div);
+      if (sender === "bot" && !noRating) addRating(text);
       messagesEl.scrollTop = messagesEl.scrollHeight;
       return div;
+    }
+
+    // Valoración (👍/👎) para una respuesta del bot
+    function addRating(botText) {
+      var wrap = document.createElement("div");
+      wrap.className = "coelbo-n8n-rating";
+      var up = document.createElement("button");
+      up.textContent = "👍";
+      up.setAttribute("aria-label", "Respuesta útil");
+      var down = document.createElement("button");
+      down.textContent = "👎";
+      down.setAttribute("aria-label", "Respuesta no útil");
+
+      function rate(value, btn) {
+        if (wrap.dataset.rated) return; // ya votado, no permitir doble voto
+        wrap.dataset.rated = value;
+        btn.classList.add("picked");
+        [up, down].forEach(function (b) { b.disabled = true; });
+        // Manda la valoración al mismo webhook, marcada como feedback (no como mensaje de chat)
+        fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            type: "feedback",
+            rating: value,
+            botMessage: botText,
+            sessionId: SESSION_ID,
+          }),
+        }).catch(function (e) { console.error("[COELBO chat n8n] Error enviando valoración:", e); });
+      }
+
+      up.addEventListener("click", function () { rate("up", up); });
+      down.addEventListener("click", function () { rate("down", down); });
+      wrap.appendChild(up);
+      wrap.appendChild(down);
+      messagesEl.appendChild(wrap);
     }
 
     function addTyping() {
@@ -192,7 +229,7 @@
       panel.classList.add("open");
       if (!opened) {
         opened = true;
-        addMessage(WELCOME_MSG, "bot");
+        addMessage(WELCOME_MSG, "bot", true);
         addQuickReplies();
         addHumanButton();
       }
