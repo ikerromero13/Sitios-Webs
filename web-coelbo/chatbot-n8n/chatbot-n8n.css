@@ -119,6 +119,19 @@
 }
 .coelbo-n8n-typing span:nth-child(2) { animation-delay: .15s; }
 .coelbo-n8n-typing span:nth-child(3) { animation-delay: .3s; }
+
+.coelbo-n8n-rating {
+  display: flex; gap: 4px; align-self: flex-start;
+  margin-top: -4px; margin-bottom: 2px;
+}
+.coelbo-n8n-rating button {
+  background: none; border: none; cursor: pointer;
+  font-size: 13px; opacity: .45; padding: 2px 4px; border-radius: 6px;
+  transition: opacity .15s, background .15s;
+}
+.coelbo-n8n-rating button:hover:not(:disabled) { opacity: .9; background: #e7eef7; }
+.coelbo-n8n-rating button.picked { opacity: 1; background: #d8e6f5; }
+.coelbo-n8n-rating button:disabled:not(.picked) { opacity: .2; }
 @keyframes coelbo-typing { 0%,60%,100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
 
 .coelbo-n8n-inputbar { display: flex; gap: 8px; padding: 10px; border-top: 1px solid #d9e2ec; background: #fff; }
