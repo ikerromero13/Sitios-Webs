@@ -148,6 +148,37 @@
     },
   };
 
+
+  // ---- Asistente guiado (árbol de recomendación): preguntas con botones, sin IA ----
+  // Las respuestas se componen en UNA frase que se envía al bot cuando termina el árbol.
+  var WIZARD = {
+    es: {
+      q: { pumps: "¿Cuántas bombas va a tener la instalación?", phase: "¿La bomba es monofásica o trifásica?", supply: "¿Qué alimentación tienes disponible para el controlador?", control: "¿Qué tipo de control necesitas?" },
+      o: { one: "Una", two: "Dos", many: "Más de dos", mono: "Monofásica", tri: "Trifásica", vfd: "Presión constante con variador de frecuencia", mech: "Presión constante regulada mecánicamente", onoff: "Solo arrancar y parar la bomba al abrir y cerrar grifos", unk: "No lo sé" },
+      m: { start: "Voy a montar una instalación nueva.", one: "Es una sola bomba.", two: "Son dos bombas.", many: "Son más de dos bombas.", mono: "La bomba es monofásica.", tri: "La bomba es trifásica.", supMono: "Tengo alimentación monofásica disponible para el controlador.", supTri: "Tengo alimentación trifásica disponible para el controlador.", vfd: "Necesito presión constante con variador de frecuencia.", mech: "Necesito presión constante regulada mecánicamente.", onoff: "Solo necesito que la bomba arranque y pare al abrir y cerrar los grifos.", unkPumps: "No sé cuántas bombas habrá.", unkPhase: "No sé si la bomba es monofásica o trifásica.", unkSupply: "No sé qué alimentación tengo disponible.", unkControl: "No sé qué tipo de control necesito." }
+    },
+    ca: {
+      q: { pumps: "Quantes bombes tindrà la instal·lació?", phase: "La bomba és monofàsica o trifàsica?", supply: "Quina alimentació tens disponible per al controlador?", control: "Quin tipus de control necessites?" },
+      o: { one: "Una", two: "Dues", many: "Més de dues", mono: "Monofàsica", tri: "Trifàsica", vfd: "Pressió constant amb variador de freqüència", mech: "Pressió constant regulada mecànicament", onoff: "Només arrencar i parar la bomba en obrir i tancar les aixetes", unk: "No ho sé" },
+      m: { start: "Vull muntar una instal·lació nova.", one: "És només una bomba.", two: "Són dues bombes.", many: "Són més de dues bombes.", mono: "La bomba és monofàsica.", tri: "La bomba és trifàsica.", supMono: "Tinc alimentació monofàsica disponible per al controlador.", supTri: "Tinc alimentació trifàsica disponible per al controlador.", vfd: "Necessito pressió constant amb variador de freqüència.", mech: "Necessito pressió constant regulada mecànicament.", onoff: "Només necessito que la bomba arrenqui i pari en obrir i tancar les aixetes.", unkPumps: "No sé quantes bombes hi haurà.", unkPhase: "No sé si la bomba és monofàsica o trifàsica.", unkSupply: "No sé quina alimentació tinc disponible.", unkControl: "No sé quin tipus de control necessito." }
+    },
+    en: {
+      q: { pumps: "How many pumps will the installation have?", phase: "Is the pump single-phase or three-phase?", supply: "What power supply do you have available for the controller?", control: "What type of control do you need?" },
+      o: { one: "One", two: "Two", many: "More than two", mono: "Single-phase", tri: "Three-phase", vfd: "Constant pressure with a frequency inverter", mech: "Constant pressure, mechanically regulated", onoff: "Just start and stop the pump when taps open and close", unk: "I don't know" },
+      m: { start: "I'm setting up a new installation.", one: "It is a single pump.", two: "There are two pumps.", many: "There are more than two pumps.", mono: "The pump is single-phase.", tri: "The pump is three-phase.", supMono: "I have single-phase power available for the controller.", supTri: "I have three-phase power available for the controller.", vfd: "I need constant pressure with a frequency inverter.", mech: "I need constant pressure, mechanically regulated.", onoff: "I only need the pump to start and stop when taps are opened and closed.", unkPumps: "I don't know how many pumps there will be.", unkPhase: "I don't know whether the pump is single-phase or three-phase.", unkSupply: "I don't know which power supply is available.", unkControl: "I don't know what type of control I need." }
+    },
+    fr: {
+      q: { pumps: "Combien de pompes comportera l'installation ?", phase: "La pompe est-elle monophasée ou triphasée ?", supply: "Quelle alimentation avez-vous de disponible pour le régulateur ?", control: "De quel type de régulation avez-vous besoin ?" },
+      o: { one: "Une", two: "Deux", many: "Plus de deux", mono: "Monophasée", tri: "Triphasée", vfd: "Pression constante avec variateur de fréquence", mech: "Pression constante régulée mécaniquement", onoff: "Seulement démarrer et arrêter la pompe à l'ouverture et à la fermeture des robinets", unk: "Je ne sais pas" },
+      m: { start: "Je vais monter une nouvelle installation.", one: "Il n'y a qu'une seule pompe.", two: "Il y a deux pompes.", many: "Il y a plus de deux pompes.", mono: "La pompe est monophasée.", tri: "La pompe est triphasée.", supMono: "J'ai une alimentation monophasée disponible pour le régulateur.", supTri: "J'ai une alimentation triphasée disponible pour le régulateur.", vfd: "J'ai besoin d'une pression constante avec variateur de fréquence.", mech: "J'ai besoin d'une pression constante régulée mécaniquement.", onoff: "J'ai seulement besoin que la pompe démarre et s'arrête à l'ouverture et à la fermeture des robinets.", unkPumps: "Je ne sais pas combien de pompes il y aura.", unkPhase: "Je ne sais pas si la pompe est monophasée ou triphasée.", unkSupply: "Je ne sais pas quelle alimentation est disponible.", unkControl: "Je ne sais pas de quel type de régulation j'ai besoin." }
+    },
+    it: {
+      q: { pumps: "Quante pompe avrà l'impianto?", phase: "La pompa è monofase o trifase?", supply: "Quale alimentazione hai a disposizione per il regolatore?", control: "Che tipo di controllo ti serve?" },
+      o: { one: "Una", two: "Due", many: "Più di due", mono: "Monofase", tri: "Trifase", vfd: "Pressione costante con inverter (variatore di frequenza)", mech: "Pressione costante regolata meccanicamente", onoff: "Solo avviare e fermare la pompa all'apertura e alla chiusura dei rubinetti", unk: "Non lo so" },
+      m: { start: "Sto montando un nuovo impianto.", one: "È una sola pompa.", two: "Sono due pompe.", many: "Sono più di due pompe.", mono: "La pompa è monofase.", tri: "La pompa è trifase.", supMono: "Ho a disposizione un'alimentazione monofase per il regolatore.", supTri: "Ho a disposizione un'alimentazione trifase per il regolatore.", vfd: "Mi serve pressione costante con inverter (variatore di frequenza).", mech: "Mi serve pressione costante regolata meccanicamente.", onoff: "Mi serve solo che la pompa si avvii e si fermi all'apertura e alla chiusura dei rubinetti.", unkPumps: "Non so quante pompe ci saranno.", unkPhase: "Non so se la pompa è monofase o trifase.", unkSupply: "Non so quale alimentazione ho a disposizione.", unkControl: "Non so che tipo di controllo mi serve." }
+    }
+  };
+
   // Detecta el idioma preferido del navegador y lo mapea a uno soportado.
   // Si no hay ninguno soportado, usa inglés por defecto.
   function detectBrowserLang() {
@@ -305,6 +336,7 @@
       if (welcomeEl) welcomeEl.textContent = CONTENT[currentLang].welcome;
       if (quickRepliesEl) renderQuickReplies(quickRepliesEl);
       if (humanBtnEl) humanBtnEl.textContent = CONTENT[currentLang].humanButton;
+      if (wizard) renderWizardStep();
       // La conversación sigue a partir de ahora en el idioma elegido; no se
       // envía ningún mensaje oculto al agente.
     }
@@ -374,15 +406,104 @@
       return div;
     }
 
+
+    // --- Asistente guiado del árbol de recomendación ---
+    // Estado: { answers: {pumps, phase, supply, control}, step, qEl, btnsEl }
+    var wizard = null;
+
+    function wizardOptionKeys() {
+      var a = wizard.answers;
+      if (wizard.step === "pumps") return ["one", "two", "many", "unk"];
+      if (wizard.step === "phase") return ["mono", "tri", "unk"];
+      if (wizard.step === "supply") return ["mono", "tri", "unk"];
+      // control: con alimentación trifásica no hay opción de regulación mecánica
+      if (a.supply === "tri") return ["vfd", "onoff", "unk"];
+      return ["vfd", "mech", "onoff", "unk"];
+    }
+
+    // Frase en el idioma actual con todas las respuestas dadas hasta ahora
+    function wizardSummary() {
+      var M = WIZARD[currentLang].m;
+      var a = wizard.answers;
+      var parts = [M.start];
+      if (a.pumps) parts.push(a.pumps === "unk" ? M.unkPumps : M[a.pumps]);
+      if (a.phase) parts.push(a.phase === "unk" ? M.unkPhase : M[a.phase]);
+      if (a.supply) parts.push(a.supply === "unk" ? M.unkSupply : a.supply === "mono" ? M.supMono : M.supTri);
+      if (a.control) parts.push(a.control === "unk" ? M.unkControl : M[a.control]);
+      return parts.join(" ");
+    }
+
+    function wizardAsk(step) {
+      wizard.step = step;
+      wizard.qEl = addMessage("", "bot", true);
+      wizard.btnsEl = document.createElement("div");
+      wizard.btnsEl.className = "coelbo-n8n-quickreplies";
+      messagesEl.appendChild(wizard.btnsEl);
+      renderWizardStep();
+    }
+
+    function renderWizardStep() {
+      if (!wizard) return;
+      var W = WIZARD[currentLang];
+      wizard.qEl.textContent = W.q[wizard.step];
+      wizard.btnsEl.innerHTML = "";
+      wizardOptionKeys().forEach(function (key) {
+        var btn = document.createElement("button");
+        btn.textContent = W.o[key];
+        btn.addEventListener("click", function () { wizardChoose(key); });
+        wizard.btnsEl.appendChild(btn);
+      });
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function wizardFinish() {
+      var text = wizardSummary();
+      wizard = null;
+      sendMessage(text, false);
+    }
+
+    function wizardChoose(key) {
+      var step = wizard.step;
+      addMessage(WIZARD[currentLang].o[key], "user");
+      wizard.btnsEl.remove();
+      wizard.answers[step] = key;
+      if (key === "unk") return wizardFinish(); // el bot sigue la conversación
+      if (step === "pumps") return key === "many" ? wizardFinish() : wizardAsk(key === "one" ? "phase" : "control");
+      if (step === "phase") return wizardAsk(key === "mono" ? "control" : "supply");
+      if (step === "supply") return key === "mono" ? wizardFinish() : wizardAsk("control");
+      wizardFinish(); // control
+    }
+
+    function startWizard() {
+      wizard = { answers: {}, step: "pumps", qEl: null, btnsEl: null };
+      wizardAsk("pumps");
+    }
+
+    // Si el usuario escribe a mano, se cierra el asistente y se envían las
+    // respuestas dadas hasta ese momento junto con su texto.
+    function wizardAbort(typed) {
+      if (!wizard) return typed;
+      var prefix = Object.keys(wizard.answers).length ? wizardSummary() + " " : "";
+      wizard.btnsEl.remove();
+      wizard = null;
+      return prefix + typed;
+    }
+
     function renderQuickReplies(wrap) {
       wrap.innerHTML = "";
-      CONTENT[currentLang].quickReplies.forEach(function (qr) {
+      CONTENT[currentLang].quickReplies.forEach(function (qr, idx) {
         var btn = document.createElement("button");
         btn.textContent = qr.label;
         btn.addEventListener("click", function () {
           wrap.remove();
           if (quickRepliesEl === wrap) quickRepliesEl = null;
-          sendMessage(qr.text, true);
+          if (idx === 0) {
+            // "Instalación nueva": árbol guiado con botones (sin IA hasta la recomendación)
+            addMessage(qr.text, "user");
+            startWizard();
+          } else {
+            sendMessage(qr.text, true);
+          }
         });
         wrap.appendChild(btn);
       });
@@ -566,7 +687,9 @@
       if (!texto) return;
       inputEl.value = "";
       if (!panel.classList.contains("open")) openPanel();
-      await sendMessage(texto, true);
+      var toSend = wizardAbort(texto);
+      addMessage(texto, "user");
+      await sendMessage(toSend, false);
     }
 
     sendBtn.addEventListener("click", handleSend);
