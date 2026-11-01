@@ -478,28 +478,82 @@
     });
     closeBtn.addEventListener("click", closePanel);
 
-    async function callWebhook(texto) {
+    // Lee la respuesta del webhook. Admite dos formatos:
+    //  - streaming de n8n: líneas JSON {"type":"item","content":"..."} que llegan por trozos
+    //  - JSON clásico: {"reply":"..."}
+    // onChunk(textoAcumulado) se llama cada vez que llega texto nuevo.
+    async function callWebhook(texto, onChunk) {
       var res = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: texto, sessionId: SESSION_ID }),
       });
       if (!res.ok) throw new Error("HTTP " + res.status);
-      var data = await res.json();
-      return data.reply;
+
+      var full = "";
+      function push(t) { full = t; if (onChunk) onChunk(full); }
+
+      if (!res.body || !res.body.getReader) {
+        var data = await res.json();
+        if (data && typeof data.reply === "string") push(data.reply);
+        return full;
+      }
+
+      var reader = res.body.getReader();
+      var decoder = new TextDecoder();
+      var buf = "";
+      var raw = "";
+      function handleLine(line) {
+        line = line.trim();
+        if (!line) return;
+        var o;
+        try { o = JSON.parse(line); } catch (e) { return; }
+        if (o && o.type === "item" && typeof o.content === "string") push(full + o.content);
+        else if (o && typeof o.reply === "string") push(o.reply);
+      }
+      while (true) {
+        var chunk = await reader.read();
+        if (chunk.done) break;
+        var piece = decoder.decode(chunk.value, { stream: true });
+        raw += piece;
+        buf += piece;
+        var nl;
+        while ((nl = buf.indexOf("\n")) >= 0) {
+          handleLine(buf.slice(0, nl));
+          buf = buf.slice(nl + 1);
+        }
+      }
+      handleLine(buf);
+      if (!full && raw) {
+        try { var d2 = JSON.parse(raw); if (d2 && typeof d2.reply === "string") push(d2.reply); } catch (e) {}
+      }
+      return full;
     }
 
     async function sendMessage(texto, showAsUserBubble) {
       if (showAsUserBubble) addMessage(texto, "user");
       sendBtn.disabled = true;
       var typingEl = addTyping();
+      var botEl = null;
       try {
-        var reply = await callWebhook(texto);
-        typingEl.remove();
-        addMessage(reply || CONTENT[currentLang].errorMsg, "bot");
+        var reply = await callWebhook(texto, function (partial) {
+          if (!botEl) {
+            typingEl.remove();
+            botEl = addMessage("", "bot", true);
+          }
+          botEl.textContent = partial;
+          messagesEl.scrollTop = messagesEl.scrollHeight;
+        });
+        if (botEl) {
+          addRating(reply);
+        } else {
+          typingEl.remove();
+          addMessage(reply || CONTENT[currentLang].errorMsg, "bot");
+        }
       } catch (err) {
         typingEl.remove();
-        addMessage(CONTENT[currentLang].errorMsg, "bot");
+        if (!botEl) addMessage(CONTENT[currentLang].errorMsg, "bot");
+        else if (botEl.textContent) addRating(botEl.textContent);
         console.error("[COELBO chat n8n] Error:", err);
       } finally {
         sendBtn.disabled = false;
