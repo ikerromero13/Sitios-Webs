@@ -119,6 +119,12 @@
 }
 .coelbo-n8n-typing span:nth-child(2) { animation-delay: .15s; }
 .coelbo-n8n-typing span:nth-child(3) { animation-delay: .3s; }
+.coelbo-n8n-typing { align-items: center; }
+.coelbo-n8n-status {
+  font-style: normal; font-size: 12px; color: #5b6b7b; margin-left: 6px;
+  animation: coelbo-status-in .35s ease;
+}
+@keyframes coelbo-status-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
 
 .coelbo-n8n-rating {
   display: flex; gap: 4px; align-self: flex-start;
