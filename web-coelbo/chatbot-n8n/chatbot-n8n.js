@@ -533,8 +533,55 @@
       });
     }
 
+    // Respuestas instantáneas (sin consultar al asistente) para saludos, agradecimientos y despedidas
+    // que son SOLO eso. Si el mensaje trae algo más (p. ej. "gracias, y para 2 bombas?"), va al asistente.
+    var QUICK = [
+      { type: "hello", lang: "es", re: /^(hola|buenas|buenos d[ií]as|buenas tardes|buenas noches|qu[eé] tal)$/ },
+      { type: "hello", lang: "ca", re: /^(bon dia|bona tarda|bona nit|ei|ep)$/ },
+      { type: "hello", lang: "en", re: /^(hello|hi|hey|good morning|good afternoon|good evening)$/ },
+      { type: "hello", lang: "fr", re: /^(bonjour|salut|bonsoir|coucou)$/ },
+      { type: "hello", lang: "it", re: /^(ciao|salve|buongiorno|buonasera)$/ },
+      { type: "thanks", lang: "es", re: /^(gracias|muchas gracias|mil gracias|vale gracias|ok gracias|genial|perfecto gracias|perfecto|vale|ok|okey|de acuerdo)$/ },
+      { type: "thanks", lang: "ca", re: /^(gr[aà]cies|moltes gr[aà]cies|mil gr[aà]cies|d['’]acord|perfecte|molt b[eé])$/ },
+      { type: "thanks", lang: "en", re: /^(thanks|thank you|thanks a lot|many thanks|thx|great|great thanks|perfect|okay|ok|got it)$/ },
+      { type: "thanks", lang: "fr", re: /^(merci|merci beaucoup|parfait|d['’]accord|super)$/ },
+      { type: "thanks", lang: "it", re: /^(grazie|grazie mille|perfetto|va bene|d['’]accordo)$/ },
+      { type: "bye", lang: "es", re: /^(adi[oó]s|hasta luego|hasta pronto|nada m[aá]s|eso es todo|chao)$/ },
+      { type: "bye", lang: "ca", re: /^(ad[eé]u|adeu|fins aviat|fins ara|res m[eé]s|aix[oò] [eé]s tot)$/ },
+      { type: "bye", lang: "en", re: /^(bye|goodbye|see you|that'?s all|nothing else)$/ },
+      { type: "bye", lang: "fr", re: /^(au revoir|[aà] bient[oô]t|c['’]est tout|rien d['’]autre)$/ },
+      { type: "bye", lang: "it", re: /^(arrivederci|a presto|ciao ciao|[eè] tutto|nient['’]altro)$/ }
+    ];
+    var QUICK_REPLY = {
+      es: { hello: "¡Hola! Cuéntame qué instalación tienes (número de bombas, tipo de bomba y alimentación) y te oriento sobre las mejores opciones de COELBO.", thanks: "¡De nada! Si necesitas algo más, aquí estoy.", bye: "¡Hasta pronto! Si necesitas algo más, aquí estaré. También puedes escribirnos a " + CONTACT_EMAIL + "." },
+      ca: { hello: "Hola! Explica’m quina instal·lació tens (nombre de bombes, tipus de bomba i alimentació) i t’oriento sobre les millors opcions de COELBO.", thanks: "De res! Si necessites alguna cosa més, aquí estic.", bye: "Fins aviat! Si necessites alguna cosa més, aquí estaré. També ens pots escriure a " + CONTACT_EMAIL + "." },
+      en: { hello: "Hello! Tell me about your installation (number of pumps, pump type and power supply) and I’ll guide you to the best COELBO options.", thanks: "You’re welcome! If you need anything else, I’m here.", bye: "See you soon! If you need anything else, I’ll be here. You can also email us at " + CONTACT_EMAIL + "." },
+      fr: { hello: "Bonjour ! Décrivez-moi votre installation (nombre de pompes, type de pompe et alimentation) et je vous guiderai vers les meilleures options COELBO.", thanks: "Avec plaisir ! Si vous avez besoin d’autre chose, je suis là.", bye: "À bientôt ! Si vous avez besoin d’autre chose, je serai là. Vous pouvez aussi nous écrire à " + CONTACT_EMAIL + "." },
+      it: { hello: "Ciao! Descrivimi la tua installazione (numero di pompe, tipo di pompa e alimentazione) e ti guiderò verso le migliori opzioni COELBO.", thanks: "Prego! Se hai bisogno di altro, sono qui.", bye: "A presto! Se hai bisogno di altro, sarò qui. Puoi anche scriverci a " + CONTACT_EMAIL + "." }
+    };
+    function matchQuick(texto) {
+      var t = texto.toLowerCase().replace(/[¡!¿?.,;:]+/g, " ").replace(/\s+/g, " ").trim();
+      if (!t || t.length > 40) return null;
+      for (var i = 0; i < QUICK.length; i++) {
+        if (QUICK[i].re.test(t)) return QUICK[i];
+      }
+      return null;
+    }
+
     async function sendMessage(texto, showAsUserBubble) {
       if (showAsUserBubble) addMessage(texto, "user");
+      var quick = matchQuick(texto);
+      if (quick) {
+        sendBtn.disabled = true;
+        var tEl = addTyping();
+        await new Promise(function (r) { setTimeout(r, 450); });
+        if (tEl._stop) tEl._stop();
+        tEl.remove();
+        addMessage(QUICK_REPLY[quick.lang][quick.type], "bot", true);
+        sendBtn.disabled = false;
+        inputEl.focus();
+        return;
+      }
       sendBtn.disabled = true;
       var typingEl = addTyping();
       try {
